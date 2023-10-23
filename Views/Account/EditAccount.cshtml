@@ -1,0 +1,12 @@
+﻿@model IllinoisProject.Models.Account
+<h3> Edit the Account</h3>
+<form asp-controller="Account" asp-action="EditAccount" method="post">
+    <input asp-for="AccountId" type="hidden" />
+    <label asp-for="AccountName" type="hidden"></label>
+    <input asp-for="AccountName" />
+    <br />
+    
+    <br />
+    <button type="submit">Update Account</button>
+</form>
+

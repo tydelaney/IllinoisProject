@@ -1,0 +1,17 @@
+﻿@model IllinoisProject.Models.Account
+<h3> Delete the Account</h3>
+<p> Are you sure you want to delete this account?</p>
+<form asp-controller="Account" asp-action="DeleteAccount" method="post">
+    <label asp-for="AccountId"></label>
+    <input asp-for="AccountId" readonly="readonly" />
+    <br />
+
+    <label asp-for="AccountName"></label>
+    <input asp-for="AccountName" readonly="readonly" />
+    <br />
+    
+    <br />
+    <button type="submit">Yes Delete</button>
+</form>
+<p><a asp-controller="Account" asp-action="AllAccount">
+    No, back to list</a></p>

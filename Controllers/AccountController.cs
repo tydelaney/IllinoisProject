@@ -1,11 +1,11 @@
-﻿using dropbox06.Models;
-using dropbox06.ViewModels;
+﻿using IllinoisProject.Models;
+using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Cryptography.Xml;
 
-namespace dropbox06.Controllers
+namespace IllinoisProject.Controllers
 {
     public class AccountController : Controller
     {
@@ -17,49 +17,49 @@ namespace dropbox06.Controllers
                 this.db = db;
         }
 
-        public IActionResult AllEmployee()
+        public IActionResult AllAccount()
         {
-            return View(db.Employees);
+            return View(db.Accounts);
         }
 
-        public  IActionResult AddEmployee() 
+        public  IActionResult AddAccount() 
         {
             return View();
         }
         [HttpPost]
-        public IActionResult AddEmployee(Account employee) 
+        public IActionResult AddAccount(Account account) 
         {
-            db.Add(employee);
+            db.Add(account);
             db.SaveChanges();
             
-            return RedirectToAction("AllEmployee");
+            return RedirectToAction("AllAccount");
         }
        
-        public IActionResult EditEmployee(int id)
+        public IActionResult EditAccount(int id)
         {
-            Account employee;
-            employee = db.Employees.Find(id);
-            return View(employee);
+            Account account;
+            account = db.Accounts.Find(id);
+            return View(account);
         }
         [HttpPost]
-        public IActionResult EditEmployee(Account employee)
+        public IActionResult EditAccount(Account account)
         {
-            db.Update(employee);
+            db.Update(account);
             db.SaveChanges();
-            return RedirectToAction("AllEmployee");
+            return RedirectToAction("AllAccount");
         }
-        public IActionResult DeleteEmployee(int id)
+        public IActionResult DeleteAccount(int id)
         {
-            Account employee;
-            employee = db.Employees.Find(id);
-            return View(employee);
+            Account account;
+            account = db.Accounts.Find(id);
+            return View(account);
         }
         [HttpPost]
-        public IActionResult DeleteEmployee(Account employee)
+        public IActionResult DeleteAccount(Account account)
         {
-            db.Remove(employee);
+            db.Remove(account);
             db.SaveChanges();
-            return RedirectToAction("AllEmployee");
+            return RedirectToAction("AllAccount");
         }
     }
 }

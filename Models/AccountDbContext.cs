@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace dropbox06.Models
+namespace IllinoisProject.Models
 {
-    public class AccountDbContext:DbContext
+    public class AccountDbContext : DbContext
     {
-        public DbSet<Account> Employees { get; set; }
-        public AccountDbContext(DbContextOptions<AccountDbContext> options) : base(options) 
-        { }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set; }
+        public AccountDbContext(DbContextOptions
+            <AccountDbContext> options) : base(options) 
+        { 
+        
+        }
     }
 }

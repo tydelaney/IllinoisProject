@@ -1,0 +1,10 @@
+﻿@model IllinoisProject.Models.BlogPost
+<h3>Edit the Blog</h3>
+<form asp-controller="BlogPost" asp-action="EditBlogPost" method="post">
+    <input asp-for="BlogName" type="hidden"/>
+    <label asp-for="BlogName"></label>
+    <input asp-for="BlogDescription" />
+    <label asp-for="BlogDescription" />
+    <br />
+    <button type="submit">Update the blog</button>
+</form>

@@ -1,0 +1,10 @@
+﻿@model IllinoisProject.Models.Account
+
+<form asp-controller="Account" asp-action="AddAccount" method="post">
+    <label asp-for="AccountName"></label>
+    <input asp-for="AccountName" />
+    
+    <br />
+    <button type="submit">Add the Account</button>
+
+</form>

@@ -1,11 +1,13 @@
-﻿namespace dropbox06.Models
+﻿using System.Collections.Generic;
+namespace IllinoisProject.Models
 {
     public class Account
     {
-        public int EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
-        public decimal HourlyWage { get; set; }
-       // public Major Major { get; set; }
+        public int AccountId { get; set; }
+        public string AccountName { get; set; }
+        public string AccountEmail { get; set; }
+        public string UserName { get; set; }
+        public ICollection<BlogPost> BlogPosts { get; set; }
     }
     
 }

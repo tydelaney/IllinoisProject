@@ -1,0 +1,11 @@
+﻿@model IllinoisProject.Models.BlogPost
+<form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
+    <h2>Add a Blog Post</h2>
+    <label asp-for="BlogName">Blog Title</label>
+    <input asp-for="BlogName" />
+    <br />
+    <label asp-for="BlogDescription">Description</label>
+    <textarea asp-for="BlogDescription" rows="8" cols="50"></textarea>
+    <br />
+    <button type="submit">Add the Blog</button>
+</form>

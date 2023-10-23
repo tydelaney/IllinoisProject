@@ -1,0 +1,40 @@
+﻿@model IEnumerable<IllinoisProject.Models.Account>
+
+    <p>
+        <a asp-controller="Account" asp-action="AddAccount"> Add an account</a>
+    </p>
+    
+
+    <h3> All Account list</h3>
+@{
+    if(Model.Count() < 1)
+    {
+        <p>No accounts yet.</p>
+    }
+    else
+    {
+        <table border="1">
+            <tr>
+                <th> Account ID</th>
+                <th> Account Name</th>
+                <th> Hourly Wage</th>
+                <th> Edit</th>
+                <th> Delete</th>
+            </tr>
+            @{
+                //below var is used instead of List<IllinoisProject.Models.Student>
+                foreach(var account in Model)
+                {
+                    <tr>
+                        <td>@account.AccountId</td>
+                        <td>@account.AccountName</td>
+                        
+                        <td><a asp-action="EditAccount" asp-route-id="@account.AccountId">Edit</a></td>
+                        <td><a asp-action="DeleteAccount" asp-route-id="@account.AccountId">Delete</a></td>
+
+                    </tr>
+                }
+            }
+        </table>
+    }
+}

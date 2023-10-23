@@ -1,0 +1,14 @@
+﻿@model IllinoisProject.Models.BlogPost
+<h3>Delete the blog</h3>
+<p>Are you sure you want to delete the blog?</p>
+<form asp-controller="BlogPost" asp-action="DeleteBlogPost" method="post">
+    <label asp-for="BlogName"></label>
+    
+    <input asp-for="BlogName" readonly="readonly" />
+    <br />
+    <label asp-for="BlogDescription"></label>
+    <input asp-for="BlogDescription" readonly="readonly"/>
+    <br />
+    <button type="submit">Yes, Delete </button>
+    <p><a asp-controller="BlogPost" asp-action="AllBlogPost">No, back to the list</a></p>
+</form>
