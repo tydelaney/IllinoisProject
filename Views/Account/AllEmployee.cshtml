@@ -1,0 +1,40 @@
+﻿@model IEnumerable<dropbox06.Models.Account>
+
+    <p>
+        <a asp-controller="Employee" asp-action="AddEmployee"> Add an employee</a>
+    </p>
+    
+
+    <h3> All Employee list</h3>
+@{
+    if(Model.Count() < 1)
+    {
+        <p>No employees yet.</p>
+    }
+    else
+    {
+        <table border="1">
+            <tr>
+                <th> Employee ID</th>
+                <th> Employee Name</th>
+                <th> Hourly Wage</th>
+                <th> Edit</th>
+                <th> Delete</th>
+            </tr>
+            @{
+                //below var is used instead of List<dropbox06.Models.Student>
+                foreach(var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.EmployeeId</td>
+                        <td>@employee.EmployeeName</td>
+                        <td>@employee.HourlyWage</td>
+                        <td><a asp-action="EditEmployee" asp-route-id="@employee.EmployeeId">Edit</a></td>
+                        <td><a asp-action="DeleteEmployee" asp-route-id="@employee.EmployeeId">Delete</a></td>
+
+                    </tr>
+                }
+            }
+        </table>
+    }
+}
