@@ -6,17 +6,17 @@ namespace Project.Controllers
 {
     public class BlogPostController : Controller
     {
-        private readonly AccountDbContext _context; // Replace YourDbContext with your DbContext class
+        AccountDbContext db; // Replace YourDbContext with your DbContext class
 
-        public BlogPostController(AccountDbContext context)
+        public BlogPostController(AccountDbContext db)
         {
-            _context = context;
+            this.db = db;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult AddBlogPost()
         {
@@ -25,20 +25,20 @@ namespace Project.Controllers
         [HttpPost]
         public IActionResult AddBlogPost(BlogPost bp)
         {
-            if (ModelState.IsValid)
-            {
-                _context.BlogPosts.Add(bp); // Add the blogPost to the DbSet
-                _context.SaveChanges(); // Save changes to the database
+            //if (ModelState.IsValid)
+            //{
+                db.Add(bp); // Add the blogPost to the DbSet
+                db.SaveChanges(); // Save changes to the database
 
-                return RedirectToAction("Index");
-            }
+                return RedirectToAction("AllBlogPost");
+            //}
 
             return View(bp); // Return to the same view with validation errors
         }
 
         public IActionResult AllBlogPost()
         {
-            return View();
+            return View(db.BlogPosts);
         }
         public IActionResult DeleteBlogPost()
         {

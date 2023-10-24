@@ -3,8 +3,12 @@
 <form asp-controller="Account" asp-action="AddAccount" method="post">
     <label asp-for="AccountName"></label>
     <input asp-for="AccountName" />
-    
     <br />
+    <label asp-for="UserName"></label>
+    <input asp-for="UserName" />
+    <br />
+    <label asp-for="AccountEmail"></label>
+    <input asp-for="AccountEmail" />
     <button type="submit">Add the Account</button>
 
 </form>

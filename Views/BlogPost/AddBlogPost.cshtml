@@ -1,4 +1,5 @@
 ﻿@model IllinoisProject.Models.BlogPost
+
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
     <h2>Add a Blog Post</h2>
     <label asp-for="BlogName">Blog Title</label>
@@ -7,5 +8,10 @@
     <label asp-for="BlogDescription">Description</label>
     <textarea asp-for="BlogDescription" rows="8" cols="50"></textarea>
     <br />
+
+    
+        <label asp-for="Account">Blog Title</label>
+    <input asp-for="Account" value="@ViewBag.Account.AccountName"/>
     <button type="submit">Add the Blog</button>
+    
 </form>
