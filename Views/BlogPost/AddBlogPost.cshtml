@@ -1,17 +1,18 @@
-﻿@model IllinoisProject.Models.BlogPost
+﻿@model IllinoisProject.ViewModels.AccountAddAccountViewModel
 
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
     <h2>Add a Blog Post</h2>
-    <label asp-for="BlogName">Blog Title</label>
-    <input asp-for="BlogName" />
+    <label asp-for="BlogPost.BlogName">Blog Title</label>
+    <input asp-for="BlogPost.BlogName" />
     <br />
-    <label asp-for="BlogDescription">Description</label>
-    <textarea asp-for="BlogDescription" rows="8" cols="50"></textarea>
+    <label asp-for="BlogPost.BlogDescription">Description</label>
+    <input asp-for="BlogPost.BlogDescription" rows="8" cols="50"></input>
     <br />
 
     
-        <label asp-for="Account">Blog Title</label>
-    <input asp-for="Account" value="@ViewBag.Account.AccountName"/>
+        <label asp-for="Account.AccountId">Account Name</label>
+    <select asp-for="Account.AccountId" asp-items="@Model.AccountList"></select>
+
     <button type="submit">Add the Blog</button>
-    
+     
 </form>

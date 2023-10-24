@@ -17,7 +17,8 @@
             <tr>
                 <th> Account ID</th>
                 <th> Account Name</th>
-                <th> Hourly Wage</th>
+                <th> Username</th>
+                <th> Blog Posts</th>
                 <th> Edit</th>
                 <th> Delete</th>
             </tr>
@@ -28,6 +29,8 @@
                     <tr>
                         <td>@account.AccountId</td>
                         <td>@account.AccountName</td>
+                        <td>@account.UserName</td>
+                        <td>@account.BlogPosts</td>
                         
                         <td><a asp-action="EditAccount" asp-route-id="@account.AccountId">Edit</a></td>
                         <td><a asp-action="DeleteAccount" asp-route-id="@account.AccountId">Delete</a></td>
