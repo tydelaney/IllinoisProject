@@ -27,10 +27,10 @@ namespace IllinoisProject.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddAccount(Account account) 
+        public async Task<IActionResult> AddAccount(Account account) 
         {
             db.Add(account);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             
             return RedirectToAction("AllAccount");
         }
