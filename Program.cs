@@ -16,7 +16,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=AllAccount}/{id?}");
+    name: "Default",
+    pattern: "{controller=BlogPost}/{action=AllBlogPost}/{id?}");
 
 app.Run();
