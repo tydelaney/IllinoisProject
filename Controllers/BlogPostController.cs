@@ -20,10 +20,7 @@ namespace Project.Controllers
             var blogPost = await db.BlogPosts.Include(c=>c.Account).ToListAsync();
             return View(blogPost);
         }
-        public IActionResult DeleteBlogPost()
-        {
-            return View();
-        }
+        
 
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
 
@@ -79,5 +76,32 @@ namespace Project.Controllers
             return RedirectToAction("AllBlogPost");
         }
         //Edit blog post END--------------------------------
+
+        //DELETE BlogPost START ------------------------------------------------------
+        public async Task<IActionResult> DeleteBlogPost()
+        {
+            var accountDisplay = await db.Accounts.Select(x => new {
+                Id =
+                 x.AccountId,
+                Value = x.AccountName
+            }).ToListAsync();
+            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
+            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteBlogPost(int id, AccountAddAccountViewModel vm)
+        {
+            var blogPost = await db.BlogPosts.FindAsync(id);
+
+            // update existing blog post with posted data
+            //blogPost.BlogName = vm.BlogPost.BlogName;
+            //blogPost.BlogDescription = vm.BlogPost.BlogDescription;
+
+            db.Remove(blogPost);
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("AllBlogPost");
+        }
     }
 }
