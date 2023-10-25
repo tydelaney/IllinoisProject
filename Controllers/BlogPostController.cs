@@ -15,11 +15,9 @@ namespace Project.Controllers
             this.db = db;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+     //START OF ADD BLOG POST
 
+        //Loading BlogPost page
         public async Task<IActionResult>AddBlogPost()
         {
             var accountDisplay = await db.Accounts.Select(x => new { Id = 
@@ -28,19 +26,8 @@ namespace Project.Controllers
             vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
             return View(vm);
         }
-        //[HttpPost]
-        //public IActionResult AddBlogPost(BlogPost bp)
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //        db.Add(bp); // Add the blogPost to the DbSet
-        //        db.SaveChanges(); // Save changes to the database
-
-        //        return RedirectToAction("AllBlogPost");
-        //    //}
-
-        //    return View(bp); // Return to the same view with validation errors
-        //}
+        
+        //Passing the PostBlog and Account class together with data through the viewModel
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountAddAccountViewModel vm)
         {
@@ -50,6 +37,7 @@ namespace Project.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("AllBlogPost");
         }
+     //END OF ADD BLOG POST
         public async Task<IActionResult> AllBlogPost()
         {
             var blogPost = await db.BlogPosts.Include(c=>c.Account).ToListAsync();
@@ -59,10 +47,29 @@ namespace Project.Controllers
         {
             return View();
         }
-
-        public IActionResult EditBlogPost()
+        //Edit Blog Post START----------------------------
+        public async Task<IActionResult> EditBlogPost()
         {
-            return View();
+            var accountDisplay = await db.Accounts.Select(x => new {
+                Id =
+                x.AccountId,
+                Value = x.AccountName
+            }).ToListAsync();
+            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
+            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+            return View(vm);
         }
+        [HttpPost]
+        public async Task<IActionResult> EditBlogPost(AccountAddAccountViewModel vm)
+        {
+
+            var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
+            vm.BlogPost.Account = account;
+
+            db.Update(vm.BlogPost);
+            await db.SaveChangesAsync();
+            return RedirectToAction("AllBlogPost");
+        }
+        //Edit blog post END--------------------------------
     }
 }

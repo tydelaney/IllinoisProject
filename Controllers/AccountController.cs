@@ -34,7 +34,7 @@ namespace IllinoisProject.Controllers
             
             return RedirectToAction("AllAccount");
         }
-       
+       //edit account start
         public IActionResult EditAccount(int id)
         {
             Account account;
@@ -48,6 +48,7 @@ namespace IllinoisProject.Controllers
             db.SaveChanges();
             return RedirectToAction("AllAccount");
         }
+        //edit account end
         public IActionResult DeleteAccount(int id)
         {
             Account account;

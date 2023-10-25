@@ -1,10 +1,18 @@
-﻿@model IllinoisProject.Models.BlogPost
+﻿@model IllinoisProject.ViewModels.AccountAddAccountViewModel
 <h3>Edit the Blog</h3>
+
+<!--Keep all below-->
 <form asp-controller="BlogPost" asp-action="EditBlogPost" method="post">
-    <input asp-for="BlogName" type="hidden"/>
-    <label asp-for="BlogName"></label>
-    <input asp-for="BlogDescription" />
-    <label asp-for="BlogDescription" />
+    <input asp-for="BlogPost.BlogPostId" type="hidden"/>
+    <label asp-for="BlogPost.BlogName">Blog Name</label>
+    <input asp-for="BlogPost.BlogName" />
     <br />
+    <label asp-for="BlogPost.BlogDescription">Blog Description</label>
+    <input asp-for="BlogPost.BlogDescription" />
+    <br />
+    <label asp-for="Account.AccountId">Account Name</label>
+    <select asp-for="Account.AccountId" asp-items="@Model.AccountList"></select>
+
     <button type="submit">Update the blog</button>
 </form>
+
