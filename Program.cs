@@ -1,5 +1,7 @@
 using IllinoisProject.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Project.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,13 +12,20 @@ builder.Services.AddDbContext<AccountDbContext>(options =>
 options.UseSqlServer(connection));
 
 
-builder.Services.AddControllersWithViews();
-var app = builder.Build();
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AccountDbContext>().AddDefaultTokenProviders();
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
 app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "Default",
-    pattern: "{controller=BlogPost}/{action=AllBlogPost}/{id?}");
+    name: "default",
+    pattern: "{controller=Account}/{action=Login}/{id?}");
+
+
 
 app.Run();

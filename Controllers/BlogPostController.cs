@@ -94,13 +94,20 @@ namespace Project.Controllers
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
 
-            // update existing blog post with posted data
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+            //update existing blog post with posted data
             //blogPost.BlogName = vm.BlogPost.BlogName;
             //blogPost.BlogDescription = vm.BlogPost.BlogDescription;
 
             db.Remove(blogPost);
             await db.SaveChangesAsync();
+            ViewData["BlogName"] = blogPost.BlogName;
+            ViewData["BlogDescription"] = blogPost.BlogDescription;
 
+           
             return RedirectToAction("AllBlogPost");
         }
     }

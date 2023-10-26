@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Project.Models;
 
 namespace IllinoisProject.Models
 {
-    public class AccountDbContext : DbContext
+    public class AccountDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
