@@ -2,8 +2,8 @@
 <h3>Delete the blog</h3>
 <p>Are you sure you want to delete the blog?</p>
 <form asp-controller="BlogPost" asp-action="DeleteBlogPost" method="post">
+    <input asp-for="BlogPost.BlogPostId" />
     <label asp-for="BlogPost.BlogName"></label>
-    
     <input asp-for="BlogPost.BlogName" readonly="readonly" />
     <br />
     <label asp-for="BlogPost.BlogDescription"></label>

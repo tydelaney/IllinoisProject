@@ -1,4 +1,6 @@
 ﻿@model IllinoisProject.ViewModels.AccountAddAccountViewModel
+
+
 <h3>Edit the Blog</h3>
 
 <!--Keep all below-->
@@ -12,7 +14,7 @@
     <input asp-for="BlogPost.BlogDescription" />
     <br />
     <label asp-for="Account.AccountId"></label>
-    <select asp-for="Account.AccountId" asp-items="@Model.AccountList"></select>
+   
 
     <button type="submit">Update the blog</button>
 </form>
