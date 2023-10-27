@@ -3,12 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using IllinoisProject.Models;
 using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using Project.Models;
 
 namespace Project.Controllers
 {
     public class BlogPostController : Controller
     {
-        AccountDbContext db; // Replace YourDbContext with your DbContext class
+        AccountDbContext db;
+        private UserManager<ApplicationUser> userManager;
+        
+        // Replace YourDbContext with your DbContext class
 
         public BlogPostController(AccountDbContext db)
         {
@@ -29,8 +34,8 @@ namespace Project.Controllers
         {
             var accountDisplay = await db.Accounts.Select(x => new {
                 Id =
-                x.AccountId,
-                Value = x.AccountName
+                x.UserName,
+                Value = x.UserName
             }).ToListAsync();
             AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
             vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
