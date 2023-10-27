@@ -17,8 +17,6 @@ namespace IllinoisProject.Models
         public ApplicationUser applicationUser { get; set; }
         public string AccountName { get; set; }
         public string AccountEmail { get; set; }
-
-
         public string UserName { get; set; }
 
         public string Password { get; set; }
