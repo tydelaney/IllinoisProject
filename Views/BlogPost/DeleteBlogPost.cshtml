@@ -1,4 +1,6 @@
 ﻿@model IllinoisProject.ViewModels.AccountAddAccountViewModel
+
+
 <h3>Delete the blog</h3>
 <p>Are you sure you want to delete the blog?</p>
 <form asp-controller="BlogPost" asp-action="DeleteBlogPost" method="post">
@@ -9,6 +11,6 @@
     <label asp-for="BlogPost.BlogDescription"></label>
     <input asp-for="BlogPost.BlogDescription" readonly="readonly" />
     <br />
-    <button type="submit">Yes, Delete </button>
+    <button type="submit">Yes, Delete</button>
     <p><a asp-controller="BlogPost" asp-action="AllBlogPost">No, back to the list</a></p>
 </form>
