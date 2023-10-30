@@ -8,6 +8,8 @@ namespace IllinoisProject.Models
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
+
+        public DbSet<Picture>Pictures { get; set; } 
         public AccountDbContext(DbContextOptions
             <AccountDbContext> options) : base(options) 
         { 
