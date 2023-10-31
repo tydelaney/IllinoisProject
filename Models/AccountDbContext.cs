@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Project.Models;
+using IllinoisProject.Models;
 
 namespace IllinoisProject.Models
 {

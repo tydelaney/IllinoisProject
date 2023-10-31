@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Project.Models;
 
-namespace Project.Controllers
+namespace IllinoisProject.Controllers
 {
     public class BlogPostController : Controller
     {
