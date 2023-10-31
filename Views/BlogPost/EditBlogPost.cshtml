@@ -3,10 +3,8 @@
 
 <h3>Edit the Blog</h3>
 
-<!--Keep all below-->
 <form asp-controller="BlogPost" asp-action="EditBlogPost" method="post">
     
-    <input type="hidden" asp-for="BlogPost.BlogPostId">
     <label asp-for="BlogPost.BlogName">Blog Name</label>
     <input asp-for="BlogPost.BlogName" />
     <br />
