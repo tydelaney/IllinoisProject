@@ -37,14 +37,15 @@ namespace IllinoisProject.Controllers
                 x.UserName,
                 Value = x.UserName
             }).ToListAsync();
-            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+
+            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+            //vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
             return View(vm);
         }
 
         //Passing the PostBlog and Account class together with data through the viewModel
         [HttpPost]
-        public async Task<IActionResult> AddBlogPost(AccountAddAccountViewModel vm)
+        public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
             var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
             vm.BlogPost.Account = account;
@@ -57,17 +58,13 @@ namespace IllinoisProject.Controllers
         //Edit Blog Post START------------------------------------------------------------------------------------------
         public async Task<IActionResult> EditBlogPost()
         {
-            var accountDisplay = await db.Accounts.Select(x => new {
-                Id =
-                x.AccountId,
-                Value = x.AccountName
-            }).ToListAsync();
-            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
+            var accountDisplay = await db.Accounts.Select(x => new {Id = x.AccountId,Value = x.AccountName}).ToListAsync();
+            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
             vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
             return View(vm);
         }
         [HttpPost]
-        public async Task<IActionResult> EditBlogPost(int id, AccountAddAccountViewModel vm)
+        public async Task<IActionResult> EditBlogPost(int id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
            
@@ -90,12 +87,12 @@ namespace IllinoisProject.Controllers
                  x.AccountId,
                 Value = x.AccountName
             }).ToListAsync();
-            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
+            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
             vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
             return View(vm);
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteBlogPost(int id, AccountAddAccountViewModel vm)
+        public async Task<IActionResult> DeleteBlogPost(int id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
 

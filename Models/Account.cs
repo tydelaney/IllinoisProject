@@ -5,6 +5,8 @@
 using Microsoft.Extensions.Configuration.UserSecrets;
 using IllinoisProject.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace IllinoisProject.Models
 {
     public class Account
@@ -15,11 +17,9 @@ namespace IllinoisProject.Models
 
         public ApplicationUser applicationUser { get; set; }
         public string AccountName { get; set; }
-        public string AccountEmail { get; set; }
-
         public string UserName { get; set; }
-        public string Password { get; set; }
-        public ICollection<BlogPost> BlogPosts { get; set; }
+      
+        public ICollection<BlogPost>? BlogPosts { get; set; }
     }
     
 }
