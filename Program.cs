@@ -1,7 +1,6 @@
 using IllinoisProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Project.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

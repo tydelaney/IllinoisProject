@@ -3,8 +3,7 @@
 
 ﻿using Azure.Identity;
 using Microsoft.Extensions.Configuration.UserSecrets;
-
-using Project.Models;
+using IllinoisProject.Models;
 using System.Collections.Generic;
 namespace IllinoisProject.Models
 {

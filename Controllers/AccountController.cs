@@ -1,11 +1,11 @@
-﻿using Dropbox14.ViewModels;
+﻿using IllinoisProject.ViewModels;
 using IllinoisProject.Models;
 using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Project.Models;
+using IllinoisProject.Models;
 using System.Security.Cryptography.Xml;
 
 namespace IllinoisProject.Controllers

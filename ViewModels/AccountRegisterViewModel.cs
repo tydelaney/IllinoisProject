@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Dropbox14.ViewModels
+namespace IllinoisProject.ViewModels
 {
 	public class AccountRegisterViewModel
 	{
