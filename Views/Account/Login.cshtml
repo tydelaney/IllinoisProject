@@ -1,8 +1,8 @@
 ﻿@model IllinoisProject.ViewModels.AccountLoginViewModel
 
-<h2> User Login</h2>
-
 <form asp-action="Login" method="post">
+	<fieldset>
+		<legend><h2>User Login</h2></legend>
 	<div asp-validation-summary="All"> </div>
 
 	<label asp-for="Email">	</label>
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 
-
+	</fieldset>
 	<button type="submit">Log In</button>
 
 	<p>

@@ -30,7 +30,7 @@ namespace IllinoisProject.Controllers
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
 
         //Loading BlogPost page
-        public async Task<IActionResult> AddBlogPost()
+        public async Task<IActionResult> AddBlogPost(int id)
         {
             var accountDisplay = await db.Accounts.Select(x => new {
                 Id =
