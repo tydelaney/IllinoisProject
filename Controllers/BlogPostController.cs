@@ -43,12 +43,7 @@ namespace IllinoisProject.Controllers
         public async Task<IActionResult> AddBlogPost()
         {
 
-            var accountDisplay = await db.Accounts.Select(x => new
-            {
-                Id = x.AccountId,
-                Value = x.UserName
-
-            }).ToListAsync();
+            var accountDisplay = await db.Accounts.Select(x => new{Id = x.UserName,Value = x.UserName}).ToListAsync();
             var vm = new AccountBlogPostViewModel
             {
                 AccountList = new SelectList(accountDisplay, "Id", "Value")
@@ -60,8 +55,8 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
-            //var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
-            //vm.BlogPost.Account = account;
+            var account = await db.Accounts.SingleOrDefaultAsync(i => i.UserName == vm.Account.UserName);
+            vm.BlogPost.Account = account;
             db.Add(vm.BlogPost);
             await db.SaveChangesAsync();
             return RedirectToAction("AllBlogPost");

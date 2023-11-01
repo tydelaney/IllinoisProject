@@ -38,12 +38,7 @@ namespace IllinoisProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("applicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("AccountId");
-
-                    b.HasIndex("applicationUserId");
 
                     b.ToTable("Accounts");
                 });
@@ -294,15 +289,6 @@ namespace IllinoisProject.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("IllinoisProject.Models.Account", b =>
-                {
-                    b.HasOne("IllinoisProject.Models.ApplicationUser", "applicationUser")
-                        .WithMany()
-                        .HasForeignKey("applicationUserId");
-
-                    b.Navigation("applicationUser");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>

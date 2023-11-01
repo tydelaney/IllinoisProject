@@ -5,10 +5,26 @@
 namespace IllinoisProject.Migrations
 {
     /// <inheritdoc />
-    public partial class M8 : Migration
+    public partial class M1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Accounts_AspNetUsers_applicationUserId",
+                table: "Accounts");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Accounts_applicationUserId",
+                table: "Accounts");
+
+            migrationBuilder.DropColumn(
+                name: "applicationUserId",
+                table: "Accounts");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
                 name: "applicationUserId",
@@ -27,22 +43,6 @@ namespace IllinoisProject.Migrations
                 column: "applicationUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Accounts_AspNetUsers_applicationUserId",
-                table: "Accounts");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Accounts_applicationUserId",
-                table: "Accounts");
-
-            migrationBuilder.DropColumn(
-                name: "applicationUserId",
-                table: "Accounts");
         }
     }
 }
