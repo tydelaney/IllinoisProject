@@ -11,11 +11,7 @@ namespace IllinoisProject.Models
 {
     public class Account
     {
-
-      
         public int AccountId { get; set; }
-
-        public ApplicationUser applicationUser { get; set; }
         public string AccountName { get; set; }
         public string UserName { get; set; }
       

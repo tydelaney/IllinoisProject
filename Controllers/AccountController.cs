@@ -46,6 +46,8 @@ namespace IllinoisProject.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    db.Add(model.Account);
+                    await db.SaveChangesAsync();
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }

@@ -26,18 +26,28 @@ namespace IllinoisProject.Controllers
             var blogPost = await db.BlogPosts.Include(c=>c.Account).ToListAsync();
             return View(blogPost);
         }
-        
+
 
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
 
         //Loading BlogPost page
+        //public async Task<IActionResult> AddBlogPost()
+        //{
+        //    var user = await userManager.GetUserAsync(User);
+        //    var accountDisplay = await db.Accounts.Select(x => new {
+        //        Id = x.AccountId, Value = x.AccountName}).ToListAsync();
+        //    AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+        //     user.UserName = vm.BlogPost.Account.UserName;
+        //    return View(vm);
+        //}
         public async Task<IActionResult> AddBlogPost()
         {
-            var user = await userManager.GetUserAsync(User);
-            /*var accountDisplay = await db.Accounts.Select(x => new {
-                Id = x.AccountId, Value = x.AccountName}).ToListAsync();*/
-            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
-             user.UserName = vm.BlogPost.Account.UserName;
+
+            var accountDisplay = await db.Accounts.Select(x => new{Id = x.UserName,Value = x.UserName}).ToListAsync();
+            var vm = new AccountBlogPostViewModel
+            {
+                AccountList = new SelectList(accountDisplay, "Id", "Value")
+            };
             return View(vm);
         }
 
@@ -45,9 +55,7 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
-            //var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
-            //vm.BlogPost.Account = account;
-            db.Add(vm.BlogPost);
+UserName            db.Add(vm.BlogPost);
             await db.SaveChangesAsync();
             return RedirectToAction("AllBlogPost");
         }
