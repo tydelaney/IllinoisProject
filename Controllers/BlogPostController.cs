@@ -4,19 +4,20 @@ using IllinoisProject.Models;
 using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
-using Project.Models;
-
 namespace IllinoisProject.Controllers
 {
     public class BlogPostController : Controller
     {
         AccountDbContext db;
         private UserManager<ApplicationUser> userManager;
-        
-        // Replace YourDbContext with your DbContext class
+        private SignInManager<ApplicationUser> signInManager;
+        private RoleManager<IdentityRole> roleManager;
 
-        public BlogPostController(AccountDbContext db)
+        public BlogPostController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
         {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.roleManager = roleManager;
             this.db = db;
         }
 
@@ -30,16 +31,13 @@ namespace IllinoisProject.Controllers
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
 
         //Loading BlogPost page
-        public async Task<IActionResult> AddBlogPost(int id)
+        public async Task<IActionResult> AddBlogPost()
         {
-            var accountDisplay = await db.Accounts.Select(x => new {
-                Id =
-                x.UserName,
-                Value = x.UserName
-            }).ToListAsync();
-
+            var user = await userManager.GetUserAsync(User);
+            /*var accountDisplay = await db.Accounts.Select(x => new {
+                Id = x.AccountId, Value = x.AccountName}).ToListAsync();*/
             AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
-            //vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+             user.UserName = vm.BlogPost.Account.UserName;
             return View(vm);
         }
 
@@ -47,8 +45,8 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
-            var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
-            vm.BlogPost.Account = account;
+            //var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
+            //vm.BlogPost.Account = account;
             db.Add(vm.BlogPost);
             await db.SaveChangesAsync();
             return RedirectToAction("AllBlogPost");
