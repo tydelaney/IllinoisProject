@@ -12,5 +12,10 @@
     <br />
     <label asp-for="Account.UserName">User Name</label>
     <select asp-for="Account.UserName" asp-items="@Model.AccountList"></select>
+    <br />
+    <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />
+    <input type="radio" asp-for="BlogPost.Draft" value="true" /> <label>Draft</label>
+    <input type="radio" asp-for="BlogPost.Draft" value="false" /> <label>Publish</label>
+    <br />
     <button type="submit">Add the Blog</button>
 </form>

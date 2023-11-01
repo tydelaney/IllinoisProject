@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 
-    <p>
-        <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-    <a asp-controller="BlogPost" asp-action="AllDraft" style="margin-left: 10px;"> Drafts </a>
-    </p>
-    <h3>Published Blogs</h3>
+<p>
+    <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+    <a asp-controller="BlogPost" asp-action="AllBlogPost" style="margin-left: 10px;"> Published Blog Posts </a>
+</p>
+<h3>Drafts</h3>
 @{
     if (Model.Count() < 1)
     {
@@ -14,14 +14,14 @@
     {
         <table border="1">
             <tr>
-                <th>Date Posted</th>
-            <th>Blog name</th>
-            <th>Blog Description</th>
-             <th>Account Name</th>
-             <th>Edit</th>
-             <th>Delete</th>
+                <th>Date Drafted</th>
+                <th>Blog name</th>
+                <th>Blog Description</th>
+                <th>Account Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
 
-            
+
             </tr>
             @{
                 foreach (var blogPost in Model)
@@ -31,16 +31,16 @@
                         <td>@blogPost.BlogName</td>
                         <td>@blogPost.BlogDescription</td>
                         <td>@blogPost.Account.AccountName</td>
-                       
+
 
                         <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
-                        
+
                         <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
-                        
+
                     </tr>
                 }
             }
-        
+
         </table>
     }
 }

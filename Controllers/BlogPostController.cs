@@ -24,9 +24,20 @@ namespace IllinoisProject.Controllers
         public async Task<IActionResult> AllBlogPost()
         {
             var blogPost = await db.BlogPosts.Include(c=>c.Account).ToListAsync();
-            return View(blogPost);
-        }
+            //return View(blogPost);
+            // Filter the blog posts to exclude drafts (where Draft is true)
+            var publishedBlogPosts = blogPost.Where(blogPost => !blogPost.Draft);
 
+            return View(publishedBlogPosts);
+        }
+        //For viewing Drafts
+        public async Task<IActionResult> AllDraft()
+        {
+            var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
+            var draftBlogPosts = blogPost.Where(blogPost => blogPost.Draft);
+
+            return View(draftBlogPosts);
+        }
 
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
 
