@@ -1,6 +1,5 @@
 ﻿using IllinoisProject.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Project.Models;
 
 namespace IllinoisProject.ViewModels
 {

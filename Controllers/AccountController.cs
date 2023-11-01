@@ -1,6 +1,4 @@
 ﻿using IllinoisProject.ViewModels;
-using IllinoisProject.Models;
-using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
