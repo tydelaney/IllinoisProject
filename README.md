@@ -100,3 +100,14 @@ After your changes have been moved to a new branch and you've reverted `master` 
     ```
 
 By following these steps, you'll create a pull request for your changes, get them reviewed, and merge them into `master`.
+
+
+TO DO LIST
+1. Merge all the code
+2. Add Password reset
+3. Get rid of add account
+4. profile picture
+5. Add email field in edit account
+7. Transfer Net users data to account
+8. Fix net users email inserting as username
+9. DK add all the comment stuff
