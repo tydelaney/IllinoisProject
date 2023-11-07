@@ -32,9 +32,8 @@
                         <td>@account.UserName</td>
                         <td>@account.BlogPosts</td>
                         
-                        <td><a asp-action="EditAccount" asp-route-id="@account.AccountId">Edit</a></td>
-                        <td><a asp-action="DeleteAccount" asp-route-id="@account.AccountId">Delete</a></td>
-
+                        <td><a asp-action="EditAccount" asp-route-id="@User.Identity.Name">Edit</a></td>
+                        <td><a asp-action="DeleteAccount" asp-route-id="@User.Identity.Name">Delete</a></td>
                     </tr>
                 }
             }
