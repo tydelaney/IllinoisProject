@@ -52,6 +52,8 @@ namespace IllinoisProject.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Associate the account with the user
+                    model.Account.UserId = user.Id;
                     db.Add(model.Account);
                     await db.SaveChangesAsync();
                     await signInManager.SignInAsync(user, isPersistent: false);

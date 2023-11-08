@@ -15,6 +15,7 @@ namespace IllinoisProject.Models
         public string AccountEmail { get; set; }
         public string AccountName { get; set; }
         public string UserName { get; set; }
+        public string? UserId { get; set; }
         public ICollection<BlogPost>? BlogPosts { get; set; }
     }
     
