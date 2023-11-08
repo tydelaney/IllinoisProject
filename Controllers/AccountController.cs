@@ -124,61 +124,6 @@ namespace IllinoisProject.Controllers
             db.SaveChanges();
             return RedirectToAction("AllAccount");
         }
-
-
-        ////////////////////// PICTURE //////////////////
-        ///
-
-        public IActionResult AddPicture()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddPicture(AddPictureViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-
-                var picture = new Picture
-                {
-                    AltAttribute = viewModel.AltAttribute,
-                };
-
-                if (viewModel.MyPicture != null)
-                {
-                    var fileName = viewModel.MyPicture.FileName;
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await viewModel.MyPicture.CopyToAsync(stream);
-                    }
-
-                    picture.Url = fileName;
-                }
-
-                picture.UserId = user.Id;
-                db.Pictures.Add(picture);
-                await db.SaveChangesAsync();
-
-                return RedirectToAction("AllAccount");
-            }
-
-            return View(viewModel);
-        }
-
-        public async Task<IActionResult> DisplayPictures()
-        {
-            var pictures = await db.Pictures.ToListAsync();
-            return View(pictures);
-        }
-
-
     }
 }
+
