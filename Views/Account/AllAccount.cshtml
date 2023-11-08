@@ -3,7 +3,8 @@
     <p>
         <a asp-controller="Account" asp-action="Register"> Add an account</a>
     </p>
-    
+<input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search for users">
+<br />
 
     <h3> All Account list</h3>
 @{
@@ -14,6 +15,7 @@
     else
     {
         <table border="1">
+            <thead>
             <tr>
                 <th> Account ID</th>
                 <th> Account Name</th>
@@ -22,10 +24,12 @@
                 <th> Edit</th>
                 <th> Delete</th>
             </tr>
+            </thead>
             @{
-                //below var is used instead of List<IllinoisProject.Models.Student>
+
                 foreach(var account in Model)
                 {
+                    <tbody id="dataBody">
                     <tr>
                         <td>@account.AccountId</td>
                         <td>@account.AccountName</td>
@@ -35,8 +39,38 @@
                         <td><a asp-action="EditAccount" asp-route-id="@User.Identity.Name">Edit</a></td>
                         <td><a asp-action="DeleteAccount" asp-route-id="@User.Identity.Name">Delete</a></td>
                     </tr>
+                    </tbody>
                 }
             }
         </table>
+        <script>
+            function searchFunction() {
+                var input, filter, rows, i, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.trim().toUpperCase();
+                rows = document.querySelectorAll("#dataBody tr");
+
+                for (i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    var cells = row.getElementsByTagName("td");
+                    var rowMatch = false;
+
+                    for (var j = 0; j < cells.length; j++) {
+                        txtValue = cells[j].textContent || cells[j].innerText;
+
+                        if (txtValue.trim().toUpperCase().indexOf(filter) > -1) {
+                            rowMatch = true;
+                            break; // If any cell in the row matches, display the entire row
+                        }
+                    }
+
+                    if (rowMatch) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            }
+        </script>
     }
 }
