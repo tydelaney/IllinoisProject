@@ -50,12 +50,11 @@ else
                                     {
                                         if (comment.account != null)
                                         {
-                                            <div class="media mb-3">
-                                                <div class="media-body">
-                                                    <strong>@comment.account.UserName:</strong>
-                                                    @comment.CommentDescription
-                                                    <div class="text-muted">
-                                                        <small>Posted on @comment.dateTime</small>
+                                            <div class="comment-card">
+                                                <div class="comment-header">@comment.account.UserName:</div>
+                                                <div class="comment-body">@comment.CommentDescription</div>
+                                                <div class="comment-footer">
+                                                    Posted on @comment.dateTime
                                                     </div>
                                                     @if (User.Identity.Name == comment.account.AccountEmail || User.IsInRole("Admin"))
                                                     {
@@ -74,7 +73,6 @@ else
                                                         </div>
                                                     }
                                                 </div>
-                                            </div>
                                         }
                                     }
                                 }
@@ -100,6 +98,22 @@ else
 }
 
 <style>
+    /* Apply styles to the table, th and td elements for consistent bordering */
+    .table, .table th, .table td {
+        border: 1px solid #dee2e6; /* Assuming you want a light grey border as is standard */
+        border-collapse: collapse; /* Ensures borders collapse into a single border */
+    }
+
+    /* For zebra striping and hover effect */
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, .05);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, .075);
+    }
+
+    /* The styles you have already applied to other elements */
     .table td, .table th {
         vertical-align: middle;
     }
@@ -114,5 +128,59 @@ else
 
     .actions a {
         margin-right: 0.5rem;
+    }
+    /* Button styling */
+    .btn-custom {
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        color: #fff;
+        text-shadow: none; /* Removes any text shadow */
+        box-shadow: none; /* Removes any box shadow */
+        transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .btn-edit {
+        background-color: #4CAF50; /* A nice shade of green */
+    }
+
+    .btn-delete {
+        background-color: #F44336; /* A nice shade of red */
+    }
+
+    /* Hover effects for buttons */
+    .btn-edit:hover {
+        background-color: #449d44; /* Darken color on hover */
+    }
+
+    .btn-delete:hover {
+        background-color: #d32f2f; /* Darken color on hover */
+    }
+
+    /* Use FontAwesome icons for Edit and Delete if available */
+    .btn i.fa {
+        margin-right: 0.5rem; /* Space between icon and text */
+    }
+
+    /* Card styling for comments */
+    .comment-card {
+        background: #f8f9fa;
+        border: 1px solid #e1e4e8;
+        border-radius: 0.25rem;
+        padding: 0.75rem;
+        margin-bottom: 0.75rem; /* Space between comments */
+    }
+
+    .comment-header {
+        font-weight: bold;
+    }
+
+    .comment-body {
+        font-size: 0.9rem;
+    }
+
+    .comment-footer {
+        text-align: right;
+        font-size: 0.8rem;
+        color: #6c757d;
     }
 </style>
