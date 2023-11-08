@@ -1,0 +1,23 @@
+﻿@model IllinoisProject.ViewModels.CommentViewModel
+
+@{
+    ViewData["Title"] = "Edit Comment";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="EditComment" method="post">
+    <input type="hidden" asp-for="CommentId" />
+    <input type="hidden" asp-for="BlogPostId" />
+
+    <div class="form-group">
+        <label asp-for="CommentDescription" class="control-label"></label>
+        <textarea asp-for="CommentDescription" class="form-control"></textarea>
+        <span asp-validation-for="CommentDescription" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="AllBlogPost" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>

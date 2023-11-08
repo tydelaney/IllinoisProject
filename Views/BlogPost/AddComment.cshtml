@@ -1,0 +1,6 @@
+﻿@model IllinoisProject.ViewModels.CommentViewModel
+<form asp-action="AddComment">
+    <input type="hidden" asp-for="BlogPostId" />
+    <textarea asp-for="CommentDescription"></textarea>
+    <input type="submit" value="Add Comment" />
+</form>

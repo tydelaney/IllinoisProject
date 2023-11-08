@@ -8,6 +8,7 @@
         public DateTime PostDate { get; set; }
         public Account Account { get; set; }
         public bool Draft { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
 
     }
 }

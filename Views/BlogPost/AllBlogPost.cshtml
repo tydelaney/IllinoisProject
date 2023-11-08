@@ -1,46 +1,121 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 
-    <p>
-        <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-    <a asp-controller="BlogPost" asp-action="AllDraft" style="margin-left: 10px;"> Drafts </a>
-    </p>
-    <h3>Published Blogs</h3>
 @{
-    if (Model.Count() < 1)
-    {
-        <p>No Blogs yet.</p>
-    }
-    else
-    {
-        <table border="1">
-            <tr>
-                <th>Date Posted</th>
-            <th>Blog name</th>
-            <th>Blog Description</th>
-             <th>Account Name</th>
-             <th>Edit</th>
-             <th>Delete</th>
+    ViewData["Title"] = "Blog Posts";
+}
 
-            
-            </tr>
-            @{
-                foreach (var blogPost in Model)
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<div class="actions mb-3">
+    <a asp-controller="BlogPost" asp-action="AddBlogPost" class="btn btn-primary">Add a Blog</a>
+    <a asp-controller="BlogPost" asp-action="AllDraft" class="btn btn-secondary ml-2">Drafts</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No Blogs yet.</div>
+}
+else
+{
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Date Posted</th>
+                    <th>Blog Name</th>
+                    <th>Description</th>
+                    <th>Account</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model)
                 {
                     <tr>
-                        <td>@blogPost.PostDate</td>
-                        <td>@blogPost.BlogName</td>
-                        <td>@blogPost.BlogDescription</td>
-                        <td>@blogPost.Account.AccountName</td>
-                       
-
-                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
-                        
-                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
-                        
+                        <td>@post.PostDate.ToString("yyyy-MM-dd")</td>
+                        <td>@post.BlogName</td>
+                        <td>@post.BlogDescription</td>
+                        <td>@post.Account.AccountName</td>
+                        <td>
+                            <a asp-action="EditBlogPost" asp-route-id="@post.BlogPostId" class="btn btn-sm btn-info">Edit</a>
+                            <a asp-action="DeleteBlogPost" asp-route-id="@post.BlogPostId" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
                     </tr>
+                    @if (post.Comments.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="p-0">
+                                <div class="bg-light p-3">
+                                    <h5 class="mb-3">Comments:</h5>
+                                    @foreach (var comment in post.Comments)
+                                    {
+                                        if (comment.account != null)
+                                        {
+                                            <div class="media mb-3">
+                                                <div class="media-body">
+                                                    <strong>@comment.account.UserName:</strong>
+                                                    @comment.CommentDescription
+                                                    <div class="text-muted">
+                                                        <small>Posted on @comment.dateTime</small>
+                                                    </div>
+                                                    @if (User.Identity.Name == comment.account.AccountEmail || User.IsInRole("Admin"))
+                                                    {
+                                                        <a asp-action="EditComment" asp-route-id="@comment.CommentId" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                                        <form asp-action="DeleteComment" method="post" class="d-inline" onsubmit="return confirm('Are you sure?');">
+                                                            <input type="hidden" name="id" value="@comment.CommentId" />
+                                                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                                        </form>
+
+                                                        // Hidden form for editing
+                                                        <div id="edit-comment-form-@comment.CommentId" style="display: none;">
+                                                            <input type="hidden" value="@comment.CommentId" class="edit-comment-id" />
+                                                            <textarea class="form-control edit-comment-text">@comment.CommentDescription</textarea>
+                                                            <button type="button" class="btn btn-primary save-edit-comment">Save</button>
+                                                            <button type="button" class="btn btn-secondary cancel-edit-comment">Cancel</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <form asp-controller="BlogPost" asp-action="AddComment" method="post" class="mt-3">
+                                        <input type="hidden" name="BlogPostId" value="@post.BlogPostId" />
+                                        <div class="form-group">
+                                            <label for="comment" class="mb-1">Add Comment:</label>
+                                            <textarea class="form-control" name="CommentDescription" rows="2"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm">Add Comment</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        
+            </tbody>
         </table>
-    }
+    </div>
 }
+
+<style>
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    .media-body {
+        font-size: 0.9rem;
+    }
+
+    .alert {
+        font-size: 0.9rem;
+    }
+
+    .actions a {
+        margin-right: 0.5rem;
+    }
+</style>
+
+<script>
+    // Function to show the edit comment form
+    function showEdit
+</script>
+

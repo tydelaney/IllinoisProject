@@ -17,6 +17,7 @@ namespace IllinoisProject.Models
         public string UserName { get; set; }
         public string? UserId { get; set; }
         public ICollection<BlogPost>? BlogPosts { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
     }
     
 }
