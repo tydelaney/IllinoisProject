@@ -33,13 +33,19 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterViewModel model)
         {
-
+            
             if (ModelState.IsValid)
             {
                 var domain = model.Email.Split('@').Last();
                 if (domain.ToLower() != "illinois.edu")
                 {
                     ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
+                    return View(model);
+                }
+                // Compare Email and Account.AccountEmail
+                if (model.Email != model.Account.AccountEmail)
+                {
+                    ModelState.AddModelError("Account.AccountEmail", "Email and Confirm Email do not match.");
                     return View(model);
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
