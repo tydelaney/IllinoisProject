@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Project.Models;
 using System.Security.Cryptography.Xml;
+using Microsoft.EntityFrameworkCore;
 
 namespace IllinoisProject.Controllers
 {
@@ -92,18 +93,7 @@ namespace IllinoisProject.Controllers
             return View(db.Accounts);
         }
 
-        public  IActionResult AddAccount() 
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddAccount(Account account) 
-        {
-            db.Add(account);
-            await db.SaveChangesAsync();
-            
-            return RedirectToAction("AllAccount");
-        }
+   
        //edit account start
         public IActionResult EditAccount(int id)
         {
@@ -114,6 +104,7 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public IActionResult EditAccount(Account account)
         {
+          
             db.Update(account);
             db.SaveChanges();
             return RedirectToAction("AllAccount");
@@ -121,16 +112,73 @@ namespace IllinoisProject.Controllers
         //edit account end
         public IActionResult DeleteAccount(int id)
         {
-            Account account;
-            account = db.Accounts.Find(id);
+            //Account account;
+            //account = db.Accounts.Find(id);
+            var account = db.Accounts.Find(id);
             return View(account);
         }
         [HttpPost]
         public IActionResult DeleteAccount(Account account)
         {
-            db.Remove(account);
+            db.Accounts.Remove(account);
             db.SaveChanges();
             return RedirectToAction("AllAccount");
         }
+
+
+        ////////////////////// PICTURE //////////////////
+        ///
+
+        public IActionResult AddPicture()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPicture(AddPictureViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var picture = new Picture
+                {
+                    AltAttribute = viewModel.AltAttribute,
+                };
+
+                if (viewModel.MyPicture != null)
+                {
+                    var fileName = viewModel.MyPicture.FileName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await viewModel.MyPicture.CopyToAsync(stream);
+                    }
+
+                    picture.Url = fileName;
+                }
+
+                picture.UserId = user.Id;
+                db.Pictures.Add(picture);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("AllAccount");
+            }
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> DisplayPictures()
+        {
+            var pictures = await db.Pictures.ToListAsync();
+            return View(pictures);
+        }
+
+
     }
 }
