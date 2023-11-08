@@ -6,7 +6,8 @@
         public string CommentDescription { get; set; }
         public Account account { get; set; }
         public DateTime dateTime { get; set; }
-        public BlogPost blogPost { get; set; }
+        public BlogPost? BlogPost { get; set; }
+        public int BlogPostId { get; set; }
 
     }
 }

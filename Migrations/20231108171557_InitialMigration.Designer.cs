@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IllinoisProject.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20231107213604_M26")]
-    partial class M26
+    [Migration("20231108171557_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace IllinoisProject.Migrations
 
                     b.Property<string>("AccountName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
@@ -145,6 +148,36 @@ namespace IllinoisProject.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("BlogPosts");
+                });
+
+            modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("BlogPostId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.Picture", b =>
@@ -312,6 +345,25 @@ namespace IllinoisProject.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
+                {
+                    b.HasOne("IllinoisProject.Models.Account", "account")
+                        .WithMany("Comments")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BlogPost");
+
+                    b.Navigation("account");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -366,6 +418,13 @@ namespace IllinoisProject.Migrations
             modelBuilder.Entity("IllinoisProject.Models.Account", b =>
                 {
                     b.Navigation("BlogPosts");
+
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

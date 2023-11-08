@@ -147,6 +147,36 @@ namespace IllinoisProject.Migrations
                     b.ToTable("BlogPosts");
                 });
 
+            modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("BlogPostId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("IllinoisProject.Models.Picture", b =>
                 {
                     b.Property<int>("PictureId")
@@ -312,6 +342,25 @@ namespace IllinoisProject.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
+                {
+                    b.HasOne("IllinoisProject.Models.Account", "account")
+                        .WithMany("Comments")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BlogPost");
+
+                    b.Navigation("account");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -366,6 +415,13 @@ namespace IllinoisProject.Migrations
             modelBuilder.Entity("IllinoisProject.Models.Account", b =>
                 {
                     b.Navigation("BlogPosts");
+
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,13 +23,16 @@ namespace IllinoisProject.Controllers
 
         public async Task<IActionResult> AllBlogPost()
         {
-            var blogPost = await db.BlogPosts.Include(c=>c.Account).ToListAsync();
-            //return View(blogPost);
-            // Filter the blog posts to exclude drafts (where Draft is true)
-            var publishedBlogPosts = blogPost.Where(blogPost => !blogPost.Draft);
+            var blogPosts = await db.BlogPosts.Include(c => c.Account)
+                                              .Include(c => c.Comments)
+                                               .ThenInclude(c => c.account) // Make sure to load the account for each comment
+                                               .Where(bp => !bp.Draft)
+                                               .ToListAsync();
 
-            return View(publishedBlogPosts);
+
+            return View(blogPosts);
         }
+
         //For viewing Drafts
         public async Task<IActionResult> AllDraft()
         {
@@ -131,5 +134,106 @@ namespace IllinoisProject.Controllers
            
             return RedirectToAction("AllBlogPost");
         }
+
+        // Method to show the form for adding a new comment to a blog post
+        [HttpGet]
+        public IActionResult AddComment(int blogPostId)
+        {
+            var viewModel = new CommentViewModel { BlogPostId = blogPostId };
+            return RedirectToAction("AllBlogPost");
+        }
+
+        // Method to handle the post request for adding a new comment
+        [HttpPost]
+        public async Task<IActionResult> AddComment(CommentViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user1 = await userManager.GetUserAsync(User);
+                Account account = db.Accounts.FirstOrDefault(a => a.UserId == user1.Id);
+                var user = await userManager.GetUserAsync(User);
+                var comment = new Comment
+                {
+                    CommentDescription = viewModel.CommentDescription,
+                    dateTime = DateTime.Now,
+                    account = account,
+                    BlogPostId = viewModel.BlogPostId
+                };
+                db.Comments.Add(comment);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Details", "BlogPost", new { id = viewModel.BlogPostId });
+            }
+            return RedirectToAction("AllBlogPost");
+        }
+
+        // Method to show the form for editing an existing comment
+        [HttpGet]
+        public async Task<IActionResult> EditComment(int id)
+        {
+            var comment = await db.Comments
+                .Include(c => c.account)
+                .FirstOrDefaultAsync(c => c.CommentId == id);
+
+            if (comment == null || comment.account.AccountEmail != User.Identity.Name)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new CommentViewModel
+            {
+                CommentId = comment.CommentId,
+                CommentDescription = comment.CommentDescription,
+                BlogPostId = comment.BlogPostId // Make sure this is the property name in your BlogPost entity
+            };
+            return View(viewModel); // Return the view with the view model
+        }
+
+
+        // POST: BlogPost/EditComment
+        [HttpPost]
+        public async Task<IActionResult> EditComment(int id, string commentDescription)
+        {
+            var comment = await db.Comments.Include(c => c.account).FirstOrDefaultAsync(c => c.CommentId == id);
+
+            if (comment == null || (comment.account.AccountEmail != User.Identity.Name && !User.IsInRole("Admin")))
+            {
+                return NotFound();
+            }
+
+            comment.CommentDescription = commentDescription;
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("AllBlogPost");
+        }
+
+        // POST: BlogPost/DeleteComment
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var comment = await db.Comments
+                                  .Include(c => c.account) // Make sure to include the account object
+                                  .FirstOrDefaultAsync(c => c.CommentId == id);
+
+            // Check if the comment or the associated account is null
+            if (comment == null || comment.account == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the user is the one who made the comment or if they are an admin
+            if (comment.account.AccountEmail != User.Identity.Name && !User.IsInRole("Admin"))
+            {
+                // Optionally, return some form of "Unauthorized" response here instead of NotFound
+                return NotFound();
+            }
+
+            db.Comments.Remove(comment);
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("AllBlogPost");
+        }
+
+
+
     }
 }
