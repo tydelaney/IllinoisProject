@@ -1,0 +1,14 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<IllinoisProject.Models.Picture>
+
+@{
+    ViewData["Title"] = "Display Pictures";
+}
+
+<h3>All Pictures</h3>
+
+@foreach (var picture in Model.Where(p => p.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
+{
+    <img src="~/images/@picture.Url" alt="@picture.AltAttribute" width="300" class="img-responsive img-circle" />
+    <p class="text-info">@picture.AltAttribute</p>
+}

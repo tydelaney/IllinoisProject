@@ -1,0 +1,29 @@
+﻿@model IllinoisProject.ViewModels.AddPictureViewModel
+
+<h3>Add a Picture</h3>
+
+<form asp-controller="Account" asp-action="AddPicture" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <div class="form-group">
+        <label asp-for="AltAttribute" class="control-label col-xs-2">Alt Attribute:</label>
+        <div class="col-xs-10">
+            <input asp-for="AltAttribute" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MyPicture" class="control-label col-xs-2">Select a file to upload:</label>
+        <div class="col-xs-10">
+            <input type="file" asp-for="MyPicture" class="file" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <button type="submit" class="btn btn-primary">Add Picture</button>
+        </div>
+    </div>
+</form>
+
+<p>
+    <a asp-controller="Account" asp-action="AllAccount">Back to All Accounts</a>
+</p>
