@@ -161,7 +161,7 @@ namespace IllinoisProject.Controllers
                 };
                 db.Comments.Add(comment);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Details", "BlogPost", new { id = viewModel.BlogPostId });
+                return RedirectToAction("AllBlogPost");
             }
             return RedirectToAction("AllBlogPost");
         }
