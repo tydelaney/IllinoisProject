@@ -1,11 +1,6 @@
-﻿@model IEnumerable<IllinoisProject.ViewModels.AuthorViewModel>
+﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 @{
-    if (Model.Count() < 1)
-    {
-        <p>No Blogs yet.</p>
-    }
-    else
-    {
+    
         <table border="1">
             <tr>
                 <th>Date Posted</th>
@@ -21,14 +16,14 @@
                 foreach (var blogPost in Model)
                 {
                     <tr>
-                        <td>@blogPost.BlogPost.PostDate</td>
-                        <td>@blogPost.BlogPost.BlogName</td>
-                        <td>@blogPost.BlogPost.Account.AccountName</td>
+                        <td>@blogPost.PostDate</td>
+                        <td>@blogPost.BlogName</td>
                         <td>@blogPost.Account.AccountName</td>
+                        
                     </tr>
                 }
             }
 
         </table>
-    }
+    
 }
