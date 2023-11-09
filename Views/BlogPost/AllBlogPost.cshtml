@@ -1,9 +1,23 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 
+<link rel="stylesheet" href="~/css/site.css" />
+
+
+<!-- Add the profile icon code here -->
+<div class="profile-icon">
+
+    <a asp-controller="Account" asp-action="EditAccount" method="post">
+        <input type="hidden" asp-route-id="@User.Identity.Name" />
+        <img src="~/images/.png" alt="Profile Icon" class="profile-image">
+    </a>
+</div>
     <p>
         <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+    <a asp-controller="BlogPost" asp-action="AllDraft" style="margin-left: 10px;"> Drafts </a>
     </p>
-    <h3>All Blog List</h3>
+<br />
+<a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
+    <h3>Published Blogs</h3>
 @{
     if (Model.Count() < 1)
     {

@@ -125,52 +125,25 @@ namespace IllinoisProject.Controllers
             return RedirectToAction("AllAccount");
         }
 
-
-        ////////////////////// PICTURE //////////////////
-        ///
-
+        /// picture 
         public IActionResult AddPicture()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPicture(AddPictureViewModel viewModel)
+        public async Task<IActionResult> AddPicture(Picture p)
         {
-            if (ModelState.IsValid)
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", p.MyPicture.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                var user = await userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-
-                var picture = new Picture
-                {
-                    AltAttribute = viewModel.AltAttribute,
-                };
-
-                if (viewModel.MyPicture != null)
-                {
-                    var fileName = viewModel.MyPicture.FileName;
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await viewModel.MyPicture.CopyToAsync(stream);
-                    }
-
-                    picture.Url = fileName;
-                }
-
-                picture.UserId = user.Id;
-                db.Pictures.Add(picture);
-                await db.SaveChangesAsync();
-
-                return RedirectToAction("AllAccount");
+                await p.MyPicture.CopyToAsync(stream);
             }
-
-            return View(viewModel);
+            p.Url = p.MyPicture.FileName;
+            db.Add(p);
+            await db.SaveChangesAsync();
+            return RedirectToAction("AllAccount");
         }
 
         public async Task<IActionResult> DisplayPictures()
@@ -179,6 +152,6 @@ namespace IllinoisProject.Controllers
             return View(pictures);
         }
 
-
     }
 }
+
