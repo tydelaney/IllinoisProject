@@ -3,7 +3,7 @@
     public class Author
     {
         public int AuthorId { get; set; }
-        public Account Account { get; set; }
-        public BlogPost BlogPost { get; set; }
+        public int AccountId { get; set; }
+        public int BlogPostId { get; set; }
     }
 }

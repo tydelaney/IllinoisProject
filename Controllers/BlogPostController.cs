@@ -66,8 +66,9 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
-            var account = await db.Accounts.SingleOrDefaultAsync(i => i.UserName == vm.Account.UserName);
+            var account = await db.Accounts.FirstOrDefaultAsync(i => i.UserName == vm.Account.UserName);
             vm.BlogPost.Account = account;
+            account.BlogPosts.Add(vm.BlogPost); // Add the BlogPost to the collection
             db.Add(vm.BlogPost);
             await db.SaveChangesAsync();
             return RedirectToAction("AllBlogPost");
