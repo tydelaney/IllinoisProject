@@ -1,14 +1,12 @@
-﻿@using System.Security.Claims;
-@model IEnumerable<IllinoisProject.Models.Picture>
+﻿@model IEnumerable<IllinoisProject.Models.Picture>
 
 @{
-    ViewData["Title"] = "Display Pictures";
+	ViewData["title"] = "Display Pictures";
 }
-
-<h3>All Pictures</h3>
-
-@foreach (var picture in Model.Where(p => p.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
+<h3> All Pictures</h3>
+@foreach (var p in Model)
 {
-    <img src="~/images/@picture.Url" alt="@picture.AltAttribute" width="300" class="img-responsive img-circle" />
-    <p class="text-info">@picture.AltAttribute</p>
+	<img src="~/images/@p.Url" alt="@p.AltAttribute"
+		 width="300" class="img-responsive img-circle" />
+	<p class="text-info"></p>
 }

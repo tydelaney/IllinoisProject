@@ -1,0 +1,46 @@
+﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+
+<p>
+    <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+    <a asp-controller="BlogPost" asp-action="AllBlogPost" style="margin-left: 10px;"> Published Blog Posts </a>
+</p>
+<h3>Drafts</h3>
+@{
+    if (Model.Count() < 1)
+    {
+        <p>No Blogs yet.</p>
+    }
+    else
+    {
+        <table border="1">
+            <tr>
+                <th>Date Drafted</th>
+                <th>Blog name</th>
+                <th>Blog Description</th>
+                <th>Account Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+
+            </tr>
+            @{
+                foreach (var blogPost in Model)
+                {
+                    <tr>
+                        <td>@blogPost.PostDate</td>
+                        <td>@blogPost.BlogName</td>
+                        <td>@blogPost.BlogDescription</td>
+                        <td>@blogPost.Account.AccountName</td>
+
+
+                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
+
+                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
+
+                    </tr>
+                }
+            }
+
+        </table>
+    }
+}

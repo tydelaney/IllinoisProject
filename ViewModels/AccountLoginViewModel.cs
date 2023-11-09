@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Dropbox14.ViewModels
+namespace IllinoisProject.ViewModels
 {
 	public class AccountLoginViewModel
 	{
@@ -10,9 +10,9 @@ namespace Dropbox14.ViewModels
 		[Required, DataType(DataType.Password)]
 		public string Password { get; set; }
 
-        public bool RememberMe { get; set; }
+		public bool RememberMe { get; set; }
 
 
 
-    }
+	}
 }

@@ -1,4 +1,4 @@
-﻿@model IllinoisProject.ViewModels.AccountAddAccountViewModel
+﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
 
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
     <h2>Add a Blog Post</h2>
@@ -6,14 +6,16 @@
     <input asp-for="BlogPost.BlogName" />
     <br />
     <label asp-for="BlogPost.BlogDescription">Description</label>
-    <input asp-for="BlogPost.BlogDescription" rows="8" cols="50"></input>
+    <input asp-for="BlogPost.BlogDescription" rows="8" cols="50" />
     <br />
     <input type="date" asp-for="BlogPost.PostDate" />
     <br />
-    
-        <label asp-for="Account.applicationUser">User Name</label>
-    <select asp-for="Account.applicationUser" asp-items="@Model.ApplicationUserList"></select>
-
+    <label asp-for="Account.UserName">User Name</label>
+    <select asp-for="Account.UserName" asp-items="@Model.AccountList"></select>
+    <br />
+    <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />
+    <input type="radio" asp-for="BlogPost.Draft" value="true" /> <label>Draft</label>
+    <input type="radio" asp-for="BlogPost.Draft" value="false" /> <label>Publish</label>
+    <br />
     <button type="submit">Add the Blog</button>
-     
 </form>

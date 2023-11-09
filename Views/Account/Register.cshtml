@@ -1,22 +1,30 @@
-﻿@model Dropbox14.ViewModels.AccountRegisterViewModel
+﻿@model IllinoisProject.ViewModels.AccountRegisterViewModel
 
 <h2> User Registeration</h2>
 
-<form asp-action="Register" method="post">
-<div asp-validation-summary ="All"> </div>
+<form asp-controller="Account" asp-action="Register" method="post">
+	<div asp-validation-summary="All"> </div>
+	<br />
+	<label asp-for="Account.AccountName">Your Name</label>
+	<input asp-for="Account.AccountName" /> <br />
 
-<label asp-for="Email">	</label>
-<input asp-for ="Email" />
+	<label asp-for="Email">	</label>
+	<input asp-for="Email" />
 	<span asp-validation-for="Email"></span>
+	<br />
+	<label asp-for="Account.AccountEmail">Confirm Email</label>
+	<input asp-for="Account.AccountEmail" />
+	<br />
+	<label asp-for="Account.UserName">	</label>
+	<input asp-for="Account.UserName" />
+	<br />
 
-<br /> 
-
-<label asp-for="Password">	</label>
-<input asp-for="Password" />
-<span asp-validation-for="Password"></span>
+	<label asp-for="Password">	</label>
+	<input asp-for="Password" />
+	<span asp-validation-for="Password"></span>
 
 
-<br />
+	<br />
 
 	<label asp-for="ConfirmPassword">	</label>
 	<input asp-for="ConfirmPassword" />

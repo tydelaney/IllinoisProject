@@ -6,114 +6,132 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Project.Models;
 
-namespace Project.Controllers
+namespace IllinoisProject.Controllers
 {
-    public class BlogPostController : Controller
-    {
-        AccountDbContext db;
-        private UserManager<ApplicationUser> userManager;
-        
-        // Replace YourDbContext with your DbContext class
+	public class BlogPostController : Controller
+	{
+		AccountDbContext db;
+		private UserManager<ApplicationUser> userManager;
+		private SignInManager<ApplicationUser> signInManager;
+		private RoleManager<IdentityRole> roleManager;
 
-        public BlogPostController(AccountDbContext db)
-        {
-            this.db = db;
-        }
+		public BlogPostController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
+		{
+			this.userManager = userManager;
+			this.signInManager = signInManager;
+			this.roleManager = roleManager;
+			this.db = db;
+		}
 
-        public async Task<IActionResult> AllBlogPost()
-        {
-            var blogPost = await db.BlogPosts.Include(c=>c.Account).ToListAsync();
-            return View(blogPost);
-        }
-        
+		public async Task<IActionResult> AllBlogPost()
+		{
+			var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
+			//return View(blogPost);
+			// Filter the blog posts to exclude drafts (where Draft is true)
+			var publishedBlogPosts = blogPost.Where(blogPost => !blogPost.Draft);
 
-        //START OF ADD BLOG POST--------------------------------------------------------------------------------------
+			return View(publishedBlogPosts);
+		}
+		//For viewing Drafts
+		public async Task<IActionResult> AllDraft()
+		{
+			var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
+			var draftBlogPosts = blogPost.Where(blogPost => blogPost.Draft);
 
-        //Loading BlogPost page
-        public async Task<IActionResult> AddBlogPost()
-        {
-            var accountDisplay = await db.Accounts.Select(x => new {
-                Id =
-                x.UserName,
-                Value = x.UserName
-            }).ToListAsync();
-            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
-            return View(vm);
-        }
+			return View(draftBlogPosts);
+		}
 
-        //Passing the PostBlog and Account class together with data through the viewModel
-        [HttpPost]
-        public async Task<IActionResult> AddBlogPost(AccountAddAccountViewModel vm)
-        {
-            var account = await db.Accounts.SingleOrDefaultAsync(i => i.AccountId == vm.Account.AccountId);
-            vm.BlogPost.Account = account;
-            db.Add(vm.BlogPost);
-            await db.SaveChangesAsync();
-            return RedirectToAction("AllBlogPost");
-        }
-        //END OF ADD BLOG POST
+		//START OF ADD BLOG POST--------------------------------------------------------------------------------------
 
-        //Edit Blog Post START------------------------------------------------------------------------------------------
-        public async Task<IActionResult> EditBlogPost()
-        {
-            var accountDisplay = await db.Accounts.Select(x => new {
-                Id =
-                x.AccountId,
-                Value = x.AccountName
-            }).ToListAsync();
-            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
-            return View(vm);
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditBlogPost(int id, AccountAddAccountViewModel vm)
-        {
-            var blogPost = await db.BlogPosts.FindAsync(id);
-           
-            // update existing blog post with posted data
-            blogPost.BlogName = vm.BlogPost.BlogName;
-            blogPost.BlogDescription = vm.BlogPost.BlogDescription;
+		//Loading BlogPost page
+		//public async Task<IActionResult> AddBlogPost()
+		//{
+		//    var user = await userManager.GetUserAsync(User);
+		//    var accountDisplay = await db.Accounts.Select(x => new {
+		//        Id = x.AccountId, Value = x.AccountName}).ToListAsync();
+		//    AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+		//     user.UserName = vm.BlogPost.Account.UserName;
+		//    return View(vm);
+		//}
+		public async Task<IActionResult> AddBlogPost()
+		{
 
-            db.Update(blogPost);
-            await db.SaveChangesAsync();
+			var accountDisplay = await db.Accounts.Select(x => new { Id = x.UserName, Value = x.UserName }).ToListAsync();
+			var vm = new AccountBlogPostViewModel
+			{
+				AccountList = new SelectList(accountDisplay, "Id", "Value")
+			};
+			return View(vm);
+		}
 
-            return RedirectToAction("AllBlogPost");
-        }
-        //Edit blog post END--------------------------------
+		//Passing the PostBlog and Account class together with data through the viewModel
+		[HttpPost]
+		public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
+		{
+			var account = await db.Accounts.SingleOrDefaultAsync(i => i.UserName == vm.Account.UserName);
+			vm.BlogPost.Account = account;
+			db.Add(vm.BlogPost);
+			await db.SaveChangesAsync();
+			return RedirectToAction("AllBlogPost");
+		}
+		//END OF ADD BLOG POST
 
-        //DELETE BlogPost START ------------------------------------------------------
-        public async Task<IActionResult> DeleteBlogPost()
-        {
-            var accountDisplay = await db.Accounts.Select(x => new {
-                Id =
-                 x.AccountId,
-                Value = x.AccountName
-            }).ToListAsync();
-            AccountAddAccountViewModel vm = new AccountAddAccountViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
-            return View(vm);
-        }
-        [HttpPost]
-        public async Task<IActionResult> DeleteBlogPost(int id, AccountAddAccountViewModel vm)
-        {
-            var blogPost = await db.BlogPosts.FindAsync(id);
+		//Edit Blog Post START------------------------------------------------------------------------------------------
+		public async Task<IActionResult> EditBlogPost()
+		{
+			var accountDisplay = await db.Accounts.Select(x => new { Id = x.AccountId, Value = x.AccountName }).ToListAsync();
+			AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+			vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+			return View(vm);
+		}
+		[HttpPost]
+		public async Task<IActionResult> EditBlogPost(int id, AccountBlogPostViewModel vm)
+		{
+			var blogPost = await db.BlogPosts.FindAsync(id);
 
-            if (blogPost == null)
-            {
-                return NotFound();
-            }
-            //update existing blog post with posted data
-            //blogPost.BlogName = vm.BlogPost.BlogName;
-            //blogPost.BlogDescription = vm.BlogPost.BlogDescription;
+			// update existing blog post with posted data
+			blogPost.BlogName = vm.BlogPost.BlogName;
+			blogPost.BlogDescription = vm.BlogPost.BlogDescription;
 
-            db.Remove(blogPost);
-            await db.SaveChangesAsync();
-            ViewData["BlogName"] = blogPost.BlogName;
-            ViewData["BlogDescription"] = blogPost.BlogDescription;
+			db.Update(blogPost);
+			await db.SaveChangesAsync();
 
-           
-            return RedirectToAction("AllBlogPost");
-        }
-    }
+			return RedirectToAction("AllBlogPost");
+		}
+		//Edit blog post END--------------------------------
+
+		//DELETE BlogPost START ------------------------------------------------------
+		public async Task<IActionResult> DeleteBlogPost()
+		{
+			var accountDisplay = await db.Accounts.Select(x => new {
+				Id =
+				 x.AccountId,
+				Value = x.AccountName
+			}).ToListAsync();
+			AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+			vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+			return View(vm);
+		}
+		[HttpPost]
+		public async Task<IActionResult> DeleteBlogPost(int id, AccountBlogPostViewModel vm)
+		{
+			var blogPost = await db.BlogPosts.FindAsync(id);
+
+			if (blogPost == null)
+			{
+				return NotFound();
+			}
+			//update existing blog post with posted data
+			//blogPost.BlogName = vm.BlogPost.BlogName;
+			//blogPost.BlogDescription = vm.BlogPost.BlogDescription;
+
+			db.Remove(blogPost);
+			await db.SaveChangesAsync();
+			ViewData["BlogName"] = blogPost.BlogName;
+			ViewData["BlogDescription"] = blogPost.BlogDescription;
+
+
+			return RedirectToAction("AllBlogPost");
+		}
+	}
 }
