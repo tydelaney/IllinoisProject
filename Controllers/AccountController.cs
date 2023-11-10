@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IllinoisProject.Models;
 using System.Security.Cryptography.Xml;
+using Microsoft.EntityFrameworkCore;
 
 namespace IllinoisProject.Controllers
 {
@@ -91,6 +92,7 @@ namespace IllinoisProject.Controllers
 
         public IActionResult AllAccount()
         {
+            var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();
             return View(db.Accounts);
         }
 
@@ -133,6 +135,13 @@ namespace IllinoisProject.Controllers
             db.Remove(account);
             db.SaveChanges();
             return RedirectToAction("AllAccount");
+        }
+
+        public IActionResult AddFriend(int id)
+        {
+            var account = db.Accounts.Find(id);
+            var blogposts = account.BlogPosts;
+            return View(blogposts);
         }
     }
 }
