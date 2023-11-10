@@ -1,0 +1,29 @@
+﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+@{
+    
+        <table border="1">
+            <tr>
+                <th>Date Posted</th>
+                <th>Blog name</th>
+                <th>Blog Description</th>
+                <th>Account Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+
+            </tr>
+            @{
+                foreach (var blogPost in Model)
+                {
+                    <tr>
+                        <td>@blogPost.PostDate</td>
+                        <td>@blogPost.BlogName</td>
+                        <td>@blogPost.Account.AccountName</td>
+                        
+                    </tr>
+                }
+            }
+
+        </table>
+    
+}

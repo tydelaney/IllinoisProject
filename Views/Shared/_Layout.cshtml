@@ -10,6 +10,7 @@
 <body>
     <div>
         @RenderBody()
+        @RenderSection("Scripts", required: false)
     </div>
     @if (IsSectionDefined("Scripts"))
     {
