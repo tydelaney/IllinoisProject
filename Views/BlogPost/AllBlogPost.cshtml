@@ -1,36 +1,42 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+<link rel="stylesheet" href="~/css/site.css" />
 
-@{
-    ViewData["Title"] = "Blog Posts";
-}
 
-<h2 class="mb-4">@ViewData["Title"]</h2>
+<!-- Add the profile icon code here -->
+<div class="profile-icon">
 
-<div class="actions mb-3">
-    <a asp-controller="BlogPost" asp-action="AddBlogPost" class="btn btn-primary">Add a Blog</a>
-    <a asp-controller="BlogPost" asp-action="AllDraft" class="btn btn-secondary ml-2">Drafts</a>
+    <a asp-controller="Account" asp-action="EditAccount" method="post">
+        <input type="hidden" asp-route-id="@User.Identity.Name" />
+        <img src="~/images/.png" alt="Profile Icon" class="profile-image">
+    </a>
 </div>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">No Blogs yet.</div>
-}
-else
-{
-    <div class="table-responsive mb-4">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Date Posted</th>
-                    <th>Blog Name</th>
-                    <th>Description</th>
-                    <th>Account</th>
-                    <th>Actions</th>
-                    <th>Comments</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var post in Model)
+    <p>
+    <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+    <a asp-controller="BlogPost" asp-action="AllDraft" style="margin-left: 10px;"> Drafts </a>
+    <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
+    </p>
+    <h3>Published Blogs</h3>
+@{
+    if (Model.Count() < 1)
+    {
+        <p>No Blogs yet.</p>
+    }
+    else
+    {
+        <table border="1">
+            <tr>
+                <th>Date Posted</th>
+            <th>Blog name</th>
+            <th>Blog Description</th>
+             <th>Account Name</th>
+             <th>Edit</th>
+             <th>Delete</th>
+
+            
+            </tr>
+            @{
+                foreach (var blogPost in Model)
                 {
                     <tr>
                         <td>@post.PostDate.ToString("yyyy-MM-dd")</td>
