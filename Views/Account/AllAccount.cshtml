@@ -1,11 +1,4 @@
 ﻿@model IEnumerable<IllinoisProject.Models.Account>
-<link rel="stylesheet" href="~/css/site.css" />
-<!-- Add the profile icon code here -->
-<div class="profile-icon">
-    <a asp-controller="Account" asp-action="EditAccount">
-        <img src="@User.FindFirst("ProfilePictureUrl")?.Value" alt="Profile Icon" class="profile-image">
-    </a>
-</div>
 
 <p>
     <a asp-controller="Account" asp-action="Register"> Add an account</a>
@@ -29,7 +22,6 @@
                 <th> Blog Posts</th>
                 <th> Edit</th>
                 <th> Delete</th>
-
             </tr>
             @{
                 //below var is used instead of List<IllinoisProject.Models.Student>
@@ -37,15 +29,12 @@
                 {
                     <tr>
                         <td>@account.AccountId</td>
-
-                        <td><a asp-action="DisplayPictures" asp-route-id="@account.Picture">Picture</a></td>
                         <td>@account.AccountName</td>
                         <td>@account.UserName</td>
                         <td>@account.BlogPosts</td>
-
-                        <td><a asp-action="EditAccount" asp-route-id="@account.AccountId">Edit</a></td>
-                        <td><a asp-action="DeleteAccount" asp-route-id="@account.AccountId">Delete</a></td>
-
+                        
+                        <td><a asp-action="EditAccount" asp-route-id="@User.Identity.Name">Edit</a></td>
+                        <td><a asp-action="DeleteAccount" asp-route-id="@User.Identity.Name">Delete</a></td>
                     </tr>
                 }
             }

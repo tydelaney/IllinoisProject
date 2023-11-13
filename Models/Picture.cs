@@ -14,7 +14,7 @@ namespace IllinoisProject.Models
 		public string Url { get; set; }
 
         // Add a foreign key property to link the Picture to the User
-        //public string? UserId { get; set; }
+        public string? UserId { get; set; }
 
         //// Navigation property to represent the User
         //public ApplicationUser User { get; set; }

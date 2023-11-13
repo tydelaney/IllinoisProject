@@ -5,7 +5,7 @@
 namespace IllinoisProject.Migrations
 {
     /// <inheritdoc />
-    public partial class m48 : Migration
+    public partial class m102 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

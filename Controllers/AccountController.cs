@@ -124,6 +124,32 @@ namespace IllinoisProject.Controllers
             db.SaveChanges();
             return RedirectToAction("AllAccount");
         }
+
+        public IActionResult AddPicture()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPicture(Picture p)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", p.MyPicture.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await p.MyPicture.CopyToAsync(stream);
+            }
+            p.Url = p.MyPicture.FileName;
+            db.Add(p);
+            await db.SaveChangesAsync();
+            return RedirectToAction("AllAccount");
+        }
+
+        public async Task<IActionResult> DisplayPictures()
+        {
+            var pictures = await db.Pictures.ToListAsync();
+            return View(pictures);
+        }
     }
 }
 
