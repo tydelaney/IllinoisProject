@@ -108,6 +108,7 @@ TO DO LIST
 3. Get rid of add account
 4. profile picture
 5. Add email field in edit account
-7. Transfer Net users data to account
-8. Fix net users email inserting as username
-9. DK add all the comment stuff
+7. Transfer Net users data to account -fixed
+8. Fix net users email inserting as username -stays
+9. DK add all the comment stuff -in progress
+10. Add ability to publish draft blog

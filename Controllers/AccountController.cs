@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using IllinoisProject.Models;
 using System.Security.Cryptography.Xml;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace IllinoisProject.Controllers
 {
@@ -137,11 +138,41 @@ namespace IllinoisProject.Controllers
             return RedirectToAction("AllAccount");
         }
 
-        public IActionResult AddFriend(int id)
+        public  async Task<IActionResult> AddFriend(int id)
         {
             var account = db.Accounts.Find(id);
-            var blogposts = account.BlogPosts;
-            return View(blogposts);
+            var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var myAccount = db.Accounts.Find(currentUserId);
+            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.UserId == currentUserId);
+            var myBlogPosts = myAccount.BlogPosts;
+
+            //var blogposts = account.BlogPosts;
+            return View(myBlogPosts);
+        }
+        public IActionResult AddPicture()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPicture(Picture p)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", p.MyPicture.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await p.MyPicture.CopyToAsync(stream);
+            }
+            p.Url = p.MyPicture.FileName;
+            db.Add(p);
+            await db.SaveChangesAsync();
+            return RedirectToAction("AllAccount");
+        }
+
+        public async Task<IActionResult> DisplayPictures()
+        {
+            var pictures = await db.Pictures.ToListAsync();
+            return View(pictures);
         }
     }
 }
