@@ -1,19 +1,29 @@
 ﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
 
-
-<h3>Edit the Blog</h3>
-
+<h3>Edit Blog Post</h3>
 <form asp-controller="BlogPost" asp-action="EditBlogPost" method="post">
-    
-    <label asp-for="BlogPost.BlogName">Blog Name</label>
-    <input asp-for="BlogPost.BlogName" />
-    <br />
-    <label asp-for="BlogPost.BlogDescription">Blog Description</label>
-    <input asp-for="BlogPost.BlogDescription" />
-    <br />
-    <label asp-for="Account.AccountId"></label>
-   
+    <input type="hidden" asp-for="BlogPost.BlogPostId" />
 
-    <button type="submit">Update the blog</button>
+    <div class="form-group">
+        <label asp-for="BlogPost.BlogName">Blog Name</label>
+        <input asp-for="BlogPost.BlogName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BlogPost.BlogDescription">Blog Description</label>
+        <textarea asp-for="BlogPost.BlogDescription" class="form-control"></textarea>
+    </div>
+
+    <!-- Add other fields you want to edit -->
+
+    <div class="form-group">
+        <label asp-for="BlogPost.Account.AccountName">Account Name</label>
+        @Html.DropDownListFor(m => m.BlogPost.Account.AccountId, Model.AccountList, "Select an Account", new { @class = "form-control" })
+    </div>
+
+    <button type="submit">Update Blog Post</button>
 </form>
 
+<p>
+    <a asp-controller="BlogPost" asp-action="AllBlogPost">Back to All Blog Posts</a>
+</p>

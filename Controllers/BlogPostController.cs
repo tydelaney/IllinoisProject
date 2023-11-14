@@ -76,13 +76,33 @@ namespace IllinoisProject.Controllers
         //END OF ADD BLOG POST
 
         //Edit Blog Post START------------------------------------------------------------------------------------------
-        public async Task<IActionResult> EditBlogPost()
+        //public async Task<IActionResult> EditBlogPost()
+        //{
+        //    var accountDisplay = await db.Accounts.Select(x => new {Id = x.AccountId,Value = x.AccountName}).ToListAsync();
+        //    AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+        //    vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+        //    return View(vm);
+        //}
+
+        public async Task<IActionResult> EditBlogPost(int id)
         {
-            var accountDisplay = await db.Accounts.Select(x => new {Id = x.AccountId,Value = x.AccountName}).ToListAsync();
-            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+            var blogPost = await db.BlogPosts.Include(bp => bp.Account).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            var accountDisplay = await db.Accounts.Select(x => new { Id = x.AccountId, Value = x.AccountName }).ToListAsync();
+            var vm = new AccountBlogPostViewModel
+            {
+                BlogPost = blogPost,
+                AccountList = new SelectList(accountDisplay, "Id", "Value")
+            };
+
             return View(vm);
         }
+
         [HttpPost]
         public async Task<IActionResult> EditBlogPost(int id, AccountBlogPostViewModel vm)
         {
@@ -100,15 +120,34 @@ namespace IllinoisProject.Controllers
         //Edit blog post END--------------------------------
 
         //DELETE BlogPost START ------------------------------------------------------
-        public async Task<IActionResult> DeleteBlogPost()
+        //public async Task<IActionResult> DeleteBlogPost()
+        //{
+        //    var accountDisplay = await db.Accounts.Select(x => new {
+        //        Id =
+        //         x.AccountId,
+        //        Value = x.AccountName
+        //    }).ToListAsync();
+        //    AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
+        //    vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+        //    return View(vm);
+        //}
+
+        public async Task<IActionResult> DeleteBlogPost(int id)
         {
-            var accountDisplay = await db.Accounts.Select(x => new {
-                Id =
-                 x.AccountId,
-                Value = x.AccountName
-            }).ToListAsync();
-            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+            var blogPost = await db.BlogPosts.Include(bp => bp.Account).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            var accountDisplay = await db.Accounts.Select(x => new { Id = x.AccountId, Value = x.AccountName }).ToListAsync();
+            var vm = new AccountBlogPostViewModel
+            {
+                BlogPost = blogPost,
+                AccountList = new SelectList(accountDisplay, "Id", "Value")
+            };
+
             return View(vm);
         }
         [HttpPost]
@@ -120,17 +159,12 @@ namespace IllinoisProject.Controllers
             {
                 return NotFound();
             }
-            //update existing blog post with posted data
-            //blogPost.BlogName = vm.BlogPost.BlogName;
-            //blogPost.BlogDescription = vm.BlogPost.BlogDescription;
 
-            db.Remove(blogPost);
+            db.BlogPosts.Remove(blogPost);
             await db.SaveChangesAsync();
-            ViewData["BlogName"] = blogPost.BlogName;
-            ViewData["BlogDescription"] = blogPost.BlogDescription;
 
-           
             return RedirectToAction("AllBlogPost");
         }
+
     }
 }

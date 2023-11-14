@@ -109,7 +109,10 @@ namespace IllinoisProject.Controllers
             
             return RedirectToAction("AllAccount");
         }
-       //edit account start
+
+
+
+        //edit account start
         public IActionResult EditAccount(int id)
         {
             Account account;

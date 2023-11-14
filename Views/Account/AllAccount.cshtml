@@ -51,8 +51,8 @@
                                 }
                             </td>
                         <td><a asp-action="AddFriend" asp-route-id="@account.AccountId">Add</a></td>
-                        <td><a asp-action="EditAccount" asp-route-id="@User.Identity.Name">Edit</a></td>
-                        <td><a asp-action="DeleteAccount" asp-route-id="@User.Identity.Name">Delete</a></td>
+                        <td><a asp-action="EditAccount" asp-route-id="@account.AccountId">Edit</a></td>
+                        <td><a asp-action="DeleteAccount" asp-route-id="@account.AccountId">Delete</a></td>
                     </tr>
                     </tbody>
                 }
