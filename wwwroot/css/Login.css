@@ -1,0 +1,47 @@
+﻿/* Center the form and buttons horizontally and vertically */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Style your form as needed */
+form {
+    text-align: center;
+}
+
+/* Style Log In button */
+button {
+    margin-top: 10px; /* Add margin for spacing */
+    padding: 10px;
+    background-color: #007bff; /* Button color */
+    color: #fff; /* Text color */
+    border: none;
+    cursor: pointer;
+    font-weight: bold; /* Bold text */
+}
+
+    button:hover {
+        background-color: #0056b3; /* Button color on hover */
+    }
+
+/* Style Create an account hyperlink */
+p > button {
+    margin-top: 10px; /* Add margin for spacing */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Ensure the button takes only as much width as needed */
+}
+
+    p > button > a {
+        color: #fff; /* Text color */
+        font-weight: bold; /* Bold text */
+        text-decoration: none; /* Remove underline */
+    }
+
+        p > button > a:hover {
+            text-decoration: none; /* Remove underline on hover */
+            color: #fff; /* Hover text color */
+        }
