@@ -38,9 +38,9 @@
                 {
                     <tbody id="dataBody">
                     <tr>
-                        <td>@account.AccountId</td>
+                        <td>@account.Id</td>
                             <td><a asp-action="DisplayPictures" asp-route-id="@account.Picture">Picture</a></td>
-                        <td>@account.AccountName</td>
+                        <td>@account.Name</td>
                         <td>@account.UserName</td>
                             <td>
                                 @foreach (var blogPost in account.BlogPosts)
@@ -50,9 +50,9 @@
                                     </div>
                                 }
                             </td>
-                        <td><a asp-action="AddFriend" asp-route-id="@account.AccountId">Add</a></td>
-                        <td><a asp-action="EditAccount" asp-route-id="@User.Identity.Name">Edit</a></td>
-                        <td><a asp-action="DeleteAccount" asp-route-id="@User.Identity.Name">Delete</a></td>
+                        <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
+                        <td><a asp-action="EditAccount" asp-route-id="@account.Id">Edit</a></td>
+                            <td><a asp-action="DeleteAccount" asp-route-id="@account.Id">Delete</a></td>
                     </tr>
                     </tbody>
                 }

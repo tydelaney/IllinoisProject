@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
+
+<!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
             <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-            <a asp-controller="BlogPost" asp-action="AllBlogPost">BlogPosts</a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
         </div>
         <div class="navbar-right">
             <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
@@ -17,7 +19,8 @@
         </div>
     </div>
 </nav>
-<h3>Drafts</h3>
+
+<h3>My Published Blogs</h3>
 @{
     if (Model.Count() < 1)
     {
@@ -27,14 +30,11 @@
     {
         <table border="1">
             <tr>
-                <th>Date Drafted</th>
+                <th>Date Posted</th>
                 <th>Blog name</th>
                 <th>Blog Description</th>
-                <th>Account Name</th>
                 <th>Edit</th>
                 <th>Delete</th>
-
-
             </tr>
             @{
                 foreach (var blogPost in Model)
@@ -43,17 +43,13 @@
                         <td>@blogPost.PostDate</td>
                         <td>@blogPost.BlogName</td>
                         <td>@blogPost.BlogDescription</td>
-                        <td>@blogPost.Account.Name</td>
-
 
                         <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
 
                         <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
-
                     </tr>
                 }
             }
-
         </table>
     }
 }

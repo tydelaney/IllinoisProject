@@ -7,6 +7,7 @@ using IllinoisProject.Models;
 using System.Security.Cryptography.Xml;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Azure.Identity;
 
 namespace IllinoisProject.Controllers
 {
@@ -14,12 +15,12 @@ namespace IllinoisProject.Controllers
     {
 
         private AccountDbContext db;
-        private UserManager<ApplicationUser> userManager;
-        private SignInManager<ApplicationUser> signInManager;
+        private UserManager<Account> userManager;
+        private SignInManager<Account> signInManager;
         private RoleManager<IdentityRole> roleManager;
 
         // Constructor 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
+        public AccountController(UserManager<Account> userManager, SignInManager<Account> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -35,7 +36,7 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterViewModel model)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var domain = model.Email.Split('@').Last();
@@ -44,19 +45,14 @@ namespace IllinoisProject.Controllers
                     ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
                     return View(model);
                 }
-                // Compare Email and Account.AccountEmail
-                if (model.Email != model.Account.AccountEmail)
-                {
-                    ModelState.AddModelError("Account.AccountEmail", "Email and Confirm Email do not match.");
-                    return View(model);
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+               
+                var user = new Account { UserName = model.UserName, Email = model.Email, Name = model.Name };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     // Associate the account with the user
-                    model.Account.UserId = user.Id;
-                    db.Add(model.Account);
+                    //model.Account.Id = user.Id;
+                    //db.Add(model.Account);
                     await db.SaveChangesAsync();
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Login", "Account");
@@ -79,14 +75,17 @@ namespace IllinoisProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, false);
-                 
+                //var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, false, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("AllBlogPost", "BlogPost");
                 }
-
-                ModelState.AddModelError("", "Login Failure.");
+                else
+                {   
+                    ModelState.AddModelError("", "Login Failure.");
+                }
+                
             }
             return View(vm);
         }
@@ -142,8 +141,7 @@ namespace IllinoisProject.Controllers
         {
             var account = db.Accounts.Find(id);
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //var myAccount = db.Accounts.Find(currentUserId);
-            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.UserId == currentUserId);
+            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
             var myBlogPosts = myAccount.BlogPosts;
 
             //var blogposts = account.BlogPosts;

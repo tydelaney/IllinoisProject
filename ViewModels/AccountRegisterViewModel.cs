@@ -27,10 +27,8 @@ namespace IllinoisProject.ViewModels
 		[Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
 		public string ConfirmPassword { get; set; }
 
-        
-        public Account Account { get; set; }
-        //public SelectList AccountList { get; set; }
-        //public BlogPost BlogPost { get; set; }
+        public string Name { get; set; }
+        public string UserName { get; set; }
 
     }
 

@@ -9,13 +9,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IllinoisProject.Models
 {
-    public class Account
+    public class Account : IdentityUser
     {
-        public int AccountId { get; set; }
-        public string AccountEmail { get; set; }
-        public string AccountName { get; set; }
-        public string UserName { get; set; }
-        public string? UserId { get; set; }
+        public string Name { get; set; }
         public Picture? Picture { get; set; }
         public ICollection<BlogPost>? BlogPosts { get; set; }
         public Account()
