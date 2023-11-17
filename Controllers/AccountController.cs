@@ -27,34 +27,41 @@ namespace IllinoisProject.Controllers
             this.roleManager = roleManager;
             this.db = db;
         }
-       
-        public IActionResult Register()
-        {
-            return View();
-        }
+
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
+        public IActionResult Register() => View(new AccountRegisterViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Register(AccountRegisterViewModel model)
+        public async Task<IActionResult> Register(AccountRegisterViewModel vm)
         {
-
             if (ModelState.IsValid)
             {
-                var domain = model.Email.Split('@').Last();
+                var domain = vm.Email.Split('@').Last();
                 if (domain.ToLower() != "illinois.edu")
                 {
                     ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
-                    return View(model);
+                    return View(vm);
                 }
-               
-                var user = new Account { UserName = model.UserName, Email = model.Email, Name = model.Name };
-                var result = await userManager.CreateAsync(user, model.Password);
+
+                var user = await userManager.FindByEmailAsync(vm.Email);
+                if (user != null)
+                {
+                    ModelState.AddModelError("Email","This email address is already in use");
+                    return View(vm);
+                }
+
+                var newUser = new Account()
+                {
+                    UserName = vm.UserName, Email = vm.Email, Name = vm.Name 
+                };
+                var result = await userManager.CreateAsync(newUser, vm.Password);
                 if (result.Succeeded)
                 {
-                    // Associate the account with the user
-                    //model.Account.Id = user.Id;
-                    //db.Add(model.Account);
                     await db.SaveChangesAsync();
-                    await signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }
                 foreach (var error in result.Errors)
@@ -62,31 +69,43 @@ namespace IllinoisProject.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            return View(model);
+            return View("AllAccount");
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View(new AccountLoginViewModel());
 
         [HttpPost]
         public async Task<IActionResult> Login(AccountLoginViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(vm);
+
+            var user = await userManager.FindByEmailAsync(vm.Email);
+            if (user != null)
             {
-                //var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, false);
-                var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, false, false);
-                if (result.Succeeded)
+                var passwordCheck = await userManager.CheckPasswordAsync(user, vm.Password);
+                if (passwordCheck)
                 {
-                    return RedirectToAction("AllBlogPost", "BlogPost");
+                    var result = await signInManager.PasswordSignInAsync(user, vm.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("AddBlogPost", "BlogPost");
+                    }
                 }
-                else
-                {   
-                    ModelState.AddModelError("", "Login Failure.");
-                }
-                
+                ModelState.AddModelError("", "Wrong credentials. Please, try again!");
+                return View(vm);
+                ////var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, false);
+                //var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, false, false);
+                //if (result.Succeeded)
+                //{
+                //    return RedirectToAction("AllBlogPost", "BlogPost");
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "Login Failure.");
+                //}
+
             }
+            ModelState.AddModelError("", "Wrong credentials. Please, try again!");
             return View(vm);
         }
 
