@@ -3,19 +3,26 @@
 
 
 <!-- Add the profile icon code here -->
-<div class="profile-icon">
+<nav class="navbar">
+    <div class="navbar-links">
+        <div class="navbar-left">
+            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+        </div>
+        <div class="navbar-right">
+            <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="EditAccount" method="post">
+                <input type="hidden" asp-route-id="@User.Identity.Name" />
+                <img src="~/images/.png" alt="Profile Icon" class="profile-image">
+            </a>
+        </div>
+    </div>
+</nav>
 
-    <a asp-controller="Account" asp-action="EditAccount" method="post">
-        <input type="hidden" asp-route-id="@User.Identity.Name" />
-        <img src="~/images/.png" alt="Profile Icon" class="profile-image">
-    </a>
-</div>
 
-    <p>
-    <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-    <a asp-controller="BlogPost" asp-action="AllDraft" style="margin-left: 10px;"> Drafts </a>
-    <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
-    </p>
     <h3>Published Blogs</h3>
 @{
     if (Model.Count() < 1)
@@ -42,7 +49,7 @@
                         <td>@blogPost.PostDate</td>
                         <td>@blogPost.BlogName</td>
                         <td>@blogPost.BlogDescription</td>
-                        <td>@blogPost.Account.AccountName</td>
+                        <td>@blogPost.Account.Name</td>
                        
 
                         <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>

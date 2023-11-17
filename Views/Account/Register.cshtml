@@ -5,34 +5,24 @@
 <form asp-controller="Account" asp-action="Register" method="post">
 <div asp-validation-summary ="All"> </div>
 <br />
-	<label asp-for="Account.AccountName">Your Name</label>
-	<input asp-for="Account.AccountName" /> <br />
-
+	<label asp-for="Name">Your Name</label>
+	<input asp-for="Name" /> <br />
 <label asp-for="Email">	</label>
 <input asp-for ="Email" />
 	<span asp-validation-for="Email"></span>
 	<br />
-	<label asp-for="Account.AccountEmail">Confirm Email</label>
-	<input asp-for="Account.AccountEmail" />
-<br />
-	<label asp-for="Account.UserName">	</label>
-	<input asp-for="Account.UserName" />
-<br />
-
+	<label asp-for="UserName">	</label>
+	<input asp-for="UserName" />
+	<span asp-validation-for="Email"></span>
+	<br />
 <label asp-for="Password">	</label>
 <input asp-for="Password" />
 <span asp-validation-for="Password"></span>
-
-
 <br />
-
 	<label asp-for="ConfirmPassword">	</label>
 	<input asp-for="ConfirmPassword" />
 	<span asp-validation-for="ConfirmPassword"></span>
-
-
 	<br />
-
 	<button type="submit">Register</button>
 
 	<p>

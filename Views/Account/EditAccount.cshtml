@@ -2,11 +2,11 @@
 
 <h3>Edit Account</h3>
 <form asp-controller="Account" asp-action="EditAccount" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="AccountId" />
+    <input type="hidden" asp-for="Id" />
 
     <div class="form-group">
-        <label asp-for="AccountName">Account Name</label>
-        <input asp-for="AccountName" class="form-control" />
+        <label asp-for="Name">Account Name</label>
+        <input asp-for="Name" class="form-control" />
     </div>
 
     <div class="form-group">
@@ -15,8 +15,8 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="AccountEmail">Email</label>
-        <input asp-for="AccountEmail" class="form-control" />
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
     </div>
 
     <!-- Add an input field for picture upload -->

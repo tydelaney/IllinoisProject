@@ -7,6 +7,7 @@ using IllinoisProject.Models;
 using System.Security.Cryptography.Xml;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Azure.Identity;
 
 namespace IllinoisProject.Controllers
 {
@@ -14,51 +15,53 @@ namespace IllinoisProject.Controllers
     {
 
         private AccountDbContext db;
-        private UserManager<ApplicationUser> userManager;
-        private SignInManager<ApplicationUser> signInManager;
+        private UserManager<Account> userManager;
+        private SignInManager<Account> signInManager;
         private RoleManager<IdentityRole> roleManager;
 
         // Constructor 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
+        public AccountController(UserManager<Account> userManager, SignInManager<Account> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.db = db;
         }
-       
-        public IActionResult Register()
-        {
-            return View();
-        }
+
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
+        public IActionResult Register() => View(new AccountRegisterViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Register(AccountRegisterViewModel model)
+        public async Task<IActionResult> Register(AccountRegisterViewModel vm)
         {
-            
             if (ModelState.IsValid)
             {
-                var domain = model.Email.Split('@').Last();
+                var domain = vm.Email.Split('@').Last();
                 if (domain.ToLower() != "illinois.edu")
                 {
                     ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
-                    return View(model);
+                    return View(vm);
                 }
-                // Compare Email and Account.AccountEmail
-                if (model.Email != model.Account.AccountEmail)
+
+                var user = await userManager.FindByEmailAsync(vm.Email);
+                if (user != null)
                 {
-                    ModelState.AddModelError("Account.AccountEmail", "Email and Confirm Email do not match.");
-                    return View(model);
+                    ModelState.AddModelError("Email","This email address is already in use");
+                    return View(vm);
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await userManager.CreateAsync(user, model.Password);
+
+                var newUser = new Account()
+                {
+                    UserName = vm.UserName, Email = vm.Email, Name = vm.Name 
+                };
+                var result = await userManager.CreateAsync(newUser, vm.Password);
                 if (result.Succeeded)
                 {
-                    // Associate the account with the user
-                    model.Account.UserId = user.Id;
-                    db.Add(model.Account);
                     await db.SaveChangesAsync();
-                    await signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }
                 foreach (var error in result.Errors)
@@ -66,29 +69,33 @@ namespace IllinoisProject.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            return View(model);
+            return View("AllAccount");
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View(new AccountLoginViewModel());
 
         [HttpPost]
         public async Task<IActionResult> Login(AccountLoginViewModel vm)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, false);
-                 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("AllBlogPost", "BlogPost");
-                }
+            if (!ModelState.IsValid) return View(vm);
 
-                ModelState.AddModelError("", "Login Failure.");
+            var user = await userManager.FindByEmailAsync(vm.Email);
+            if (user != null)
+            {
+                var passwordCheck = await userManager.CheckPasswordAsync(user, vm.Password);
+                if (passwordCheck)
+                {
+                    var result = await signInManager.PasswordSignInAsync(user, vm.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("AddBlogPost", "BlogPost");
+                    }
+                }
+                ModelState.AddModelError("", "Wrong credentials. Please, try again!");
+                return View(vm);
             }
-            return View(vm);
+            ModelState.AddModelError("", "Wrong credentials. Please, try again!");
+                return View(vm);
         }
 
         public IActionResult AllAccount()
@@ -142,8 +149,7 @@ namespace IllinoisProject.Controllers
         {
             var account = db.Accounts.Find(id);
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //var myAccount = db.Accounts.Find(currentUserId);
-            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.UserId == currentUserId);
+            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
             var myBlogPosts = myAccount.BlogPosts;
 
             //var blogposts = account.BlogPosts;

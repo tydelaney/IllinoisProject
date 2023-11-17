@@ -1,5 +1,23 @@
 ﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
-
+<link rel="stylesheet" href="~/css/site.css" />
+<nav class="navbar">
+    <div class="navbar-links">
+        <div class="navbar-left">
+            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+            <a asp-controller="BlogPost" asp-action="AllBlogPost">BlogPosts</a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+        </div>
+        <div class="navbar-right">
+            <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="EditAccount" method="post">
+                <input type="hidden" asp-route-id="@User.Identity.Name" />
+                <img src="~/images/.png" alt="Profile Icon" class="profile-image">
+            </a>
+        </div>
+    </div>
+</nav>
 
 <h3>Edit the Blog</h3>
 
@@ -11,7 +29,7 @@
     <label asp-for="BlogPost.BlogDescription">Blog Description</label>
     <input asp-for="BlogPost.BlogDescription" />
     <br />
-    <label asp-for="Account.AccountId"></label>
+    <label asp-for="Account.Id"></label>
    
 
     <button type="submit">Update the blog</button>

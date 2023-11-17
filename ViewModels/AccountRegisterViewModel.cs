@@ -26,11 +26,12 @@ namespace IllinoisProject.ViewModels
 		[Display(Name = "Confirm Password")]
 		[Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
 		public string ConfirmPassword { get; set; }
-
-        
-        public Account Account { get; set; }
-        //public SelectList AccountList { get; set; }
-        //public BlogPost BlogPost { get; set; }
+        [Required(ErrorMessage = "Name is required"), MaxLength(256)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        [Required(ErrorMessage ="Username is required"), MaxLength(256)]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
     }
 
