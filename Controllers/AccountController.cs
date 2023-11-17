@@ -93,20 +93,9 @@ namespace IllinoisProject.Controllers
                 }
                 ModelState.AddModelError("", "Wrong credentials. Please, try again!");
                 return View(vm);
-                ////var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, false);
-                //var result = await signInManager.PasswordSignInAsync(vm.Email, vm.Password, false, false);
-                //if (result.Succeeded)
-                //{
-                //    return RedirectToAction("AllBlogPost", "BlogPost");
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("", "Login Failure.");
-                //}
-
             }
             ModelState.AddModelError("", "Wrong credentials. Please, try again!");
-            return View(vm);
+                return View(vm);
         }
 
         public IActionResult AllAccount()
