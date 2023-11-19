@@ -6,10 +6,12 @@ namespace IllinoisProject.Models
     public class Picture
     {
         public int PictureId { get; set; }
-        [Required]
-        public string AltAttribute { get; set; }
+
+        public string? AltAttribute { get; set; } // Make it nullable
+
         [NotMapped]
         public IFormFile MyPicture { get; set; }
+
         [DataType(DataType.Url)]
         public string Url { get; set; }
     }

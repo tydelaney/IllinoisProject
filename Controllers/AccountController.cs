@@ -116,20 +116,77 @@ namespace IllinoisProject.Controllers
             
             return RedirectToAction("AllAccount");
         }
-       //edit account start
-        public IActionResult EditAccount(int id)
+        //edit account start
+
+        public IActionResult EditAccount(string id)
         {
-            Account account;
-            account = db.Accounts.Find(id);
-            return View(account);
+            var user = db.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
+
         [HttpPost]
-        public IActionResult EditAccount(Account account)
+        public async Task<IActionResult> EditAccount(Account model, IFormFile profilePicture)
         {
-            db.Update(account);
-            db.SaveChanges();
-            return RedirectToAction("AllAccount");
+           
+                var user = await userManager.FindByIdAsync(model.Id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.Name = model.Name;
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+
+                // Update the profile picture if a new one is provided
+                if (profilePicture != null)
+                {
+                    // Save the new profile picture
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", profilePicture.FileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await profilePicture.CopyToAsync(stream);
+                    }
+
+                    // Update the user's profile picture URL
+                    user.Picture = new Picture { Url = profilePicture.FileName };
+                }
+
+                await userManager.UpdateAsync(user);
+
+                return RedirectToAction("AllAccount");
+            
+
+            return View(model);
         }
+
+
+        //public  async Task <IActionResult> EditAccount(string id)
+        //{
+        //    Account account;
+        //    account = db.Accounts.Find(id);
+        //    return View(account);
+        //}
+
+
+
+
+        //[HttpPost]
+        //public async Task <IActionResult> EditAccount(Account account)
+        //{
+
+        //    db.Update(account);
+        //    db.SaveChangesAsync();
+        //    return RedirectToAction("AllAccount");
+        //}
         //edit account end
         public IActionResult DeleteAccount(int id)
         {

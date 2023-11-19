@@ -19,14 +19,21 @@
         <input asp-for="Email" class="form-control" />
     </div>
 
-    <!-- Add an input field for picture upload -->
+    <!-- Display the current profile picture if available -->
+    @if (Model.Picture != null)
+    {
+        <div class="form-group">
+            <img src="~/images/@Model.Picture.Url" alt="Profile Picture" />
+        </div>
+    }
+
+    <!-- Add an input field for updating the profile picture -->
     <div class="form-group">
         <label for="ProfilePicture">Profile Picture</label>
         <input type="file" name="ProfilePicture" id="ProfilePicture" class="form-control" accept="image/*" />
     </div>
 
     <!-- Add other fields you want to edit -->
-    <!-- If Account has a collection like BlogPosts, you can iterate through them -->
 
     <button type="submit">Update Account</button>
 </form>
