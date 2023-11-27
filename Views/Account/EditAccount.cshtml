@@ -1,5 +1,22 @@
 ﻿@model IllinoisProject.Models.Account
 
+<!-- Add the profile icon code here -->
+<nav class="navbar">
+    <div class="navbar-links">
+        <div class="navbar-left">
+            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+        </div>
+        <div class="navbar-right">
+            <a asp-controller="Account" asp-action="AllAccount">Edit</a>
+
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+
+        </div>
+    </div>
+</nav>
 <h3>Edit Account</h3>
 <form asp-controller="Account" asp-action="EditAccount" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
