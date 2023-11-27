@@ -48,16 +48,56 @@ namespace IllinoisProject.Controllers
             return View(vm);
         }
         //Passing the PostBlog and Account class together with data through the viewModel
+        //[HttpPost]
+        //public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
+        //{
+        //    var account = await db.Accounts.FirstOrDefaultAsync(i => i.UserName == vm.Account.UserName);
+        //    vm.BlogPost.Account = account;
+        //    account.BlogPosts.Add(vm.BlogPost); // Add the BlogPost to the collection
+        //    db.Add(vm.BlogPost);
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("AllBlogPost");
+        //}
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
-            var account = await db.Accounts.FirstOrDefaultAsync(i => i.UserName == vm.Account.UserName);
-            vm.BlogPost.Account = account;
-            account.BlogPosts.Add(vm.BlogPost); // Add the BlogPost to the collection
+            // Retrieve the current user's ID
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (currentUserId == null)
+            {
+                // User is not logged in, handle accordingly (e.g., redirect to login)
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Retrieve the current user
+            var currentUser = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
+
+            if (currentUser == null)
+            {
+                // Current user not found, handle accordingly (e.g., show an error message)
+                return NotFound();
+            }
+
+            // Set the BlogPost's Account property to the current user
+            vm.BlogPost.Account = currentUser;
+
+            // Set the PostDate property to the current date and time
+            vm.BlogPost.PostDate = DateTime.Now;
+
+            // Add the BlogPost to the current user's collection
+            currentUser.BlogPosts.Add(vm.BlogPost);
+
+            // Add the BlogPost to the database
             db.Add(vm.BlogPost);
+
+            // Save changes to the database
             await db.SaveChangesAsync();
+
             return RedirectToAction("AllBlogPost");
         }
+
+
         //END OF ADD BLOG POST
         //Edit Blog Post START------------------------------------------------------------------------------------------
         public async Task<IActionResult> EditBlogPost(int id)
@@ -130,11 +170,29 @@ namespace IllinoisProject.Controllers
 
         public async Task<IActionResult> MyBlogPost()
         {
-            var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value; //UserManager.GetUserAsync(User);
-            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
-            var myBlogPosts = myAccount.BlogPosts;
-            //var blogPosts = await db.BlogPosts.Where(p => p.Account.UserId == currentUser.Id).ToListAsync();
+            var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (currentUserId == null)
+            {
+                // User is not logged in, handle accordingly (e.g., redirect to login)
+                return RedirectToAction("Login", "Account");
+            }
+
+            var myBlogPosts = await db.BlogPosts
+                .Include(bp => bp.Account)
+                .Where(bp => !bp.Draft && bp.Account.Id == currentUserId)
+                .ToListAsync();
+
             return View(myBlogPosts);
         }
+
+        //public async Task<IActionResult> MyBlogPost()
+        //{
+        //    var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value; //UserManager.GetUserAsync(User);
+        //    var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
+        //    var myBlogPosts = myAccount.BlogPosts;
+        //    //var blogPosts = await db.BlogPosts.Where(p => p.Account.UserId == currentUser.Id).ToListAsync();
+        //    return View(myBlogPosts);
+        //}
     }
 }

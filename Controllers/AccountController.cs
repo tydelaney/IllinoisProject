@@ -130,39 +130,6 @@ namespace IllinoisProject.Controllers
             return View(new List<Account> { currentUser });
         }
 
-
-        //public IActionResult MyAccount()
-        //{
-        //    // Retrieve the current user's ID
-        //    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        //    if (currentUserId == null)
-        //    {
-        //        // User is not logged in, handle accordingly (e.g., redirect to login)
-        //        return RedirectToAction("Login", "Account");
-        //    }
-
-        //    // Retrieve the current user and their associated blog posts
-        //    var currentUser = db.Users
-        //        .Include(u => u.BlogPosts)
-        //        .Include(u => u.Picture)
-        //        .FirstOrDefault(u => u.Id == currentUserId);
-
-        //    if (currentUser == null)
-        //    {
-        //        // Current user not found, handle accordingly (e.g., show an error message)
-        //        return NotFound();
-        //    }
-
-        //    return View(currentUser);
-        //}
-
-
-        //public IActionResult MyAccount()
-        //{
-        //    var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();
-        //    return View(db.Accounts);
-        //}
         public IActionResult AddAccount() 
         {
             return View();
@@ -221,7 +188,7 @@ namespace IllinoisProject.Controllers
 
                 await userManager.UpdateAsync(user);
 
-                return RedirectToAction("AllAccount");
+                return RedirectToAction("MyAccount");
             
 
             return View(model);

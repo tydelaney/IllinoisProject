@@ -4,7 +4,20 @@
 
 <!-- Add the profile icon code here -->
 <nav class="navbar">
-    <!-- Your existing navbar code -->
+    <div class="navbar-links">
+        <div class="navbar-left">
+            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+        </div>
+        <div class="navbar-right">
+            <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+
+        </div>
+    </div>
 </nav>
 
 <h3> My Account Information</h3>
@@ -22,7 +35,6 @@ else
                 <th>Account Name</th>
                 <th>Username</th>
                 <th>Blog Posts</th>
-                <th>Add</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -42,7 +54,6 @@ else
                             </div>
                         }
                     </td>
-                    <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
                     <td><a asp-action="EditAccount" asp-route-id="@account.Id">Edit</a></td>
                     <td><a asp-action="DeleteAccount" asp-route-id="@account.Id">Delete</a></td>
                 </tr>

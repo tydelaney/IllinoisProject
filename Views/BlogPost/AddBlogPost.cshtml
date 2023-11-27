@@ -9,15 +9,14 @@
             <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
         </div>
         <div class="navbar-right">
-            <a asp-controller="Account" asp-action="AllAccount">Edit</a>
-
+            <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
             <a asp-controller="Account" asp-action="Login">Login</a>
             <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
 
         </div>
     </div>
 </nav>
-
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
     <h2>Add a Blog Post</h2>
     <label asp-for="BlogPost.BlogName">Blog Title</label>
@@ -26,14 +25,12 @@
     <label asp-for="BlogPost.BlogDescription">Description</label>
     <input asp-for="BlogPost.BlogDescription" rows="8" cols="50" />
     <br />
-    <input type="date" asp-for="BlogPost.PostDate" />
-    <br />
-    <label asp-for="Account.UserName">User Name</label>
-    <select asp-for="Account.UserName" asp-items="@Model.AccountList"></select>
-    <br />
+    <!-- <input type="date" asp-for="BlogPost.PostDate" />
+    <br /> -->
     <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />
     <input type="radio" asp-for="BlogPost.Draft" value="true" /> <label>Draft</label>
     <input type="radio" asp-for="BlogPost.Draft" value="false" /> <label>Publish</label>
     <br />
     <button type="submit">Add the Blog</button>
 </form>
+
