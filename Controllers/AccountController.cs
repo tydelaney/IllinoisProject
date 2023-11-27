@@ -117,7 +117,7 @@ namespace IllinoisProject.Controllers
             return RedirectToAction("AllAccount");
         }
        //edit account start
-        public IActionResult EditAccount(int id)
+        public IActionResult EditAccount(string id)
         {
             Account account;
             account = db.Accounts.Find(id);
@@ -126,6 +126,7 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public IActionResult EditAccount(Account account)
         {
+            
             db.Update(account);
             db.SaveChanges();
             return RedirectToAction("AllAccount");
@@ -151,8 +152,6 @@ namespace IllinoisProject.Controllers
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
             var myBlogPosts = myAccount.BlogPosts;
-
-            //var blogposts = account.BlogPosts;
             return View(myBlogPosts);
         }
         public IActionResult AddPicture()

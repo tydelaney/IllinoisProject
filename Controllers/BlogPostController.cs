@@ -85,12 +85,7 @@ namespace IllinoisProject.Controllers
         //DELETE BlogPost START ------------------------------------------------------
         public async Task<IActionResult> DeleteBlogPost()
         {
-            var accountDisplay = await db.Accounts.Select(x => new
-            {
-                Id =
-                 x.Id,
-                Value = x.Name
-            }).ToListAsync();
+            var accountDisplay = await db.Accounts.Select(x => new {Id = x.Id, Value = x.Name}).ToListAsync();
             AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
             vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
             return View(vm);
