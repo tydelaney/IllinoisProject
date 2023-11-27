@@ -60,11 +60,22 @@ namespace IllinoisProject.Controllers
         }
         //END OF ADD BLOG POST
         //Edit Blog Post START------------------------------------------------------------------------------------------
-        public async Task<IActionResult> EditBlogPost()
+        public async Task<IActionResult> EditBlogPost(int id)
         {
-            var accountDisplay = await db.Accounts.Select(x => new { Id = x.Id, Value = x.Name }).ToListAsync();
-            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
+            var blogPost = await db.BlogPosts.Include(bp => bp.Account).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            var accountDisplay = await db.Accounts.Select(x => new { Id = x.Id, Value = x.UserName }).ToListAsync();
+            var vm = new AccountBlogPostViewModel
+            {
+                BlogPost = blogPost,
+                AccountList = new SelectList(accountDisplay, "Id", "Value")
+            };
+
             return View(vm);
         }
         [HttpPost]
@@ -83,18 +94,25 @@ namespace IllinoisProject.Controllers
         //Edit blog post END--------------------------------
 
         //DELETE BlogPost START ------------------------------------------------------
-        public async Task<IActionResult> DeleteBlogPost()
+        public async Task<IActionResult> DeleteBlogPost(int id)
         {
-            var accountDisplay = await db.Accounts.Select(x => new
+            // Assuming you have logic to retrieve the blog post from the database
+            var blogPost = await db.BlogPosts.FindAsync(id);
+
+            if (blogPost == null)
             {
-                Id =
-                 x.Id,
-                Value = x.Name
-            }).ToListAsync();
-            AccountBlogPostViewModel vm = new AccountBlogPostViewModel();
-            vm.AccountList = new SelectList(accountDisplay, "Id", "Value");
-            return View(vm);
+                return NotFound();
+            }
+
+            var viewModel = new AccountBlogPostViewModel
+            {
+                BlogPost = blogPost
+                // Add any other properties you need to initialize in the view model
+            };
+
+            return View(viewModel);
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteBlogPost(int id, AccountBlogPostViewModel vm)
         {
