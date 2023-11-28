@@ -1,0 +1,39 @@
+﻿@model IllinoisProject.Models.BlogPost
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="blog-post-container">
+    <h1>@Model.BlogName</h1>
+    <p class="post-date">Posted on: @Model.PostDate.ToShortDateString()</p>
+    <p class="author-name">Author: @Model.Account.Name</p>
+    <div class="blog-description">
+        @Model.BlogDescription
+    </div>
+
+    <h2>Comments</h2>
+    <div class="comments-section">
+        @if (Model.Comments.Any())
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <p>@comment.CommentDescription</p>
+                    <p class="comment-info">Posted by @comment.User.Name on @comment.dateTime</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No comments yet. Be the first to comment!</p>
+        }
+    </div>
+
+    <!-- Form to add a new comment -->
+    @using (Html.BeginForm("AddComment", "BlogPost", FormMethod.Post))
+    {
+        <input type="hidden" name="blogPostId" value="@Model.BlogPostId" />
+        <textarea name="commentDescription" placeholder="Add a comment..."></textarea>
+        <input type="submit" value="Add Comment" />
+    }
+</div>
+
+

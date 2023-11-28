@@ -20,43 +20,28 @@
 </nav>
 
 
-    <h3>Published Blogs</h3>
-@{
-    if (Model.Count() < 1)
+<h3>Published Blogs</h3>
+
+<div class="blog-posts-container">
+    @if (Model.Any())
     {
-        <p>No Blogs yet.</p>
+        foreach (var blogPost in Model)
+        {
+            <div class="blog-post-card">
+                <h4>@blogPost.BlogName</h4>
+                <p class="post-date">Posted on: @blogPost.PostDate.ToShortDateString() by @blogPost.Account.Name</p>
+                <p class="blog-description">@blogPost.BlogDescription</p>
+                <div class="blog-post-actions">
+                    <span>Comments: @blogPost.Comments.Count</span>
+                    <a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a>
+                    <a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a>
+                    <a asp-action="ViewBlogPost" asp-route-id="@blogPost.BlogPostId">View Post</a>
+                </div>
+            </div>
+        }
     }
     else
     {
-        <table border="1">
-            <tr>
-                <th>Date Posted</th>
-            <th>Blog name</th>
-            <th>Blog Description</th>
-             <th>Account Name</th>
-             <th>Edit</th>
-             <th>Delete</th>
-
-            
-            </tr>
-            @{
-                foreach (var blogPost in Model)
-                {
-                    <tr>
-                        <td>@blogPost.PostDate</td>
-                        <td>@blogPost.BlogName</td>
-                        <td>@blogPost.BlogDescription</td>
-                        <td>@blogPost.Account.Name</td>
-                       
-
-                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
-                        
-                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
-                        
-                    </tr>
-                }
-            }
-        
-        </table>
+        <p>No Blogs yet.</p>
     }
-}
+</div>
