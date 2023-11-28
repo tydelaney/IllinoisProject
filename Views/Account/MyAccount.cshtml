@@ -49,12 +49,21 @@ else
                     <td>@account.Name</td>
                     <td>@account.UserName</td>
                     <td>
-                        @foreach (var blogPost in account.BlogPosts)
+                        @if (account.BlogPostAccounts != null)
+                        {
+                            @foreach (var blogPostAccount in account.BlogPostAccounts)
+                            {
+                                <div>
+                                    @blogPostAccount.BlogPost.BlogName
+                                </div>
+                            }
+                        }
+                        @* @foreach (var blogPost in account.BlogPosts)
                         {
                             <div>
                                 @blogPost.BlogName
                             </div>
-                        }
+                        } *@
                     </td>
                     <td><a asp-action="EditAccount" asp-route-id="@account.Id">Edit</a></td>
                     <td><a asp-action="DeleteAccount" asp-route-id="@account.Id">Delete</a></td>

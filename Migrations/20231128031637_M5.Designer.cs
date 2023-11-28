@@ -4,6 +4,7 @@ using IllinoisProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IllinoisProject.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    partial class AccountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231128031637_M5")]
+    partial class M5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,6 +99,25 @@ namespace IllinoisProject.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("IllinoisProject.Models.Author", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorId");
+
+                    b.ToTable("Authors");
+                });
+
             modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
                 {
                     b.Property<int>("BlogPostId")
@@ -127,33 +149,6 @@ namespace IllinoisProject.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("BlogPosts");
-                });
-
-            modelBuilder.Entity("IllinoisProject.Models.BlogPostAccount", b =>
-                {
-                    b.Property<int>("BlogPostAccountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogPostAccountId"));
-
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsEditor")
-                        .HasColumnType("bit");
-
-                    b.HasKey("BlogPostAccountId");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("BlogPostId");
-
-                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
@@ -357,25 +352,6 @@ namespace IllinoisProject.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("IllinoisProject.Models.BlogPostAccount", b =>
-                {
-                    b.HasOne("IllinoisProject.Models.Account", "Account")
-                        .WithMany("BlogPostAccounts")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
-                        .WithMany("BlogPostAccounts")
-                        .HasForeignKey("BlogPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("BlogPost");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -429,14 +405,7 @@ namespace IllinoisProject.Migrations
 
             modelBuilder.Entity("IllinoisProject.Models.Account", b =>
                 {
-                    b.Navigation("BlogPostAccounts");
-
                     b.Navigation("BlogPosts");
-                });
-
-            modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
-                {
-                    b.Navigation("BlogPostAccounts");
                 });
 #pragma warning restore 612, 618
         }

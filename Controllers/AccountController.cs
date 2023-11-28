@@ -268,9 +268,10 @@ namespace IllinoisProject.Controllers
             //return RedirectToAction("AllAccount");
         }
 
-        public  async Task<IActionResult> AddFriend(int id)
+        public  async Task<IActionResult> AddFriend(Account model)
         {
-            var account = db.Accounts.Find(id);
+            var account = await userManager.FindByIdAsync(model.Id);
+            //var account = db.Accounts.Find(id);
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
             var myBlogPosts = myAccount.BlogPosts;
