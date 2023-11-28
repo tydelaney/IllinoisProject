@@ -5,6 +5,7 @@ using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IllinoisProject.Controllers
 {
@@ -30,6 +31,7 @@ namespace IllinoisProject.Controllers
             return View(publishedBlogPosts);
         }
         //For viewing Drafts
+        [Authorize]
         public async Task<IActionResult> AllDraft()
         {
             var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
@@ -58,7 +60,9 @@ namespace IllinoisProject.Controllers
         //    await db.SaveChangesAsync();
         //    return RedirectToAction("AllBlogPost");
         //}
+        [Authorize]
         [HttpPost]
+       
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
             // Retrieve the current user's ID
@@ -168,6 +172,7 @@ namespace IllinoisProject.Controllers
             return RedirectToAction("MyBlogPost");
         }
 
+        [Authorize]
         public async Task<IActionResult> MyBlogPost()
         {
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;

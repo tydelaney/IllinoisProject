@@ -8,6 +8,7 @@ using System.Security.Cryptography.Xml;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Azure.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IllinoisProject.Controllers
 {
@@ -104,6 +105,8 @@ namespace IllinoisProject.Controllers
             return View(db.Accounts);
         }
 
+
+        [Authorize]
         public IActionResult MyAccount()
         {
             // Retrieve the current user's ID
@@ -195,24 +198,6 @@ namespace IllinoisProject.Controllers
         }
 
 
-        //public  async Task <IActionResult> EditAccount(string id)
-        //{
-        //    Account account;
-        //    account = db.Accounts.Find(id);
-        //    return View(account);
-        //}
-
-
-
-
-        //[HttpPost]
-        //public async Task <IActionResult> EditAccount(Account account)
-        //{
-
-        //    db.Update(account);
-        //    db.SaveChangesAsync();
-        //    return RedirectToAction("AllAccount");
-        //}
         //edit account end
         public IActionResult DeleteAccount(string id)
         {

@@ -103,14 +103,14 @@ By following these steps, you'll create a pull request for your changes, get the
 
 
 TO DO LIST
-1. Merge all the code
+1. Merge all the code 
 2. Add Password reset
 3. Get rid of add account
-4. profile picture
-5. Add email field in edit account
+4. profile picture -- DONE
+5. Add email field in edit account -- DONE 
 7. Transfer Net users data to account -fixed
 8. Fix net users email inserting as username -stays
 9. DK add all the comment stuff -in progress
-10. Add ability to publish draft blog
+10. Add ability to publish draft blog -- DONE
 11. Need to user userManger or Account to get the account of the person logged in into the allblogposts
-so I can see myblogpost because it doesn't know who is logged in.
+so I can see myblogpost because it doesn't know who is logged in. --DONE

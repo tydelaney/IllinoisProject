@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<IllinoisProject.Models.Account>
 <link rel="stylesheet" href="~/css/site.css" />
 
-<!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
@@ -9,14 +8,12 @@
             <a asp-controller="BlogPost" asp-action="AllDraft"> My Drafts </a>
             <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
             <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
-
         </div>
         <div class="navbar-right">
             <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
             <a asp-controller="Account" asp-action="Login">Login</a>
             <a asp-controller="Account" asp-action="Register">Register</a>
             <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
-
         </div>
     </div>
 </nav>
@@ -24,79 +21,87 @@
 <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search for users">
 <br />
 
-    <h3> All Account list</h3>
-@{
-    if(Model.Count() < 1)
-    {
-        <p>No accounts yet.</p>
-    }
-    else
-    {
-        <table border="1">
-            <thead>
+<h3>All Account list</h3>
+@if (Model.Count() < 1)
+{
+    <p>No accounts yet.</p>
+}
+else
+{
+    <table border="1">
+        <thead>
             <tr>
-               <!-- <th> Account ID</th> -->
-                <th> Account Name</th>
-                    <!-- <th> Username</th> -->
-                <th> Blog Posts</th>
-                <th> Add</th>
-                    <!-- <th> Edit</th> -->
-                    <!--  <th> Delete</th> -->
+                <th>Account Name</th>
+                <th>Blog Posts</th>
+                <th>Add</th>
             </tr>
-            </thead>
-            @{
-
-                foreach(var account in Model)
-                {
-                    <tbody id="dataBody">
-                    <tr>
-                            <!--  <td>@account.Id</td> -->
-                        <td>@account.Name</td>
-                            <!-- <td>@account.UserName</td> -->
-                            <td>
-                                @foreach (var blogPost in account.BlogPosts)
-                                {
-                                    <div>
-                                        @blogPost.BlogName
-                                    </div>
-                                }
-                            </td>
-                        <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
-                            <!-- <td><a asp-action="EditAccount" asp-route-id="@account.Id">Edit</a></td> -->
-                            <!-- <td><a asp-action="DeleteAccount" asp-route-id="@account.Id">Delete</a></td> -->
-                    </tr>
-                    </tbody>
-                }
-            }
-        </table>
-        <script>
-            function searchFunction() {
-                var input, filter, rows, i, txtValue;
-                input = document.getElementById("searchInput");
-                filter = input.value.trim().toUpperCase();
-                rows = document.querySelectorAll("#dataBody tr");
-
-                for (i = 0; i < rows.length; i++) {
-                    var row = rows[i];
-                    var cells = row.getElementsByTagName("td");
-                    var rowMatch = false;
-
-                    for (var j = 0; j < cells.length; j++) {
-                        txtValue = cells[j].textContent || cells[j].innerText;
-
-                        if (txtValue.trim().toUpperCase().indexOf(filter) > -1) {
-                            rowMatch = true;
-                            break; // If any cell in the row matches, display the entire row
+        </thead>
+        <tbody id="dataBody">
+            @foreach (var account in Model)
+            {
+                <tr>
+                    <td>@account.Name</td>
+                    <!-- ... (existing code) 
+                    <td>
+                        @if (account.Picture != null)
+                        {
+                            var picture = account.Picture;
+                            
+                            if (picture != null)
+                            {
+                                <img src="~/images/@picture.Url" alt="Profile Picture" width="50" height="50" />
+                            }
+                            else
+                            {
+                                <p>No picture available</p>
+                            }
                         }
-                    }
+                        else
+                        {
+                            <p>No picture available</p>
+                        }
+                    </td>
+                   -->
 
-                    if (rowMatch) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
+                    <td>
+                        @foreach (var blogPost in account.BlogPosts)
+                        {
+                            <div>@blogPost.BlogName</div>
+                        }
+                    </td>
+                    <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function searchFunction() {
+            var input, filter, rows, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.trim().toUpperCase();
+            rows = document.querySelectorAll("#dataBody tr");
+
+            for (i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
+                var rowMatch = false;
+
+                for (var j = 0; j < cells.length; j++) {
+                    txtValue = cells[j].textContent || cells[j].innerText;
+
+                    if (txtValue.trim().toUpperCase().indexOf(filter) > -1) {
+                        rowMatch = true;
+                        break;
                     }
                 }
+
+                if (rowMatch) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
             }
-        </script>
-    }
+        }
+    </script>
 }
