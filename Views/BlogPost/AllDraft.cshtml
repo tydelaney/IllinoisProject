@@ -1,12 +1,15 @@
-﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+﻿@using System.Security.Claims;
+@model IEnumerable<IllinoisProject.Models.BlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
 <!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
             <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> My Drafts </a>
             <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+            <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
+
         </div>
         <div class="navbar-right">
             <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
@@ -18,42 +21,38 @@
     </div>
 </nav>
 <h3>Drafts</h3>
-@{
-    if (Model.Count() < 1)
-    {
-        <p>No Blogs yet.</p>
-    }
-    else
-    {
-        <table border="1">
+@if (!Model.Any())
+{
+    <p>No Blogs yet.</p>
+}
+else
+{
+    <table border="1">
+        <tr>
+            <th>Date Drafted</th>
+            <th>Blog name</th>
+            <th>Blog Description</th>
+            <th>Account Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Publish</th>
+        </tr>
+        @foreach (var blogPost in Model.Where(bp => bp.Draft && bp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
+        {
             <tr>
-                <th>Date Drafted</th>
-                <th>Blog name</th>
-                <th>Blog Description</th>
-                <th>Account Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
-
-
+                <td>@blogPost.PostDate</td>
+                <td>@blogPost.BlogName</td>
+                <td>@blogPost.BlogDescription</td>
+                <td>@blogPost.Account.Name</td>
+                <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
+                <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
+                <td>
+                    @if (blogPost.Draft)
+                    {
+                        <a asp-action="PublishDraft" asp-route-id="@blogPost.BlogPostId">Publish</a>
+                    }
+                </td>
             </tr>
-            @{
-                foreach (var blogPost in Model)
-                {
-                    <tr>
-                        <td>@blogPost.PostDate</td>
-                        <td>@blogPost.BlogName</td>
-                        <td>@blogPost.BlogDescription</td>
-                        <td>@blogPost.Account.Name</td>
-
-
-                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
-
-                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
-
-                    </tr>
-                }
-            }
-
-        </table>
-    }
+        }
+    </table>
 }

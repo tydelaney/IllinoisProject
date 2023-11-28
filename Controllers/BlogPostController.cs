@@ -94,7 +94,7 @@ namespace IllinoisProject.Controllers
             // Save changes to the database
             await db.SaveChangesAsync();
 
-            return RedirectToAction("AllBlogPost");
+            return RedirectToAction("MyBlogPost");
         }
 
 
@@ -129,7 +129,7 @@ namespace IllinoisProject.Controllers
             db.Update(blogPost);
             await db.SaveChangesAsync();
 
-            return RedirectToAction("AllBlogPost");
+            return RedirectToAction("MyBlogPost");
         }
         //Edit blog post END--------------------------------
 
@@ -165,7 +165,7 @@ namespace IllinoisProject.Controllers
             await db.SaveChangesAsync();
             ViewData["BlogName"] = blogPost.BlogName;
             ViewData["BlogDescription"] = blogPost.BlogDescription;
-            return RedirectToAction("AllBlogPost");
+            return RedirectToAction("MyBlogPost");
         }
 
         public async Task<IActionResult> MyBlogPost()
@@ -186,13 +186,29 @@ namespace IllinoisProject.Controllers
             return View(myBlogPosts);
         }
 
-        //public async Task<IActionResult> MyBlogPost()
-        //{
-        //    var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value; //UserManager.GetUserAsync(User);
-        //    var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
-        //    var myBlogPosts = myAccount.BlogPosts;
-        //    //var blogPosts = await db.BlogPosts.Where(p => p.Account.UserId == currentUser.Id).ToListAsync();
-        //    return View(myBlogPosts);
-        //}
+        public async Task<IActionResult> PublishDraft(int id)
+        {
+            var draftBlogPost = await db.BlogPosts.FindAsync(id);
+
+            if (draftBlogPost == null || !draftBlogPost.Draft)
+            {
+                return NotFound();
+            }
+
+            // Update the draft status to publish
+            draftBlogPost.Draft = false;
+
+            // Set the PostDate property to the current date and time
+            draftBlogPost.PostDate = DateTime.Now;
+
+            // Save changes to the database
+            await db.SaveChangesAsync();
+
+            // Redirect to the list of all published blog posts
+            return RedirectToAction("MyBlogPost");
+        }
+
+
+
     }
 }
