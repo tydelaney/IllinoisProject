@@ -27,7 +27,7 @@ namespace IllinoisProject.Controllers
         public async Task<IActionResult> AllBlogPost()
         {
             var blogPosts = await db.BlogPosts
-                .Include(bp => bp.Account) // Include the account related to the blog post
+                .Include(bp => bp.AccountBlogPosts) // Include the account related to the blog post
                 .Include(bp => bp.Comments) // Include the comments related to the blog post
                 .Where(bp => !bp.Draft) // Filter out drafts
                 .ToListAsync();
@@ -39,7 +39,7 @@ namespace IllinoisProject.Controllers
         [Authorize]
         public async Task<IActionResult> AllDraft()
         {
-            var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
+            var blogPost = await db.BlogPosts.Include(c => c.AccountBlogPosts).ToListAsync();
             var draftBlogPosts = blogPost.Where(blogPost => blogPost.Draft);
             return View(draftBlogPosts);
         }
@@ -87,15 +87,14 @@ namespace IllinoisProject.Controllers
                 // Current user not found, handle accordingly (e.g., show an error message)
                 return NotFound();
             }
-
             // Set the BlogPost's Account property to the current user
-            vm.BlogPost.Account = currentUser;
+            //vm.BlogPost.AccountBlogPosts = currentUser;
 
             // Set the PostDate property to the current date and time
             vm.BlogPost.PostDate = DateTime.Now;
 
             // Add the BlogPost to the current user's collection
-            currentUser.BlogPosts.Add(vm.BlogPost);
+            currentUser.AccountBlogPosts.Add(vm.AccountBlogPost);
 
             // Add the BlogPost to the database
             db.Add(vm.BlogPost);
@@ -111,7 +110,7 @@ namespace IllinoisProject.Controllers
         //Edit Blog Post START------------------------------------------------------------------------------------------
         public async Task<IActionResult> EditBlogPost(int id)
         {
-            var blogPost = await db.BlogPosts.Include(bp => bp.Account).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+            var blogPost = await db.BlogPosts.Include(bp => bp.AccountBlogPosts).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
 
             if (blogPost == null)
             {
@@ -177,24 +176,24 @@ namespace IllinoisProject.Controllers
             return RedirectToAction("MyBlogPost");
         }
 
-        [Authorize]
-        public async Task<IActionResult> MyBlogPost()
-        {
-            var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //[Authorize]
+        //public async Task<IActionResult> MyBlogPost()
+        //{
+        //    var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            if (currentUserId == null)
-            {
-                // User is not logged in, handle accordingly (e.g., redirect to login)
-                return RedirectToAction("Login", "Account");
-            }
+        //    if (currentUserId == null)
+        //    {
+        //        // User is not logged in, handle accordingly (e.g., redirect to login)
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var myBlogPosts = await db.BlogPosts
-                .Include(bp => bp.Account)
-                .Where(bp => !bp.Draft && bp.Account.Id == currentUserId)
-                .ToListAsync();
+        //    //var myBlogPosts = await db.BlogPosts
+        //    //    .Include(bp => bp.AccountBlogPosts)
+        //    //    .Where(bp => !bp.Draft && bp.AccountBlogPost.Id == currentUserId)
+        //    //    .ToListAsync();
 
-            return View(myBlogPosts);
-        }
+        //    return View(myBlogPosts);
+        //}
 
 
         public async Task<IActionResult> PublishDraft(int id)
@@ -222,7 +221,7 @@ namespace IllinoisProject.Controllers
             var blogPost = await db.BlogPosts
                 .Include(bp => bp.Comments) // First include the Comments
                 .ThenInclude(comment => comment.User) // Then include the User of each Comment
-                .Include(bp => bp.Account) // Include the Account of the BlogPost
+                .Include(bp => bp.AccountBlogPosts) // Include the Account of the BlogPost
                 .FirstOrDefaultAsync(bp => bp.BlogPostId == id);
 
             if (blogPost == null)
