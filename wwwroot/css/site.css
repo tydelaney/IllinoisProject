@@ -150,3 +150,84 @@ input[type="submit"] {
             text-decoration: underline;
         }
 
+
+
+.toggle-switch {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 10px;
+}
+
+    .toggle-switch input[type="radio"] {
+        display: none; /* Hide the default radio button */
+    }
+
+    .toggle-switch label {
+        background-color: #ddd;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .toggle-switch input[type="radio"]:checked + label {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .toggle-switch label:first-of-type {
+        margin-right: 10px;
+    }
+
+form {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    form h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    form label {
+        display: block;
+        margin-top: 10px;
+        color: #333;
+    }
+
+    form input[type="text"],
+    form input[type="date"],
+    form input[type="radio"],
+    form select,
+    form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box; /* Makes sure padding doesn't affect overall width */
+    }
+
+    form button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        form button:hover {
+            background-color: #0056b3;
+        }

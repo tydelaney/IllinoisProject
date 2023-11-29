@@ -8,6 +8,7 @@ using System.Security.Cryptography.Xml;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Azure.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IllinoisProject.Controllers
 {
@@ -98,12 +99,14 @@ namespace IllinoisProject.Controllers
                 return View(vm);
         }
 
+        [Authorize]
         public IActionResult AllAccount()
         {
             var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();
             return View(db.Accounts);
         }
 
+        [Authorize]
         public  IActionResult AddAccount() 
         {
             return View();
@@ -118,6 +121,7 @@ namespace IllinoisProject.Controllers
         }
         //edit account start
 
+        [Authorize]
         public IActionResult EditAccount(string id)
         {
             var user = db.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id == id);
@@ -188,6 +192,8 @@ namespace IllinoisProject.Controllers
         //    return RedirectToAction("AllAccount");
         //}
         //edit account end
+
+        [Authorize]
         public IActionResult DeleteAccount(string id)
         {
 

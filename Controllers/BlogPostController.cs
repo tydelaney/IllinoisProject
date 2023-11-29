@@ -5,9 +5,12 @@ using IllinoisProject.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace IllinoisProject.Controllers
 {
+    [Authorize]
     public class BlogPostController : Controller
     {
         AccountDbContext db;
@@ -22,7 +25,7 @@ namespace IllinoisProject.Controllers
             this.roleManager = roleManager;
             this.db = db;
         }
-
+        
         public async Task<IActionResult> AllBlogPost()
         {
             var blogPosts = await db.BlogPosts
@@ -44,14 +47,22 @@ namespace IllinoisProject.Controllers
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
         public async Task<IActionResult> AddBlogPost()
         {
+            var currentUserId = userManager.GetUserId(User); // Get the ID of the current user
+            var currentUser = await userManager.FindByIdAsync(currentUserId);
 
-            var accountDisplay = await db.Users.Select(x => new { Id = x.UserName, Value = x.UserName }).ToListAsync();
             var vm = new AccountBlogPostViewModel
             {
-                AccountList = new SelectList(accountDisplay, "Id", "Value")
+                // Create a select list with only the current user
+                AccountList = new SelectList(new List<SelectListItem>
+        {
+            new SelectListItem { Value = currentUser.UserName, Text = currentUser.UserName }
+        }, "Value", "Text"),
+                Account = new Account { UserName = currentUser.UserName } // Set the Account's UserName for the form
             };
+
             return View(vm);
         }
+
         //Passing the PostBlog and Account class together with data through the viewModel
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)

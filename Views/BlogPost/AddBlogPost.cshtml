@@ -28,12 +28,20 @@
     <br />
     <input type="date" asp-for="BlogPost.PostDate" />
     <br />
+    <!--
     <label asp-for="Account.UserName">User Name</label>
-    <select asp-for="Account.UserName" asp-items="@Model.AccountList"></select>
+    <p>@Model.Account.UserName</p>
+     -->
+    <input type="hidden" asp-for="Account.UserName" />
     <br />
-    <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />
-    <input type="radio" asp-for="BlogPost.Draft" value="true" /> <label>Draft</label>
-    <input type="radio" asp-for="BlogPost.Draft" value="false" /> <label>Publish</label>
+    <div class="toggle-switch">
+        <input type="radio" id="draft" name="BlogPost.Draft" value="true" />
+        <label for="draft">Draft</label>
+
+        <input type="radio" id="publish" name="BlogPost.Draft" value="false" />
+        <label for="publish">Publish</label>
+    </div>
+
     <br />
     <button type="submit">Add the Blog</button>
 </form>

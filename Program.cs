@@ -23,7 +23,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=BlogPost}/{action=AllBlogPost}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 
 
