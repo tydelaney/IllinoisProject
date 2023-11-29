@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 @{
     
         <table border="1">
@@ -16,8 +16,8 @@
                 foreach (var blogPost in Model)
                 {
                     <tr>
-                        <td>@blogPost.PostDate</td>
-                        <td>@blogPost.BlogName</td>
+                        <td>@blogPost.BlogPost.PostDate</td>
+                        <td>@blogPost.BlogPost.BlogName</td>
                         <td>@blogPost.Account.Name</td>
                         
                     </tr>

@@ -1,5 +1,5 @@
 ﻿@using System.Security.Claims;
-@model IEnumerable<IllinoisProject.Models.BlogPost>
+@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
 <!-- Add the profile icon code here -->
 <nav class="navbar">
@@ -37,19 +37,19 @@ else
             <th>Delete</th>
             <th>Publish</th>
         </tr>
-        @foreach (var blogPost in Model.Where(bp => bp.Draft && bp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
+        @foreach (var blogPost in Model.Where(bp => bp.BlogPost.Draft && bp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
         {
             <tr>
-                <td>@blogPost.PostDate</td>
-                <td>@blogPost.BlogName</td>
-                <td>@blogPost.BlogDescription</td>
+                <td>@blogPost.BlogPost.PostDate</td>
+                <td>@blogPost.BlogPost.BlogName</td>
+                <td>@blogPost.BlogPost.BlogDescription</td>
                 <td>@blogPost.Account.Name</td>
-                <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
-                <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
+                <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPost.Id">Edit</a></td>
+                <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPost.Id">Delete</a></td>
                 <td>
-                    @if (blogPost.Draft)
+                    @if (blogPost.BlogPost.Draft)
                     {
-                        <a asp-action="PublishDraft" asp-route-id="@blogPost.BlogPostId">Publish</a>
+                        <a asp-action="PublishDraft" asp-route-id="@blogPost.BlogPost.Id">Publish</a>
                     }
                 </td>
             </tr>

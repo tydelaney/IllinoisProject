@@ -4,7 +4,7 @@ namespace IllinoisProject.Models
 {
     public class BlogPost
     {
-        public int BlogPostId { get; set; }
+        public int Id { get; set; }
         public string BlogName { get; set; }
         public string BlogDescription { get; set; }
         [DataType(DataType.Date)]

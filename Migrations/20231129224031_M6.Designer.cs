@@ -4,6 +4,7 @@ using IllinoisProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IllinoisProject.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    partial class AccountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231129224031_M6")]
+    partial class M6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,18 +108,18 @@ namespace IllinoisProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("BlogId")
+                    b.Property<string>("BlogPostId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BlogPostId")
+                    b.Property<int>("BlogPostId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("BlogPostId");
+                    b.HasIndex("BlogPostId1");
 
                     b.ToTable("AccountBlogPost");
                 });
@@ -142,11 +145,11 @@ namespace IllinoisProject.Migrations
 
             modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BlogPostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogPostId"));
 
                     b.Property<string>("BlogDescription")
                         .IsRequired()
@@ -162,7 +165,7 @@ namespace IllinoisProject.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("BlogPostId");
 
                     b.ToTable("BlogPosts");
                 });
@@ -370,7 +373,7 @@ namespace IllinoisProject.Migrations
 
                     b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
                         .WithMany("AccountBlogPosts")
-                        .HasForeignKey("BlogPostId")
+                        .HasForeignKey("BlogPostId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
