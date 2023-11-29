@@ -88,7 +88,7 @@ namespace IllinoisProject.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, vm.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("AddBlogPost", "BlogPost");
+                        return RedirectToAction("AllBlogPost", "BlogPost");
                     }
                 }
                 ModelState.AddModelError("", "Wrong credentials. Please, try again!");
@@ -98,6 +98,15 @@ namespace IllinoisProject.Controllers
                 return View(vm);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            // Redirect to the home page or another desired page after logout
+            return RedirectToAction("Login");
+        }
         public IActionResult AllAccount()
         {
             var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();

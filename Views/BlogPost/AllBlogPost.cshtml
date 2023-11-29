@@ -5,16 +5,32 @@
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
-            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
-            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+                <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+                <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+            }
+            else
+            {
+            }
         </div>
         <div class="navbar-right">
-            <a asp-controller="Account" asp-action="EditAccount">Edit</a>
-            
-            <a asp-controller="Account" asp-action="Login">Login</a>
-            <a asp-controller="Account" asp-action="Register">Register</a>
-            
+            <div class="navbar-right">
+            <!-- Only shows account stuff if the user is logged in-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                    <a asp-controller="Account" asp-action="EditAccount">Edit</a>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit">Logout</button>
+                    </form>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login">Login</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
+            }
+            </div>
         </div>
     </div>
 </nav>
