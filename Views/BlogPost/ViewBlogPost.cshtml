@@ -1,0 +1,58 @@
+﻿@model IllinoisProject.Models.BlogPost
+<link rel="stylesheet" href="~/css/site.css" />
+<!-- Add the profile icon code here -->
+<nav class="navbar">
+    <div class="navbar-links">
+        <div class="navbar-left">
+            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+            <a asp-controller="BlogPost" asp-action="AllBlogPost">BlogPosts</a>
+            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+        </div>
+        <div class="navbar-right">
+            <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="EditAccount" method="post">
+                <input type="hidden" asp-route-id="@User.Identity.Name" />
+                <img src="~/images/.png" alt="Profile Icon" class="profile-image">
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="blog-post-container">
+    <h1>@Model.BlogName</h1>
+    <p class="post-date">Posted on: @Model.PostDate.ToShortDateString()</p>
+    <p class="author-name">Author: @Model.Account.Name</p>
+    <div class="blog-description">
+        @Model.BlogDescription
+    </div>
+
+    <h2>Comments</h2>
+    <div class="comments-section">
+        @if (Model.Comments.Any())
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <p>@comment.CommentDescription</p>
+                    <p class="comment-info">Posted by @comment.User.Name on @comment.dateTime</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No comments yet. Be the first to comment!</p>
+        }
+    </div>
+
+    <!-- Form to add a new comment -->
+    @using (Html.BeginForm("AddComment", "BlogPost", FormMethod.Post))
+    {
+        <input type="hidden" name="blogPostId" value="@Model.BlogPostId" />
+        <textarea name="commentDescription" placeholder="Add a comment..."></textarea>
+        <input type="submit" value="Add Comment" />
+    }
+</div>
+
+

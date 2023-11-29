@@ -26,10 +26,15 @@ namespace IllinoisProject.Controllers
 
         public async Task<IActionResult> AllBlogPost()
         {
-            var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
-            var publishedBlogPosts = blogPost.Where(blogPost => !blogPost.Draft);
-            return View(publishedBlogPosts);
+            var blogPosts = await db.BlogPosts
+                .Include(bp => bp.Account) // Include the account related to the blog post
+                .Include(bp => bp.Comments) // Include the comments related to the blog post
+                .Where(bp => !bp.Draft) // Filter out drafts
+                .ToListAsync();
+
+            return View(blogPosts);
         }
+
         //For viewing Drafts
         [Authorize]
         public async Task<IActionResult> AllDraft()
@@ -191,16 +196,15 @@ namespace IllinoisProject.Controllers
             return View(myBlogPosts);
         }
 
+
         public async Task<IActionResult> PublishDraft(int id)
         {
             var draftBlogPost = await db.BlogPosts.FindAsync(id);
 
-            if (draftBlogPost == null || !draftBlogPost.Draft)
+           if (draftBlogPost == null || !draftBlogPost.Draft)
             {
-                return NotFound();
+              return NotFound();
             }
-
-            // Update the draft status to publish
             draftBlogPost.Draft = false;
 
             // Set the PostDate property to the current date and time
@@ -211,6 +215,59 @@ namespace IllinoisProject.Controllers
 
             // Redirect to the list of all published blog posts
             return RedirectToAction("MyBlogPost");
+        }
+        
+        public async Task<IActionResult> ViewBlogPost(int id)
+        {
+            var blogPost = await db.BlogPosts
+                .Include(bp => bp.Comments) // First include the Comments
+                .ThenInclude(comment => comment.User) // Then include the User of each Comment
+                .Include(bp => bp.Account) // Include the Account of the BlogPost
+                .FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+            return View(blogPost);
+        }
+
+
+
+        // Note from Kai: I have added a lot of comments because I am using chatGPT and I want to make sure everyone can see what the code is doing
+        // So there will be a lot of comments for clarification below
+        [HttpPost]
+        public async Task<IActionResult> AddComment(int blogPostId, string commentDescription)
+        {
+            // Find the blog post by ID. If not found, return a NotFound result.
+            var blogPost = await db.BlogPosts.FindAsync(blogPostId);
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            // Retrieve the current user's ID. If the user is not authenticated, return an Unauthorized result.
+            var userId = userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            // Create a new Comment object with the provided description, current user's ID, current date and time, and the blog post ID.
+            var comment = new Comment
+            {
+                CommentDescription = commentDescription,
+                UserId = userId,
+                dateTime = DateTime.Now,
+                BlogPostId = blogPostId
+            };
+
+            // Add the new comment to the database and save the changes.
+            db.Comments.Add(comment);
+            await db.SaveChangesAsync();
+
+            // Redirect the user to the ViewBlogPost view of the blog post they commented on.
+            return RedirectToAction("ViewBlogPost", new { id = blogPostId });
         }
 
 

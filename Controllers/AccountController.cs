@@ -99,6 +99,15 @@ namespace IllinoisProject.Controllers
                 return View(vm);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            // Redirect to the home page or another desired page after logout
+            return RedirectToAction("Login");
+        }
         public IActionResult AllAccount()
         {
             var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();
@@ -191,14 +200,12 @@ namespace IllinoisProject.Controllers
 
                 await userManager.UpdateAsync(user);
 
+
                 return RedirectToAction("MyAccount");
             
 
             return View(model);
         }
-
-
-        //edit account end
         public IActionResult DeleteAccount(string id)
         {
 

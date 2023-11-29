@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Identity.Client;
 
 namespace IllinoisProject.Models
 {
@@ -8,7 +9,8 @@ namespace IllinoisProject.Models
         public string CommentDescription { get; set; }
         public string UserId { get; set; }
         public DateTime dateTime { get; set; }
-        public string BlogPostId { get; set; }
-
+        public int BlogPostId { get; set; }
+        public BlogPost BlogPost { get; set; }
+        public Account User { get; set; }
     }
 }

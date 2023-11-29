@@ -1,21 +1,39 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 
+
 <link rel="stylesheet" href="~/css/site.css" />
 
 <!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
-            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
-            <a asp-controller="BlogPost" asp-action="AllDraft"> My Drafts </a>
-            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-            <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
+                <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+                <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
+            }
+            else
+            {
+            }
         </div>
         <div class="navbar-right">
-            <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
-            <a asp-controller="Account" asp-action="Login">Login</a>
-            <a asp-controller="Account" asp-action="Register">Register</a>
-            <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+            <div class="navbar-right">
+            <!-- Only shows account stuff if the user is logged in-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                    <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
+                    <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit">Logout</button>
+                    </form>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login">Login</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
+            }
+            </div>
         </div>
     </div>
 </nav>
@@ -24,35 +42,6 @@
 <br />
 
 <h3>Published Blogs</h3>
-
-@if (Model.Count() < 1)
-{
-    <p>No Blogs yet.</p>
-}
-else
-{
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Date Posted</th>
-                <th>Blog name</th>
-                <th>Blog Description</th>
-                <th>Account Name</th>
-            </tr>
-        </thead>
-        <tbody id="dataBody">
-            @foreach (var blogPost in Model)
-            {
-                <tr>
-                    <td>@blogPost.PostDate</td>
-                    <td>@blogPost.BlogName</td>
-                    <td>@blogPost.BlogDescription</td>
-                    <td>@blogPost.Account.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
     <script>
         function searchFunction() {
             var input, filter, rows, i, txtValue;
@@ -74,3 +63,28 @@ else
         }
     </script>
 }
+
+<div class="blog-posts-container">
+    @if (Model.Any())
+    {
+        foreach (var blogPost in Model)
+        {
+            <div class="blog-post-card">
+                <h4>@blogPost.BlogName</h4>
+                <p class="post-date">Posted on: @blogPost.PostDate.ToShortDateString() by @blogPost.Account.Name</p>
+                <p class="blog-description">@blogPost.BlogDescription</p>
+                <div class="blog-post-actions">
+                    <span>Comments: @blogPost.Comments.Count</span>
+                    <a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a>
+                    <a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a>
+                    <a asp-action="ViewBlogPost" asp-route-id="@blogPost.BlogPostId">View Post</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No Blogs yet.</p>
+    }
+</div>
+
