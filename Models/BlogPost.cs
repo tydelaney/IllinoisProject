@@ -9,7 +9,7 @@ namespace IllinoisProject.Models
         public string BlogDescription { get; set; }
         [DataType(DataType.Date)]
         public DateTime PostDate { get; set; }
-        public Account Account { get; set; }
+        public ICollection<AccountBlogPost> AccountBlogPosts { get; set; } = new List<AccountBlogPost>();
         public bool Draft { get; set; }
         public ICollection<Comment> Comments { get; set; }
 

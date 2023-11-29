@@ -110,7 +110,7 @@ namespace IllinoisProject.Controllers
         }
         public IActionResult AllAccount()
         {
-            var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();
+            var accounts = db.Accounts.Include(a => a.AccountBlogPosts).ToList();
             return View(db.Accounts);
         }
 
@@ -129,7 +129,7 @@ namespace IllinoisProject.Controllers
 
             // Retrieve the current user and their associated blog posts
             var currentUser = db.Users
-                .Include(u => u.BlogPosts)
+                .Include(u => u.AccountBlogPosts)
                 .Include(u => u.Picture)
                 .FirstOrDefault(u => u.Id == currentUserId);
 
@@ -265,7 +265,7 @@ namespace IllinoisProject.Controllers
             var account = db.Accounts.Find(id);
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
-            var myBlogPosts = myAccount.BlogPosts;
+            var myBlogPosts = myAccount.AccountBlogPosts;
 
             //var blogposts = account.BlogPosts;
             return View(myBlogPosts);
