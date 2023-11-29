@@ -45,9 +45,9 @@
                         <td>@blogPost.BlogName</td>
                         <td>@blogPost.BlogDescription</td>
 
-                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
+                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.Id">Edit</a></td>
 
-                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
+                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.Id">Delete</a></td>
                     </tr>
                 }
             }

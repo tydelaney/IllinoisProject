@@ -110,7 +110,7 @@ namespace IllinoisProject.Controllers
         //Edit Blog Post START------------------------------------------------------------------------------------------
         public async Task<IActionResult> EditBlogPost(int id)
         {
-            var blogPost = await db.BlogPosts.Include(bp => bp.AccountBlogPosts).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+            var blogPost = await db.BlogPosts.Include(bp => bp.AccountBlogPosts).FirstOrDefaultAsync(bp => bp.Id == id);
 
             if (blogPost == null)
             {
@@ -222,7 +222,7 @@ namespace IllinoisProject.Controllers
                 .Include(bp => bp.Comments) // First include the Comments
                 .ThenInclude(comment => comment.User) // Then include the User of each Comment
                 .Include(bp => bp.AccountBlogPosts) // Include the Account of the BlogPost
-                .FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+                .FirstOrDefaultAsync(bp => bp.Id == id);
 
             if (blogPost == null)
             {

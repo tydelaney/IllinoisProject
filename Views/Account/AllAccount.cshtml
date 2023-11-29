@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IllinoisProject.Models.Account>
+﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
 
 
@@ -42,12 +42,12 @@ else
             @foreach (var account in Model)
             {
                 <tr>
-                    <td>@account.Name</td>
+                    <td>@account.Account.Name</td>
                     <!-- ... (existing code) 
                     <td>
-                        @if (account.Picture != null)
+                        @if (account.Account.Picture != null)
                         {
-                            var picture = account.Picture;
+                            var picture = account.Account.Picture;
                             
                             if (picture != null)
                             {
@@ -66,9 +66,9 @@ else
                    -->
 
                     <td>
-                        @foreach (var blogPost in account.BlogPosts)
+                        @foreach (var blogPost in Model)
                         {
-                            <div>@blogPost.BlogName</div>
+                            <div>@blogPost.BlogPost.BlogName</div>
                         }
                     </td>
                     <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
