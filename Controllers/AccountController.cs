@@ -63,7 +63,7 @@ namespace IllinoisProject.Controllers
                 {
                     await db.SaveChangesAsync();
                     await signInManager.SignInAsync(newUser, isPersistent: false);
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("AllBlogPost", "BlogPost");
                 }
                 foreach (var error in result.Errors)
                 {
