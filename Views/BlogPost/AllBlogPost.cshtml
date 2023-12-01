@@ -1,42 +1,6 @@
 ﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
 
-
 <link rel="stylesheet" href="~/css/site.css" />
-
-<!-- Add the profile icon code here -->
-<nav class="navbar">
-    <div class="navbar-links">
-        <div class="navbar-left">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
-                <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-                <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
-            }
-            else
-            {
-            }
-        </div>
-        <div class="navbar-right">
-            <div class="navbar-right">
-            <!-- Only shows account stuff if the user is logged in-->
-            @if (User.Identity.IsAuthenticated)
-            {
-                    <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
-                    <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
-                    <form asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
-            }
-            else
-            {
-                <a asp-controller="Account" asp-action="Login">Login</a>
-                <a asp-controller="Account" asp-action="Register">Register</a>
-            }
-            </div>
-        </div>
-    </div>
-</nav>
 
 <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search for blogs">
 <br />
@@ -72,12 +36,13 @@
             <div class="blog-post-card">
                 <h4>@blogPost.BlogName</h4>
                 <p class="post-date">Posted on: @blogPost.PostDate.ToShortDateString() by @blogPost.Account.Name</p>
-                <p class="blog-description">@blogPost.BlogDescription</p>
+                <p class="blog-post-preview">@blogPost.BlogDescription</p>
                 <div class="blog-post-actions">
                     <span>Comments: @blogPost.Comments.Count</span>
                     <a asp-action="ViewBlogPost" asp-route-id="@blogPost.BlogPostId">View Post</a>
                 </div>
             </div>
+
         }
     }
     else

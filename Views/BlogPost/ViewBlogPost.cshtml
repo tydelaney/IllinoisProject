@@ -1,25 +1,6 @@
 ﻿@model IllinoisProject.Models.BlogPost
 <link rel="stylesheet" href="~/css/site.css" />
-<!-- Add the profile icon code here -->
-<nav class="navbar">
-    <div class="navbar-links">
-        <div class="navbar-left">
-            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
-            <a asp-controller="BlogPost" asp-action="AllBlogPost">BlogPosts</a>
-            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
-            <a asp-controller="BlogPost" asp-action="AllDraft"> Drafts </a>
-        </div>
-        <div class="navbar-right">
-            <a asp-controller="Account" asp-action="AddPicture"> Add Picture to your profile </a>
-            <a asp-controller="Account" asp-action="Login">Login</a>
-            <a asp-controller="Account" asp-action="Register">Register</a>
-            <a asp-controller="Account" asp-action="EditAccount" method="post">
-                <input type="hidden" asp-route-id="@User.Identity.Name" />
-                <img src="~/images/.png" alt="Profile Icon" class="profile-image">
-            </a>
-        </div>
-    </div>
-</nav>
+
 <div class="blog-post-container">
     <h1>@Model.BlogName</h1>
     <p class="post-date">Posted on: @Model.PostDate.ToShortDateString()</p>

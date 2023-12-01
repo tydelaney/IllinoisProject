@@ -13,6 +13,21 @@ options.UseSqlServer(connection));
 
 
 builder.Services.AddIdentity<Account, IdentityRole>().AddEntityFrameworkStores<AccountDbContext>().AddDefaultTokenProviders();
+
+// Configure Authentication Cookie settings
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.SlidingExpiration = false; // Disable sliding expiration
+    options.Cookie.IsEssential = true; // Make the cookie essential
+    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict; // Set SameSite policy
+    options.Cookie.Expiration = null; // Remove the expiration time
+    options.Cookie.MaxAge = null; // Ensure the cookie is a session cookie
+});
+
+
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -23,7 +38,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=BlogPost}/{action=AllBlogPost}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 
 
