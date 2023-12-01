@@ -23,7 +23,7 @@ namespace IllinoisProject.Controllers
             this.roleManager = roleManager;
             this.db = db;
         }
-
+        [Authorize]
         public async Task<IActionResult> AllBlogPost()
         {
             var blogPosts = await db.BlogPosts
