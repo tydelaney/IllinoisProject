@@ -13,6 +13,7 @@ namespace IllinoisProject.Models
     {
         public string Name { get; set; }
         public Picture? Picture { get; set; }
+        public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
         public ICollection<AccountBlogPost> AccountBlogPosts { get; set; } = new List<AccountBlogPost>();
     }
     

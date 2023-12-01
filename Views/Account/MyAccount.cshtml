@@ -45,7 +45,7 @@ else
             @foreach (var account in Model)
             {
                 <tr>
-                    <td>@account.Id</td>
+                    <td>@account.Account.Id</td>
                     <td>@account.Account.Name</td>
                     <td>@account.Account.UserName</td>
                     <td>
@@ -56,8 +56,8 @@ else
                             </div>
                         }
                     </td>
-                    <td><a asp-action="EditAccount" asp-route-id="@account.Id">Edit</a></td>
-                    <td><a asp-action="DeleteAccount" asp-route-id="@account.Id">Delete</a></td>
+                    <td><a asp-action="EditAccount" asp-route-id="@account.Account.Id">Edit</a></td>
+                    <td><a asp-action="DeleteAccount" asp-route-id="@account.Account.Id">Delete</a></td>
                 </tr>
             }
         </tbody>

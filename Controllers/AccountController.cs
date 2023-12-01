@@ -110,10 +110,13 @@ namespace IllinoisProject.Controllers
         }
         public IActionResult AllAccount()
         {
-            var accounts = db.Accounts.Include(a => a.AccountBlogPosts).ToList();
-            return View(db.Accounts);
-        }
+            var accounts = db.Accounts
+                .Include(a => a.AccountBlogPosts)
+                    .ThenInclude(abp => abp.BlogPost) // Include BlogPost related to each AccountBlogPost
+                .ToList();
 
+            return View(accounts);
+        }
 
         [Authorize]
         public IActionResult MyAccount()
@@ -130,6 +133,7 @@ namespace IllinoisProject.Controllers
             // Retrieve the current user and their associated blog posts
             var currentUser = db.Users
                 .Include(u => u.AccountBlogPosts)
+                    .ThenInclude(abp => abp.BlogPost) // Include BlogPost related to each AccountBlogPost
                 .Include(u => u.Picture)
                 .FirstOrDefault(u => u.Id == currentUserId);
 
@@ -139,7 +143,8 @@ namespace IllinoisProject.Controllers
                 return NotFound();
             }
 
-            return View(new List<Account> { currentUser });
+            // Pass the AccountBlogPosts of the current user to the view
+            return View(currentUser.AccountBlogPosts.ToList());
         }
 
         public IActionResult AddAccount() 
