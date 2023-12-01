@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IllinoisProject.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20231129224532_M8")]
-    partial class M8
+    [Migration("20231201031041_M3")]
+    partial class M3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,8 +112,8 @@ namespace IllinoisProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("BlogPostId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -121,7 +121,7 @@ namespace IllinoisProject.Migrations
 
                     b.HasIndex("BlogPostId");
 
-                    b.ToTable("AccountBlogPost");
+                    b.ToTable("AccountBlogPosts");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.Author", b =>
@@ -145,11 +145,8 @@ namespace IllinoisProject.Migrations
 
             modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BlogDescription")
                         .IsRequired()
@@ -178,16 +175,20 @@ namespace IllinoisProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("AccId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BlogId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BlogPostId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CommentDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("dateTime")
                         .HasColumnType("datetime2");
@@ -195,8 +196,6 @@ namespace IllinoisProject.Migrations
                     b.HasKey("CommentId");
 
                     b.HasIndex("BlogPostId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -373,9 +372,7 @@ namespace IllinoisProject.Migrations
 
                     b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
                         .WithMany("AccountBlogPosts")
-                        .HasForeignKey("BlogPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BlogPostId");
 
                     b.Navigation("Account");
 
@@ -384,21 +381,9 @@ namespace IllinoisProject.Migrations
 
             modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
                 {
-                    b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
+                    b.HasOne("IllinoisProject.Models.BlogPost", null)
                         .WithMany("Comments")
-                        .HasForeignKey("BlogPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IllinoisProject.Models.Account", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BlogPost");
-
-                    b.Navigation("User");
+                        .HasForeignKey("BlogPostId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

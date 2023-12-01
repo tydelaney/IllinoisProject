@@ -37,19 +37,19 @@ else
             <th>Delete</th>
             <th>Publish</th>
         </tr>
-        @foreach (var blogPost in Model.Where(bp => bp.BlogPost.Draft && bp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
-        {
+       @foreach (var accountBlogPost in Model.Where(abp => abp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
+{
             <tr>
-                <td>@blogPost.BlogPost.PostDate</td>
-                <td>@blogPost.BlogPost.BlogName</td>
-                <td>@blogPost.BlogPost.BlogDescription</td>
-                <td>@blogPost.Account.Name</td>
-                <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPost.Id">Edit</a></td>
-                <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPost.Id">Delete</a></td>
+                <td>@accountBlogPost.BlogPost.PostDate</td>
+                <td>@accountBlogPost.BlogPost.BlogName</td>
+                <td>@accountBlogPost.BlogPost.BlogDescription</td>
+                <td>@accountBlogPost.Account.Name</td>
+                <td><a asp-action="EditBlogPost" asp-route-id="@accountBlogPost.BlogPost.Id">Edit</a></td>
+                <td><a asp-action="DeleteBlogPost" asp-route-id="@accountBlogPost.BlogPost.Id">Delete</a></td>
                 <td>
-                    @if (blogPost.BlogPost.Draft)
+                    @if (accountBlogPost.BlogPost.Draft)
                     {
-                        <a asp-action="PublishDraft" asp-route-id="@blogPost.BlogPost.Id">Publish</a>
+                        <a asp-action="PublishDraft" asp-route-id="@accountBlogPost.BlogPost.Id">Publish</a>
                     }
                 </td>
             </tr>

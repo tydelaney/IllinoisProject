@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 
 
 <link rel="stylesheet" href="~/css/site.css" />
@@ -70,12 +70,12 @@
         foreach (var blogPost in Model)
         {
             <div class="blog-post-card">
-                <h4>@blogPost.BlogName</h4>
-                <p class="post-date">Posted on: @blogPost.PostDate.ToShortDateString() by @blogPost.AccountBlogPosts. Account.Name</p>
-                <p class="blog-description">@blogPost.BlogDescription</p>
+                <h4>@blogPost.BlogPost.BlogName</h4>
+                <p class="post-date">Posted on: @blogPost.BlogPost.PostDate.ToShortDateString() by @blogPost.Account.Name</p>
+                <p class="blog-description">@blogPost.BlogPost.BlogDescription</p>
                 <div class="blog-post-actions">
-                    <span>Comments: @blogPost.Comments.Count</span>
-                    <a asp-action="ViewBlogPost" asp-route-id="@blogPost.Id">View Post</a>
+                    <span>Comments: @blogPost.BlogPost.Comments.Count</span>
+                    <a asp-action="ViewBlogPost" asp-route-id="@blogPost.BlogPost.Id">View Post</a>
                 </div>
             </div>
         }
