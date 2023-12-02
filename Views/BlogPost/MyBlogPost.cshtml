@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
 
 <!-- Add the profile icon code here -->
@@ -41,13 +41,13 @@
                 foreach (var blogPost in Model)
                 {
                     <tr>
-                        <td>@blogPost.PostDate</td>
-                        <td>@blogPost.BlogName</td>
-                        <td>@blogPost.BlogDescription</td>
+                        <td>@blogPost.BlogPost.PostDate</td>
+                        <td>@blogPost.BlogPost.BlogName</td>
+                        <td>@blogPost.BlogPost.BlogDescription</td>
 
-                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.Id">Edit</a></td>
+                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogId">Edit</a></td>
 
-                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.Id">Delete</a></td>
+                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogId">Delete</a></td>
                     </tr>
                 }
             }
