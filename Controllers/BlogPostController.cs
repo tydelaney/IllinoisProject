@@ -142,7 +142,7 @@ namespace IllinoisProject.Controllers
             return View(vm);
         }
         [HttpPost]
-        public async Task<IActionResult> EditBlogPost(int id, AccountBlogPostViewModel vm)
+        public async Task<IActionResult> EditBlogPost(string id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
             // update existing blog post with posted data
