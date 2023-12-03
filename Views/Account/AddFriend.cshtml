@@ -39,9 +39,9 @@
                     <td>@item.BlogPost.BlogName</td>
                     <td>@item.BlogPost.BlogDescription</td>
 
-                    <td><a asp-action="EditBlogPost" asp-route-id="@item.BlogId">Edit</a></td>
+                    <td><a asp-action="EditBlogPost" asp-route-id="@item.BlogPostId">Edit</a></td>
 
-                    <td><a asp-action="DeleteBlogPost" asp-route-id="@item.BlogId">Delete</a></td>
+                    <td><a asp-action="DeleteBlogPost" asp-route-id="@item.BlogPostId">Delete</a></td>
                 </tr>
                 index++;
             }
