@@ -72,7 +72,12 @@ else
                         }
                     </td>
                     <input type="hidden" name="id" value="@account.Id" />
-                    <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
+                    <td>
+                        <form asp-controller="Account" asp-action="AddFriend" method="post">
+                            <input type="hidden" name="id" value="@account.Id" />
+                            <button type="submit">Add Friend</button>
+                        </form>
+                    </td>
                 </tr>
             }
             @if (TempData["SuccessMessage"] != null)

@@ -105,7 +105,8 @@ namespace IllinoisProject.Controllers
                 Account = currentUser,
                 BlogPost = vm.BlogPost,
                 AccountId = currentUser.Id,
-                BlogId = vm.BlogPost.Id
+                BlogPostId = vm.BlogPost.Id,
+                PermissionType = vm.AccountBlogPost.PermissionType
             };
 
             // Add the BlogPost to the current user's collection
@@ -157,7 +158,7 @@ namespace IllinoisProject.Controllers
         //Edit blog post END--------------------------------
 
         //DELETE BlogPost START ------------------------------------------------------
-        public async Task<IActionResult> DeleteBlogPost(int id)
+        public async Task<IActionResult> DeleteBlogPost(string id)
         {
             // Assuming you have logic to retrieve the blog post from the database
             var blogPost = await db.BlogPosts.FindAsync(id);
@@ -176,18 +177,34 @@ namespace IllinoisProject.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteBlogPost(int id, AccountBlogPostViewModel vm)
+        public async Task<IActionResult> DeleteBlogPost(string id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
+
             if (blogPost == null)
             {
                 return NotFound();
             }
+
+            var relatedAccountBlogPosts = await db.AccountBlogPosts
+                .Where(ab => ab.BlogPostId == id)
+                .ToListAsync();
+
+            if (relatedAccountBlogPosts.Any())
+            {
+                // There are still AccountBlogPosts referencing this BlogPost.
+                // Decide what to do in this case.
+                // For example, return an error message to the user.
+                return BadRequest("This blog post is still being used and cannot be deleted.");
+            }
+
             db.Remove(blogPost);
+
             await db.SaveChangesAsync();
+
             ViewData["BlogName"] = blogPost.BlogName;
             ViewData["BlogDescription"] = blogPost.BlogDescription;
+
             return RedirectToAction("MyBlogPost");
         }
 
