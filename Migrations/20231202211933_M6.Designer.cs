@@ -4,6 +4,7 @@ using IllinoisProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IllinoisProject.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    partial class AccountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202211933_M6")]
+    partial class M6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,9 +115,8 @@ namespace IllinoisProject.Migrations
                     b.Property<string>("BlogPostId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PermissionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
 
                     b.HasKey("AccountBlogPostId");
 
@@ -179,28 +181,6 @@ namespace IllinoisProject.Migrations
                     b.HasIndex("BlogPostId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("IllinoisProject.Models.Friend", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("InviteStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InviteeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InviterId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.Picture", b =>

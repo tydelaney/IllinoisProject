@@ -11,6 +11,7 @@ namespace IllinoisProject.Models
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Picture> Pictures { get; set; } 
+        public DbSet<Friend> Friends { get; set; }
         public AccountDbContext(DbContextOptions
             <AccountDbContext> options) : base(options) 
         { 

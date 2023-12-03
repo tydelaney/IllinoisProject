@@ -71,8 +71,15 @@ else
                             <div>@blogPost.BlogPost.BlogName</div>
                         }
                     </td>
+                    <input type="hidden" name="id" value="@account.Id" />
                     <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
                 </tr>
+            }
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
             }
         </tbody>
     </table>
