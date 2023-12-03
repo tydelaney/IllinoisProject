@@ -1,29 +1,52 @@
 ﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
-@{
-    
-        <table border="1">
-            <tr>
-                <th>Date Posted</th>
-                <th>Blog name</th>
-                <th>Blog Description</th>
-                <th>Account Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
+<link rel="stylesheet" href="~/css/site.css" />
 
+<nav class="navbar">
+    <div class="navbar-links">
+        <div class="navbar-left">
+            <a asp-controller="BlogPost" asp-action="AllDraft"> My Drafts </a>
+            <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
+            <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
 
-            </tr>
-            @{
-                foreach (var blogPost in Model)
-                {
-                    <tr>
-                        <td>@blogPost.BlogPost.PostDate</td>
-                        <td>@blogPost.BlogPost.BlogName</td>
-                        <td>@blogPost.Account.Name</td>
-                        
-                    </tr>
-                }
+        </div>
+        <div class="navbar-right">
+            <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+
+        </div>
+    </div>
+</nav>
+
+<form method="post" asp-action="AssignPosts" asp-controller="Account">
+    <table border="1">
+        <tr>
+            <th>Select</th>
+            <th>Date Posted</th>
+            <th>Blog name</th>
+            <th>Blog Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @{
+            int index = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>@item.BlogPost.PostDate</td>
+                    <td>@item.BlogPost.BlogName</td>
+                    <td>@item.BlogPost.BlogDescription</td>
+
+                    <td><a asp-action="EditBlogPost" asp-route-id="@item.BlogId">Edit</a></td>
+
+                    <td><a asp-action="DeleteBlogPost" asp-route-id="@item.BlogId">Delete</a></td>
+                </tr>
+                index++;
             }
-
-        </table>
-    
-}
+        }
+    </table>
+    <input type="submit" value="Add Selected to Friend" />
+</form>
+<a asp-action="AllBlogPost" asp-controller="BlogPost">Back to All Blog Posts</a>

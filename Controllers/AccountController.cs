@@ -264,16 +264,46 @@ namespace IllinoisProject.Controllers
             //db.SaveChanges();
             //return RedirectToAction("AllAccount");
         }
+        [HttpPost]
+        //public async Task<IActionResult> AssignPosts(List<AccountBlogPost> accountBlogPosts)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        foreach (var accountBlogPost in accountBlogPosts)
+        //        {
+        //            //if (accountBlogPost)
+        //            //{
+        //            //    db.AccountBlogPosts.Add(accountBlogPost);
+        //            //}
+        //        }
 
-        public  async Task<IActionResult> AddFriend(string id)
+        //        await db.SaveChangesAsync();
+
+        //        return RedirectToAction("AddFriend", new { id = accountBlogPosts.FirstOrDefault().AccountId });
+        //    }
+
+        //    return View(accountBlogPosts);
+        //}
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(string id)
         {
-            var account = db.Accounts.Find(id);
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
-            var myBlogPosts = myAccount.AccountBlogPosts;
+            if (currentUserId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-            //var blogposts = account.BlogPosts;
-            return View(myBlogPosts);
+            var newFriend = new Friend()
+            {
+                InviterId = currentUserId,
+                InviteeId = id,
+                InviteStatus = "Pending"
+            };
+            TempData["SuccessMessage"] = "Friend successfully added!";
+            db.Friends.Add(newFriend);
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("AllAccount");
         }
         public IActionResult AddPicture()
         {
