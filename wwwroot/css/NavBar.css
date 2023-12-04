@@ -1,0 +1,51 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff; /* White background color */
+    color: #333; /* Text color */
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Corrected navbar class selector */
+.navbar {
+    background-color: #e30613; /* ISU Red background color */
+    color: #fff; /* White text color */
+    padding: 10px;
+    text-align: right;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    .navbar a:hover {
+        background-color: #ba0c10; /* Darker red on hover */
+    }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .navbar a {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+    }
+}

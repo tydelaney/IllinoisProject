@@ -34,7 +34,6 @@
         }
 
         <!-- Add an input field for updating the profile picture -->
-       
         <div class="form-group">
             <label asp-for="Name">Account Name</label>
             <input asp-for="Name" class="form-control" />
@@ -72,5 +71,31 @@
     // JavaScript to submit the form when the file input changes
     document.getElementById('ProfilePicture').addEventListener('change', function () {
         document.getElementById('editAccountForm').submit();
+    });
+
+    // JavaScript to handle the form submission response
+    document.getElementById('editAccountForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var form = event.target;
+
+        // Use Fetch API to submit the form data asynchronously
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+        })
+        .then(response => {
+            // Check if the response is successful (status code 200-299)
+            if (response.ok) {
+                // Redirect to the desired URL (replace 'new-url' with your actual URL)
+                window.location.replace('new-url');
+            } else {
+                // Handle errors or display error messages
+                console.error('Form submission failed:', response.statusText);
+            }
+        })
+        .catch(error => {
+            // Handle network errors
+            console.error('Network error during form submission:', error);
+        });
     });
 </script>

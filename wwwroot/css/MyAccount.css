@@ -1,0 +1,89 @@
+﻿/* MyAccount.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff; /* White background color */
+    color: #333; /* Text color */
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    background-color: #e30613; /* ISU Red background color */
+    color: #fff; /* White text color */
+    padding: 10px;
+    text-align: right;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    .navbar a:hover {
+        background-color: #ba0c10; /* Darker red on hover */
+    }
+
+h3 {
+    color: #e30613; /* ISU Red text color */
+}
+
+/* Add styles for displaying account information */
+.account-info {
+    background-color: #fff; /* White background color for account info */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+    .account-info h3 {
+        color: #343a40; /* Dark gray text color for section titles */
+    }
+
+    .account-info p {
+        margin: 10px 0;
+    }
+
+    .account-info a {
+        color: #007bff; /* Blue link color */
+        text-decoration: none;
+        margin-right: 10px;
+    }
+
+        .account-info a:hover {
+            text-decoration: underline;
+        }
+
+/* Add styles for displaying blog posts */
+.blog-posts {
+    margin-top: 20px;
+}
+
+    .blog-posts h3 {
+        color: #343a40; /* Dark gray text color for section titles */
+    }
+
+    .blog-posts ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .blog-posts li {
+        margin-bottom: 5px;
+    }

@@ -1,8 +1,7 @@
 ﻿@model IllinoisProject.Models.Account
 
 <link rel="stylesheet" href="~/css/site.css" />
-<link rel="stylesheet" href="~/css/AllAccount.css" />
-
+<link rel="stylesheet" href="~/css/NavBar.css" /> <!-- Add this line -->
 <!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
@@ -11,49 +10,51 @@
             <a asp-controller="BlogPost" asp-action="AllDraft"> My Drafts </a>
             <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
             <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
-
         </div>
         <div class="navbar-right">
             <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
             <a asp-controller="Account" asp-action="Login">Login</a>
             <a asp-controller="Account" asp-action="Register">Register</a>
             <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
-
         </div>
     </div>
 </nav>
 
-<h3> My Account Information</h3>
+<div class="account-info">
+    <h3>My Account Information</h3>
 
-@if (Model == null)
-{
-    <p>No account yet.</p>
-}
-else
-{
-    <div>
-        <h3>Account Information</h3>
-        <p>Account ID: @Model.Id</p>
-        <p>Account Name: @Model.Name</p>
-        <p>Username: @Model.UserName</p>
-        <p><a asp-action="EditAccount" asp-route-id="@Model.Id">Edit</a></p>
-        <p><a asp-action="DeleteAccount" asp-route-id="@Model.Id">Delete</a></p>
-    </div>
+    @if (Model == null)
+    {
+        <p>No account yet.</p>
+    }
+    else
+    {
+        <div>
+            <p>Account ID: @Model.Id</p>
+            <p>Account Name: @Model.Name</p>
+            <p>Username: @Model.UserName</p>
+        </div>
 
-    <div>
-        <h3>Blog Posts</h3>
-        @if (Model.AccountBlogPosts.Count < 1)
-        {
-            <p>No blog posts yet.</p>
-        }
-        else
-        {
-            <ul>
-                @foreach (var blogPost in Model.AccountBlogPosts)
-                {
-                    <li>@blogPost.BlogPost.BlogName</li>
-                }
-            </ul>
-        }
-    </div>
-}
+        <div class="blog-posts">
+            <h3>Blog Posts</h3>
+            @if (Model.AccountBlogPosts.Count < 1)
+            {
+                <p>No blog posts yet.</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var blogPost in Model.AccountBlogPosts)
+                    {
+                        <li>@blogPost.BlogPost.BlogName</li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+</div>
+
+<div class="edit-delete-buttons">
+    <p><a asp-action="EditAccount" asp-route-id="@Model.Id">Edit</a></p>
+    <p><a asp-action="DeleteAccount" asp-route-id="@Model.Id">Delete</a></p>
+</div>
