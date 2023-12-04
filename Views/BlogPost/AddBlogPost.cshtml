@@ -1,5 +1,7 @@
 ﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
-<link rel="stylesheet" href="~/css/site.css" />
+
+<link rel="stylesheet" href="~/css/blog.css" />
+
 <!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
@@ -24,15 +26,17 @@
     <label asp-for="BlogPost.BlogName">Blog Title</label>
     <input asp-for="BlogPost.BlogName" />
     <br />
+    <!-- ... Your existing HTML code ... -->
     <label asp-for="BlogPost.BlogDescription">Description</label>
-    <input asp-for="BlogPost.BlogDescription" rows="8" cols="50" />
+<textarea asp-for="BlogPost.BlogDescription" rows="8" cols="50"></textarea>
+    <!-- ... Your existing HTML code ... -->
+
     <br />
-    <input type="hidden" asp-for="AccountBlogPost.PermissionType" value="Edit"/>
     <!-- <input type="date" asp-for="BlogPost.PostDate" />
     <br /> -->
-    <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />
-    <input type="radio" asp-for="BlogPost.Draft" value="true" /> <label>Draft</label>
-    <input type="radio" asp-for="BlogPost.Draft" value="false" /> <label>Publish</label>
+    <label asp-for="BlogPost.Draft">Draft or Publish</label>
+    <label class="radio-label"><input type="radio" asp-for="BlogPost.Draft" value="true" /> Draft</label>
+    <label class="radio-label"><input type="radio" asp-for="BlogPost.Draft" value="false" /> Publish</label>
     <br />
     <button type="submit">Add the Blog</button>
 </form>
