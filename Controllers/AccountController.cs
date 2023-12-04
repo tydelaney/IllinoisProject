@@ -131,20 +131,19 @@ namespace IllinoisProject.Controllers
             }
 
             // Retrieve the current user and their associated blog posts
-            var currentUser = db.Users
-                .Include(u => u.AccountBlogPosts)
-                    .ThenInclude(abp => abp.BlogPost) // Include BlogPost related to each AccountBlogPost
-                .Include(u => u.Picture)
-                .FirstOrDefault(u => u.Id == currentUserId);
+            var currentAccount = db.Accounts
+         .Include(a => a.AccountBlogPosts)
+             .ThenInclude(abp => abp.BlogPost) // Include BlogPost related to each AccountBlogPost
+         .FirstOrDefault(a => a.Id == currentUserId);
 
-            if (currentUser == null)
+            if (currentAccount == null)
             {
                 // Current user not found, handle accordingly (e.g., show an error message)
                 return NotFound();
             }
 
-            // Pass the AccountBlogPosts of the current user to the view
-            return View(currentUser.AccountBlogPosts.ToList());
+            // Pass the current user to the view
+            return View(currentAccount);
         }
 
         public IActionResult AddAccount() 
