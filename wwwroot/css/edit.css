@@ -1,0 +1,109 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff; /* White background color */
+    color: #333; /* Text color */
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    background-color: #e30613; /* ISU Red background color */
+    color: #fff; /* White text color */
+    padding: 10px;
+    text-align: right;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    .navbar a:hover {
+        background-color: #ba0c10; /* Darker red on hover */
+    }
+
+h3 {
+    color: #e30613; /* ISU Red text color */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    color: #e30613; /* ISU Red text color for labels */
+}
+
+.form-control {
+    width: 70%; /* Adjust the width as needed */
+    max-width: 300px; /* Set a maximum width for better control on larger screens */
+    padding: 10px;
+    border: 1px solid #e30613; /* ISU Red border color */
+    border-radius: 5px;
+    margin-top: 5px;
+    display: block; /* Make the input a block element */
+}
+
+input[type="file"] {
+    border: 1px solid #e30613;
+    padding: 8px;
+    border-radius: 5px;
+    width: calc(100% - 16px); /* Adjusted width to 100% minus padding */
+}
+
+img {
+    max-width: 200px; /* Set a maximum width for the profile picture */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Rounded corners */
+}
+
+button {
+    background-color: #e30613; /* ISU Red background color for buttons */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    button:hover {
+        background-color: #ba0c10; /* Darker red on hover */
+    }
+
+.profile-picture img {
+    width: 200px; /* Fixed width for the profile picture */
+    height: 200px; /* Fixed height for the profile picture */
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#changePictureBtn {
+    background-color: #e30613;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    #changePictureBtn:hover {
+        background-color: #ba0c10;
+    }
