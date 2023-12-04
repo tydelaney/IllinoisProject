@@ -67,13 +67,25 @@ else
                    -->
 
                     <td>
-                        @foreach (var blogPost in account.BlogPosts)
+                        @foreach (var blogPost in account.AccountBlogPosts)
                         {
-                            <div>@blogPost.BlogName</div>
+                            <div>@blogPost.BlogPost.BlogName</div>
                         }
                     </td>
-                    <td><a asp-action="AddFriend" asp-route-id="@account.Id">Add</a></td>
+                    <input type="hidden" name="id" value="@account.Id" />
+                    <td>
+                        <form asp-controller="Account" asp-action="AddFriend" method="post">
+                            <input type="hidden" name="id" value="@account.Id" />
+                            <button type="submit">Add Friend</button>
+                        </form>
+                    </td>
                 </tr>
+            }
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
             }
         </tbody>
     </table>

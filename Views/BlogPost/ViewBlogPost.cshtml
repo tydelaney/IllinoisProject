@@ -1,4 +1,4 @@
-﻿@model IllinoisProject.Models.BlogPost
+﻿@model IllinoisProject.Models.AccountBlogPost
 <link rel="stylesheet" href="~/css/site.css" />
 <!-- Add the profile icon code here -->
 <nav class="navbar">
@@ -21,22 +21,22 @@
     </div>
 </nav>
 <div class="blog-post-container">
-    <h1>@Model.BlogName</h1>
-    <p class="post-date">Posted on: @Model.PostDate.ToShortDateString()</p>
+    <h1>@Model.BlogPost.BlogName</h1>
+    <p class="post-date">Posted on: @Model.BlogPost.PostDate.ToShortDateString()</p>
     <p class="author-name">Author: @Model.Account.Name</p>
     <div class="blog-description">
-        @Model.BlogDescription
+        @Model.BlogPost.BlogDescription
     </div>
 
     <h2>Comments</h2>
     <div class="comments-section">
-        @if (Model.Comments.Any())
+        @if (Model.BlogPost.Comments.Any())
         {
-            foreach (var comment in Model.Comments)
+            foreach (var comment in Model.BlogPost.Comments)
             {
                 <div class="comment">
                     <p>@comment.CommentDescription</p>
-                    <p class="comment-info">Posted by @comment.User.Name on @comment.dateTime</p>
+                     <p class="comment-info">Posted by @comment.Account.Name on @comment.dateTime</p> 
                 </div>
             }
         }
@@ -49,7 +49,7 @@
     <!-- Form to add a new comment -->
     @using (Html.BeginForm("AddComment", "BlogPost", FormMethod.Post))
     {
-        <input type="hidden" name="blogPostId" value="@Model.BlogPostId" />
+        <input type="hidden" name="blogPostId" value="@Model.BlogPost.Id" />
         <textarea name="commentDescription" placeholder="Add a comment..."></textarea>
         <input type="submit" value="Add Comment" />
     }

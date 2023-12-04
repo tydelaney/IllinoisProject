@@ -26,33 +26,33 @@ namespace IllinoisProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Authors",
+                name: "BlogPosts",
                 columns: table => new
                 {
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
-                    BlogPostId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BlogName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BlogDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Draft = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
+                    table.PrimaryKey("PK_BlogPosts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "Friends",
                 columns: table => new
                 {
-                    CommentId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CommentDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    dateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BlogPostId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    InviterId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InviteeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InviteStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.PrimaryKey("PK_Friends", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +61,7 @@ namespace IllinoisProject.Migrations
                 {
                     PictureId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AltAttribute = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AltAttribute = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -120,6 +120,32 @@ namespace IllinoisProject.Migrations
                         column: x => x.PictureId,
                         principalTable: "Pictures",
                         principalColumn: "PictureId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountBlogPosts",
+                columns: table => new
+                {
+                    AccountBlogPostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BlogPostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PermissionType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountBlogPosts", x => x.AccountBlogPostId);
+                    table.ForeignKey(
+                        name: "FK_AccountBlogPosts_AspNetUsers_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountBlogPosts_BlogPosts_BlogPostId",
+                        column: x => x.BlogPostId,
+                        principalTable: "BlogPosts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,27 +234,42 @@ namespace IllinoisProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlogPosts",
+                name: "Comments",
                 columns: table => new
                 {
-                    BlogPostId = table.Column<int>(type: "int", nullable: false)
+                    CommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BlogName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BlogDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CommentDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    dateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AccountId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Draft = table.Column<bool>(type: "bit", nullable: false)
+                    BlogPostId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlogPosts", x => x.BlogPostId);
+                    table.PrimaryKey("PK_Comments", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_BlogPosts_AspNetUsers_AccountId",
+                        name: "FK_Comments_AspNetUsers_AccountId",
                         column: x => x.AccountId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_BlogPosts_BlogPostId",
+                        column: x => x.BlogPostId,
+                        principalTable: "BlogPosts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountBlogPosts_AccountId",
+                table: "AccountBlogPosts",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountBlogPosts_BlogPostId",
+                table: "AccountBlogPosts",
+                column: "BlogPostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -275,14 +316,22 @@ namespace IllinoisProject.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogPosts_AccountId",
-                table: "BlogPosts",
+                name: "IX_Comments_AccountId",
+                table: "Comments",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_BlogPostId",
+                table: "Comments",
+                column: "BlogPostId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccountBlogPosts");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -299,19 +348,19 @@ namespace IllinoisProject.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Authors");
-
-            migrationBuilder.DropTable(
-                name: "BlogPosts");
-
-            migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Friends");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "BlogPosts");
 
             migrationBuilder.DropTable(
                 name: "Pictures");

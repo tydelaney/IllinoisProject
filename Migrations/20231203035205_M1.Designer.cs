@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IllinoisProject.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20231128194945_M4")]
-    partial class M4
+    [Migration("20231203035205_M1")]
+    partial class M1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,35 +99,35 @@ namespace IllinoisProject.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("IllinoisProject.Models.Author", b =>
+            modelBuilder.Entity("IllinoisProject.Models.AccountBlogPost", b =>
                 {
-                    b.Property<int>("AuthorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("AccountBlogPostId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+                    b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
+                    b.Property<string>("BlogPostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("PermissionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("AccountBlogPostId");
 
-                    b.ToTable("Authors");
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("BlogPostId");
+
+                    b.ToTable("AccountBlogPosts");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
                 {
-                    b.Property<int>("BlogPostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogPostId"));
-
-                    b.Property<string>("AccountId")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BlogDescription")
@@ -144,9 +144,7 @@ namespace IllinoisProject.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BlogPostId");
-
-                    b.HasIndex("AccountId");
+                    b.HasKey("Id");
 
                     b.ToTable("BlogPosts");
                 });
@@ -159,14 +157,15 @@ namespace IllinoisProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BlogPostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CommentDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -175,9 +174,36 @@ namespace IllinoisProject.Migrations
 
                     b.HasKey("CommentId");
 
+                    b.HasIndex("AccountId");
+
                     b.HasIndex("BlogPostId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("IllinoisProject.Models.Friend", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("InviteStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InviteeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InviterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.Picture", b =>
@@ -342,24 +368,40 @@ namespace IllinoisProject.Migrations
                     b.Navigation("Picture");
                 });
 
-            modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
+            modelBuilder.Entity("IllinoisProject.Models.AccountBlogPost", b =>
                 {
                     b.HasOne("IllinoisProject.Models.Account", "Account")
-                        .WithMany("BlogPosts")
+                        .WithMany("AccountBlogPosts")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
+                        .WithMany("AccountBlogPosts")
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Account");
+
+                    b.Navigation("BlogPost");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.Comment", b =>
                 {
+                    b.HasOne("IllinoisProject.Models.Account", "Account")
+                        .WithMany("Comments")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("IllinoisProject.Models.BlogPost", "BlogPost")
                         .WithMany("Comments")
                         .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Account");
 
                     b.Navigation("BlogPost");
                 });
@@ -417,11 +459,15 @@ namespace IllinoisProject.Migrations
 
             modelBuilder.Entity("IllinoisProject.Models.Account", b =>
                 {
-                    b.Navigation("BlogPosts");
+                    b.Navigation("AccountBlogPosts");
+
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("IllinoisProject.Models.BlogPost", b =>
                 {
+                    b.Navigation("AccountBlogPosts");
+
                     b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618

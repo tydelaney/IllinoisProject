@@ -26,10 +26,11 @@ namespace IllinoisProject.Controllers
 
         public async Task<IActionResult> AllBlogPost()
         {
-            var blogPosts = await db.BlogPosts
-                .Include(bp => bp.Account) // Include the account related to the blog post
-                .Include(bp => bp.Comments) // Include the comments related to the blog post
-                .Where(bp => !bp.Draft) // Filter out drafts
+            var blogPosts = await db.AccountBlogPosts
+                .Include(bp => bp.Account)
+                //.Include(bp => bp.AccountBlogPosts) // Include the account related to the blog post
+                .Include(bp => bp.BlogPost.Comments) // Include the comments related to the blog post
+                .Where(bp => !bp.BlogPost.Draft) // Filter out drafts
                 .ToListAsync();
 
             return View(blogPosts);
@@ -39,9 +40,13 @@ namespace IllinoisProject.Controllers
         [Authorize]
         public async Task<IActionResult> AllDraft()
         {
-            var blogPost = await db.BlogPosts.Include(c => c.Account).ToListAsync();
-            var draftBlogPosts = blogPost.Where(blogPost => blogPost.Draft);
-            return View(draftBlogPosts);
+            var accountBlogPosts = await db.AccountBlogPosts
+                .Include(abp => abp.BlogPost)
+                .Include(abp => abp.Account)
+                .Where(abp => abp.BlogPost.Draft)
+                .ToListAsync();
+
+            return View(accountBlogPosts);
         }
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
         public async Task<IActionResult> AddBlogPost()
@@ -87,31 +92,41 @@ namespace IllinoisProject.Controllers
                 // Current user not found, handle accordingly (e.g., show an error message)
                 return NotFound();
             }
-
             // Set the BlogPost's Account property to the current user
-            vm.BlogPost.Account = currentUser;
+            vm.Account = currentUser;
 
             // Set the PostDate property to the current date and time
             vm.BlogPost.PostDate = DateTime.Now;
+            vm.BlogPost.Id = Guid.NewGuid().ToString();
+
+            vm.AccountBlogPost = new AccountBlogPost
+            {
+                AccountBlogPostId = Guid.NewGuid().ToString(),
+                Account = currentUser,
+                BlogPost = vm.BlogPost,
+                AccountId = currentUser.Id,
+                BlogPostId = vm.BlogPost.Id,
+                PermissionType = vm.AccountBlogPost.PermissionType
+            };
 
             // Add the BlogPost to the current user's collection
-            currentUser.BlogPosts.Add(vm.BlogPost);
+            currentUser.AccountBlogPosts.Add(vm.AccountBlogPost);
 
             // Add the BlogPost to the database
-            db.Add(vm.BlogPost);
-
+            //db.Add(vm.BlogPost);
+            db.Add(vm.AccountBlogPost);
             // Save changes to the database
             await db.SaveChangesAsync();
 
-            return RedirectToAction("MyBlogPost");
+            return RedirectToAction("MyBlogPost","BlogPost");
         }
 
 
         //END OF ADD BLOG POST
         //Edit Blog Post START------------------------------------------------------------------------------------------
-        public async Task<IActionResult> EditBlogPost(int id)
+        public async Task<IActionResult> EditBlogPost(string id)
         {
-            var blogPost = await db.BlogPosts.Include(bp => bp.Account).FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+            var blogPost = await db.BlogPosts.Include(bp => bp.AccountBlogPosts).FirstOrDefaultAsync(bp => bp.Id == id);
 
             if (blogPost == null)
             {
@@ -128,7 +143,7 @@ namespace IllinoisProject.Controllers
             return View(vm);
         }
         [HttpPost]
-        public async Task<IActionResult> EditBlogPost(int id, AccountBlogPostViewModel vm)
+        public async Task<IActionResult> EditBlogPost(string id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
             // update existing blog post with posted data
@@ -143,7 +158,7 @@ namespace IllinoisProject.Controllers
         //Edit blog post END--------------------------------
 
         //DELETE BlogPost START ------------------------------------------------------
-        public async Task<IActionResult> DeleteBlogPost(int id)
+        public async Task<IActionResult> DeleteBlogPost(string id)
         {
             // Assuming you have logic to retrieve the blog post from the database
             var blogPost = await db.BlogPosts.FindAsync(id);
@@ -162,18 +177,34 @@ namespace IllinoisProject.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteBlogPost(int id, AccountBlogPostViewModel vm)
+        public async Task<IActionResult> DeleteBlogPost(string id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
+
             if (blogPost == null)
             {
                 return NotFound();
             }
+
+            var relatedAccountBlogPosts = await db.AccountBlogPosts
+                .Where(ab => ab.BlogPostId == id)
+                .ToListAsync();
+
+            if (relatedAccountBlogPosts.Any())
+            {
+                // There are still AccountBlogPosts referencing this BlogPost.
+                // Decide what to do in this case.
+                // For example, return an error message to the user.
+                return BadRequest("This blog post is still being used and cannot be deleted.");
+            }
+
             db.Remove(blogPost);
+
             await db.SaveChangesAsync();
+
             ViewData["BlogName"] = blogPost.BlogName;
             ViewData["BlogDescription"] = blogPost.BlogDescription;
+
             return RedirectToAction("MyBlogPost");
         }
 
@@ -188,9 +219,9 @@ namespace IllinoisProject.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var myBlogPosts = await db.BlogPosts
-                .Include(bp => bp.Account)
-                .Where(bp => !bp.Draft && bp.Account.Id == currentUserId)
+            var myBlogPosts = await db.AccountBlogPosts
+                .Include(abp => abp.BlogPost) //line below abp.AccountId might need to be Account.Id instead idk yet -Ty
+                .Where(abp => !abp.BlogPost.Draft && abp.AccountId == currentUserId)
                 .ToListAsync();
 
             return View(myBlogPosts);
@@ -216,14 +247,15 @@ namespace IllinoisProject.Controllers
             // Redirect to the list of all published blog posts
             return RedirectToAction("MyBlogPost");
         }
-        
-        public async Task<IActionResult> ViewBlogPost(int id)
+
+        public async Task<IActionResult> ViewBlogPost(string id)
         {
-            var blogPost = await db.BlogPosts
-                .Include(bp => bp.Comments) // First include the Comments
-                .ThenInclude(comment => comment.User) // Then include the User of each Comment
-                .Include(bp => bp.Account) // Include the Account of the BlogPost
-                .FirstOrDefaultAsync(bp => bp.BlogPostId == id);
+            //var blogPost = await db.AccountBlogPosts
+              var blogPost = await db.AccountBlogPosts
+        .Include(bp => bp.BlogPost.Comments)
+            .ThenInclude(comment => comment.Account)
+        .Include(bp => bp.Account) // Include Account of AccountBlogPost
+        .FirstOrDefaultAsync(bp => bp.BlogPost.Id == id);
 
             if (blogPost == null)
             {
@@ -237,7 +269,7 @@ namespace IllinoisProject.Controllers
         // Note from Kai: I have added a lot of comments because I am using chatGPT and I want to make sure everyone can see what the code is doing
         // So there will be a lot of comments for clarification below
         [HttpPost]
-        public async Task<IActionResult> AddComment(int blogPostId, string commentDescription)
+        public async Task<IActionResult> AddComment(string blogPostId, string commentDescription)
         {
             // Find the blog post by ID. If not found, return a NotFound result.
             var blogPost = await db.BlogPosts.FindAsync(blogPostId);
@@ -257,13 +289,13 @@ namespace IllinoisProject.Controllers
             var comment = new Comment
             {
                 CommentDescription = commentDescription,
-                UserId = userId,
+                 AccountId = userId,
                 dateTime = DateTime.Now,
                 BlogPostId = blogPostId
             };
 
             // Add the new comment to the database and save the changes.
-            db.Comments.Add(comment);
+            db.Add(comment);
             await db.SaveChangesAsync();
 
             // Redirect the user to the ViewBlogPost view of the blog post they commented on.

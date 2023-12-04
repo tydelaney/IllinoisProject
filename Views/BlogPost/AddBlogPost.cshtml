@@ -28,6 +28,7 @@
     <label asp-for="BlogPost.BlogDescription">Description</label>
     <input asp-for="BlogPost.BlogDescription" rows="8" cols="50" />
     <br />
+    <input type="hidden" asp-for="AccountBlogPost.PermissionType" value="Edit"/>
     <!-- <input type="date" asp-for="BlogPost.PostDate" />
     <br /> -->
     <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />

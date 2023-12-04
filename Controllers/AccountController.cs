@@ -110,10 +110,13 @@ namespace IllinoisProject.Controllers
         }
         public IActionResult AllAccount()
         {
-            var accounts = db.Accounts.Include(a => a.BlogPosts).ToList();
-            return View(db.Accounts);
-        }
+            var accounts = db.Accounts
+                .Include(a => a.AccountBlogPosts)
+                    .ThenInclude(abp => abp.BlogPost) // Include BlogPost related to each AccountBlogPost
+                .ToList();
 
+            return View(accounts);
+        }
 
         [Authorize]
         public IActionResult MyAccount()
@@ -129,7 +132,8 @@ namespace IllinoisProject.Controllers
 
             // Retrieve the current user and their associated blog posts
             var currentUser = db.Users
-                .Include(u => u.BlogPosts)
+                .Include(u => u.AccountBlogPosts)
+                    .ThenInclude(abp => abp.BlogPost) // Include BlogPost related to each AccountBlogPost
                 .Include(u => u.Picture)
                 .FirstOrDefault(u => u.Id == currentUserId);
 
@@ -139,7 +143,8 @@ namespace IllinoisProject.Controllers
                 return NotFound();
             }
 
-            return View(new List<Account> { currentUser });
+            // Pass the AccountBlogPosts of the current user to the view
+            return View(currentUser.AccountBlogPosts.ToList());
         }
 
         public IActionResult AddAccount() 
@@ -259,16 +264,46 @@ namespace IllinoisProject.Controllers
             //db.SaveChanges();
             //return RedirectToAction("AllAccount");
         }
+        [HttpPost]
+        //public async Task<IActionResult> AssignPosts(List<AccountBlogPost> accountBlogPosts)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        foreach (var accountBlogPost in accountBlogPosts)
+        //        {
+        //            //if (accountBlogPost)
+        //            //{
+        //            //    db.AccountBlogPosts.Add(accountBlogPost);
+        //            //}
+        //        }
 
-        public  async Task<IActionResult> AddFriend(int id)
+        //        await db.SaveChangesAsync();
+
+        //        return RedirectToAction("AddFriend", new { id = accountBlogPosts.FirstOrDefault().AccountId });
+        //    }
+
+        //    return View(accountBlogPosts);
+        //}
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(string id)
         {
-            var account = db.Accounts.Find(id);
             var currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var myAccount = await db.Accounts.FirstOrDefaultAsync(i => i.Id == currentUserId);
-            var myBlogPosts = myAccount.BlogPosts;
+            if (currentUserId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-            //var blogposts = account.BlogPosts;
-            return View(myBlogPosts);
+            var newFriend = new Friend()
+            {
+                InviterId = currentUserId,
+                InviteeId = id,
+                InviteStatus = "Pending"
+            };
+            TempData["SuccessMessage"] = "Friend successfully added!";
+            db.Friends.Add(newFriend);
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("AllAccount");
         }
         public IActionResult AddPicture()
         {

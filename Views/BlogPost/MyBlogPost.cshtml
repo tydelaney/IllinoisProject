@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IllinoisProject.Models.BlogPost>
+﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
  <link rel="stylesheet" href="~/css/AllAccount.css" /> 
 
@@ -6,7 +6,6 @@
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
-            <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
             <a asp-controller="BlogPost" asp-action="AllDraft"> My Drafts </a>
             <a asp-controller="BlogPost" asp-action="AddBlogPost"> Add a Blog </a>
             <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
@@ -42,9 +41,9 @@
                 foreach (var blogPost in Model)
                 {
                     <tr>
-                        <td>@blogPost.PostDate</td>
-                        <td>@blogPost.BlogName</td>
-                        <td>@blogPost.BlogDescription</td>
+                        <td>@blogPost.BlogPost.PostDate</td>
+                        <td>@blogPost.BlogPost.BlogName</td>
+                        <td>@blogPost.BlogPost.BlogDescription</td>
 
                         <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
 
