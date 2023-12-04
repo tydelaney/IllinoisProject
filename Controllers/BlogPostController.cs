@@ -228,7 +228,7 @@ namespace IllinoisProject.Controllers
         }
 
 
-        public async Task<IActionResult> PublishDraft(int id)
+        public async Task<IActionResult> PublishDraft(string id)
         {
             var draftBlogPost = await db.BlogPosts.FindAsync(id);
 
