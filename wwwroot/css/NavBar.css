@@ -13,7 +13,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Corrected navbar class selector */
 .navbar {
     background-color: #e30613; /* ISU Red background color */
     color: #fff; /* White text color */
@@ -38,7 +37,6 @@
         background-color: #ba0c10; /* Darker red on hover */
     }
 
-/* Responsive styles */
 @media (max-width: 768px) {
     .navbar a {
         width: 100%;
@@ -48,4 +46,38 @@
     .navbar-links {
         flex-direction: column;
     }
+}
+
+.logout-button {
+    background: none; /* Remove default background */
+    color: #fff; /* Same color as the links */
+    border: none; /* Remove default border */
+    padding: 10px; /* Same padding as the links */
+    text-decoration: none; /* Same decoration as the links */
+    font-family: inherit; /* Same font as the rest of the page */
+    font-size: inherit; /* Same size as the rest of the page */
+    cursor: pointer; /* Make it look clickable */
+    transition: background-color 0.3s ease; /* Same hover effect as the links */
+}
+
+    .logout-button:hover {
+        background-color: #ba0c10; /* Darker red on hover, same as the links */
+    }
+
+    .logout-button:focus {
+        outline: none; /* Remove the default focus outline */
+    }
+
+@media (max-width: 768px) {
+    .logout-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* The form related CSS has been moved here */
+form[asp-controller="Account"][asp-action="Logout"] {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
 }

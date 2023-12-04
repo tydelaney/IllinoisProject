@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<IllinoisProject.Models.Account>
-<link rel="stylesheet" href="~/css/site.css" />
 <link rel="stylesheet" href="~/css/AllAccount.css" />
+<link rel="stylesheet" href="~/css/NavBar.css" />
 
 
 <nav class="navbar">
@@ -25,7 +25,7 @@
                 {
                     <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
                     <form asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit">Logout</button>
+                        <button class="logout-button" type="submit">Logout</button>
                     </form>
                 }
                 else
@@ -37,7 +37,7 @@
         </div>
     </div>
 </nav>
-
+<br />
 <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search for users">
 <br />
 
