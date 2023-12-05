@@ -1,7 +1,9 @@
 ﻿@using System.Security.Claims;
 @model IEnumerable<IllinoisProject.Models.AccountBlogPost>
+
 <link rel="stylesheet" href="~/css/NavBar.css" />
-<!-- Add the profile icon code here -->
+<link rel="stylesheet" href="~/css/Draft.css" />
+
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
@@ -56,8 +58,8 @@ else
             <th>Delete</th>
             <th>Publish</th>
         </tr>
-       @foreach (var accountBlogPost in Model.Where(abp => abp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
-{
+        @foreach (var accountBlogPost in Model.Where(abp => abp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
+        {
             <tr>
                 <td>@accountBlogPost.BlogPost.PostDate</td>
                 <td>@accountBlogPost.BlogPost.BlogName</td>
