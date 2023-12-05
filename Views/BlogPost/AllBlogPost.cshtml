@@ -70,7 +70,7 @@
         {
             <div class="blog-post-card">
                 <h4>@blogPost.BlogPost.BlogName</h4>
-                <p class="post-date">Posted on: @blogPost.BlogPost.PostDate.ToShortDateString() by @blogPost.Account.Name</p>
+                <p class="post-date">Posted on: @blogPost.BlogPost.PostDate.ToString("MM/dd/yyyy hh:mm tt") by @blogPost.Account.Name</p>
                 <p class="blog-description">@blogPost.BlogPost.BlogDescription</p>
                 <div class="blog-post-actions">
                     <span>Comments: @blogPost.BlogPost.Comments.Count</span>

@@ -1,7 +1,7 @@
 ﻿/* AddBlog.css */
 /* Styles for Add Blog Post form */
 form {
-    margin-top: 20px;
+
     max-width: 600px; /* Adjust the maximum width as needed */
     margin-left: auto;
     margin-right: auto;
@@ -13,6 +13,7 @@ form {
 h2 {
     color: #e30613; /* ISU Red text color */
     margin-bottom: 20px;
+    text-align: center; /* Center the text */
 }
 
 label {
@@ -52,6 +53,7 @@ button[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add margin to the top of the button */
 }
 
 button:hover {
