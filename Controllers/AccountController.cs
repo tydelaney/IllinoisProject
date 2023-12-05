@@ -172,44 +172,50 @@ namespace IllinoisProject.Controllers
             return View(user);
         }
 
+        // ...
+
+        // ...
+
+        // ...
+
         [HttpPost]
         public async Task<IActionResult> EditAccount(Account model, IFormFile profilePicture)
         {
-           
-                var user = await userManager.FindByIdAsync(model.Id);
+            var user = await userManager.FindByIdAsync(model.Id);
 
-                if (user == null)
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Name = model.Name;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+
+            // Update the profile picture if a new one is provided
+            if (profilePicture != null)
+            {
+                // Save the new profile picture
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", profilePicture.FileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    return NotFound();
+                    await profilePicture.CopyToAsync(stream);
                 }
 
-                user.Name = model.Name;
-                user.UserName = model.UserName;
-                user.Email = model.Email;
+                // Update the user's profile picture URL
+                user.Picture = new Picture { Url = profilePicture.FileName };
+            }
 
-                // Update the profile picture if a new one is provided
-                if (profilePicture != null)
-                {
-                    // Save the new profile picture
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", profilePicture.FileName);
+            await userManager.UpdateAsync(user);
 
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await profilePicture.CopyToAsync(stream);
-                    }
-
-                    // Update the user's profile picture URL
-                    user.Picture = new Picture { Url = profilePicture.FileName };
-                }
-
-                await userManager.UpdateAsync(user);
-
-
-                return RedirectToAction("MyAccount");
-            
-
-            return View(model);
+            // Redirect directly to the "MyAccount" action
+            return RedirectToAction("MyAccount", "Account");
         }
+
+        // ...
+
+
 
 
         public IActionResult DeleteAccount(string id)

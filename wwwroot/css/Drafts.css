@@ -1,5 +1,5 @@
-﻿/* Draft.css Ty created this Draft css file, other one was not working*/
-
+﻿/* Drafts.css */
+/* BlogList.css */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #fff;
@@ -8,48 +8,97 @@ body {
 }
 
 .container {
-    margin: 0 auto;
+    margin: 0;  Updated to set left margin to 0 
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h3 {
-    color: #000;
+/* ... (rest of your existing styles) */
+
+
+input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #000; /* Red border color for the search input */
+    border-radius: 5px;
 }
 
-.table-container {
-    overflow-y: auto;
+h3 {
+    color: #000; /* Red text color for headings */
+}
+
+.blog-posts-container {
+    overflow-y: auto; /* Enable vertical scrolling for the container */
+
     margin: 20px 0;
 }
 
-table {
+.blog-post-card {
     background-color: #f9f9f9;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Red border color for cards */
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    max-width: 1000px;
-    width: 100%;
+    margin-bottom: 10px; /* Adjust spacing between blog posts */
+    max-width: 1000px; /* Limit the maximum width of the blog post card */
+    display: block; /* Each card will take up a full row */
 }
 
-    table th, table td {
-        padding: 10px;
-        text-align: left;
-    }
+.blog-description {
+    /* your existing styles... */
+    display: -webkit-box; /* Required for line-clamping */
+    -webkit-box-orient: vertical; /* Required for line-clamping */
+    -webkit-line-clamp: 4; /* Limit description to 3 lines. Adjust as needed */
+    overflow: hidden; /* Required for text-overflow */
+    text-overflow: ellipsis; /* Will add '...' at the end */
+}
 
-    table th {
-        background-color: #e9ecef;
-        color: #000;
-    }
+.blog-post-card h4 {
+    margin-top: 0;
+    color: #000; /* Black text color for headings inside cards */
+    font-size: 1.5em; /* Increase the size of the blog post name */
+}
 
-    table a {
-        color: #000;
+.post-date {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.blog-description {
+    /* your existing styles... */
+    display: -webkit-box; /* Required for line-clamping */
+    -webkit-box-orient: vertical; /* Required for line-clamping */
+    -webkit-line-clamp: 4; /* Limit description to 4 lines. Adjust as needed */
+    overflow: hidden; /* Required for text-overflow */
+    text-overflow: ellipsis; /* Will add '...' at the end */
+    line-height: 1.5em; /* Adjust line-height as needed */
+    margin: 0; /* Adjust margin as needed */
+    padding: 0; /* Adjust padding as needed */
+}
+
+.blog-post-actions {
+    display: flex;
+    justify-content: left; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+    .blog-post-actions a {
+        color: #e30613; /* Red text color for action links */
         text-decoration: none;
+        margin: 0 10px; /* Adjust the horizontal margin between links */
     }
 
-        table a:hover {
+        .blog-post-actions a:hover {
             text-decoration: underline;
         }
+
+
+.blog-posts-container {
+    display: block;
+}

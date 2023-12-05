@@ -41,39 +41,34 @@
     </div>
 </nav>
 
-<h3>Drafts</h3>
-@if (!Model.Any())
-{
-    <p>No Blogs yet.</p>
-}
-else
-{
-    <table border="1">
-        <tr>
-            <th>Date Drafted</th>
-            <th>Blog name</th>
-            <th>Blog Description</th>
-            <th>Account Name</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Publish</th>
-        </tr>
-        @foreach (var accountBlogPost in Model.Where(abp => abp.Account.Id == User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
-        {
-            <tr>
-                <td>@accountBlogPost.BlogPost.PostDate</td>
-                <td>@accountBlogPost.BlogPost.BlogName</td>
-                <td>@accountBlogPost.BlogPost.BlogDescription</td>
-                <td>@accountBlogPost.Account.Name</td>
-                <td><a asp-action="EditBlogPost" asp-route-id="@accountBlogPost.BlogPost.Id">Edit</a></td>
-                <td><a asp-action="DeleteBlogPost" asp-route-id="@accountBlogPost.BlogPost.Id">Delete</a></td>
-                <td>
-                    @if (accountBlogPost.BlogPost.Draft)
-                    {
-                        <a asp-action="PublishDraft" asp-route-id="@accountBlogPost.BlogPost.Id">Publish</a>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
-}
+
+
+
+
+<h3>My Drafts</h3>
+
+<div class="blog-posts-container">
+    @if (Model.Count() < 1)
+    {
+        <p>No Blogs yet.</p>
+    }
+    else
+    {
+            <!-- Add this div -->
+            @foreach (var blogPost in Model)
+            {
+                <div class="blog-post-card">
+                    <h4>@blogPost.BlogPost.BlogName</h4>
+                    <p class="post-date">Posted on: @blogPost.BlogPost.PostDate</p>
+                    <p class="blog-description">@blogPost.BlogPost.BlogDescription</p>
+                    <div class="blog-post-actions">
+                        <a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a>
+                        <a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a>
+                            <a asp-action="PublishDraft" asp-route-id="@blogPost.BlogPost.Id">Publish</a>
+                        
+                    </div>
+                </div>
+            }
+       
+    }
+</div>
