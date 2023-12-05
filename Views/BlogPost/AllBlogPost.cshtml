@@ -61,6 +61,7 @@
     }
 </script>
 
+
 <div class="blog-posts-container">
     @if (Model.Any())
     {
@@ -72,7 +73,7 @@
                 <p class="blog-description">@blogPost.BlogPost.BlogDescription</p>
                 <div class="blog-post-actions">
                     <span>Comments: @blogPost.BlogPost.Comments.Count</span>
-                    <a asp-action="ViewBlogPost" asp-route-id="@blogPost.BlogPost.Id">View Post</a>
+                    <a asp-action="ViewBlogPost" asp-route-id="@blogPost.BlogPost.Id">Read More</a>
                 </div>
             </div>
         }

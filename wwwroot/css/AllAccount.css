@@ -1,17 +1,30 @@
-﻿/* Add these styles to your allaccount.css file */
+﻿/* Add these styles to your AllAccount.css file */
 
 /* Restyle the table */
 table {
-    width: 100%;
-    border-collapse: collapse;
+    width: 66.67%; /* Table will take up approximately 2/3 of the screen's width */
+    margin-right: auto; /* Aligns the table to the left */
+    table-layout: auto; /* This allows the table to auto-size based on content */
+    border-collapse: separate; /* This allows us to have rounded corners */
+    border-spacing: 10px; /* Adds space around the cells */
     margin-top: 20px;
+    border: none; /* Removes the border from the table */
 }
 
 th, td {
+    width: auto; /* Sets cell width to auto */
     padding: 15px;
     text-align: left;
+    border: 1px solid #ccc; /* Adds a light gray border */
+    border-radius: 10px; /* Rounds the corners */
 }
+    th:nth-child(1), td:nth-child(1) {
+        width: 20%; /* Adjust width of the "Account Name" column */
+    }
 
+    th:nth-child(2), td:nth-child(2) {
+        width: 30%; /* Adjust width of the "Blog Posts" column */
+    }
 thead {
     background-color: #e30613; /* ISU Red background color */
     color: #fff;
@@ -24,6 +37,10 @@ tbody tr:nth-child(even) {
 tbody td {
     padding: 15px;
 }
+
+    tbody td:last-child {
+        border: none; /* Removes the border from the 'Add Friend' column */
+    }
 
     tbody td a {
         display: inline-block;
