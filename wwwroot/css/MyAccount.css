@@ -1,44 +1,5 @@
 ﻿/* MyAccount.css */
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #fff; /* White background color */
-    color: #333; /* Text color */
-    margin: 0;
-}
-
-.container {
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.navbar {
-    background-color: #e30613; /* ISU Red background color */
-    color: #fff; /* White text color */
-    padding: 10px;
-    text-align: right;
-}
-
-.navbar-links {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-    transition: background-color 0.3s ease;
-}
-
-    .navbar a:hover {
-        background-color: #ba0c10; /* Darker red on hover */
-    }
-
 h3 {
     color: #e30613; /* ISU Red text color */
 }
@@ -86,4 +47,25 @@ h3 {
 
     .blog-posts li {
         margin-bottom: 5px;
+    }
+
+.edit-delete-buttons {
+    display: flex;
+    gap: 15px; /* Adjust the gap between buttons as needed */
+}
+
+.edit-button,
+.delete-button {
+    background: #e30613; /* Red background color */
+    color: #ffffff; /* White text color */
+    padding: 10px 20px; /* Adjust button padding as needed */
+    text-decoration: none;
+    border-radius: 5px; /* Rounded button corners */
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+    .edit-button:hover,
+    .delete-button:hover {
+        background-color: #ba0c10; /* Darker red on hover */
     }

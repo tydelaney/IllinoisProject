@@ -1,5 +1,6 @@
 ﻿@model IllinoisProject.Models.Account
 <link rel="stylesheet" href="~/css/NavBar.css" />
+<link rel="stylesheet" href="~/css/DeleteAccount.css" />
 <!-- Add the profile icon code here -->
 <nav class="navbar">
     <div class="navbar-links">
@@ -39,19 +40,22 @@
         </div>
     </div>
 </nav>
-<h3> Delete the Account</h3>
-<p> Are you sure you want to delete this account?</p>
-<form asp-controller="Account" asp-action="DeleteAccount" method="post">
-    <label asp-for="Id"></label>
-    <input asp-for="Id" readonly="readonly" />
-    <br />
 
-    <label asp-for="Name"></label>
-    <input asp-for="Name" readonly="readonly" />
-    <br />
-    
-    <br />
-    <button type="submit">Yes Delete</button>
-</form>
-<p><a asp-controller="Account" asp-action="AllAccount">
-    No, back to list</a></p>
+<div class="account-info">
+    <h3>Delete the Account</h3>
+    <p>Are you sure you want to delete this account?</p>
+    <form asp-controller="Account" asp-action="DeleteAccount" method="post">
+        <label asp-for="Id">ID</label>
+        <input asp-for="Id" readonly="readonly" />
+        <br />
+
+        <label asp-for="Name"></label>
+        <input asp-for="Name" readonly="readonly" />
+        <br />
+
+        <div class="button-group">
+            <button type="submit" class="edit-button">Yes Delete</button>
+            <a class="edit-button" asp-controller="Account" asp-action="AllAccount">No, back to list</a>
+        </div>
+    </form>
+</div>

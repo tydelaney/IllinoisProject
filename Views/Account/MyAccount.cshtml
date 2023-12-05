@@ -73,8 +73,8 @@
         </div>
     }
 </div>
+    <div class="edit-delete-buttons">
+        <a class="edit-button" asp-action="EditAccount" asp-route-id="@Model.Id">Edit</a>
+        <a class="delete-button" asp-action="DeleteAccount" asp-route-id="@Model.Id">Delete</a>
+    </div>
 
-<div class="edit-delete-buttons">
-    <p><a asp-action="EditAccount" asp-route-id="@Model.Id">Edit</a></p>
-    <p><a asp-action="DeleteAccount" asp-route-id="@Model.Id">Delete</a></p>
-</div>

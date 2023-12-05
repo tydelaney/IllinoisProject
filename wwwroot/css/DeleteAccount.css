@@ -1,0 +1,48 @@
+﻿/* DeleteAccount.css */
+
+h3 {
+    color: #000000; /* Black text color */
+}
+
+.account-info {
+    background-color: #fff; /* White background color for account info */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 800px; /* Adjust as needed */
+}
+
+    .account-info p,
+    .account-info label {
+        margin: 10px 0;
+    }
+
+    .account-info input {
+        border: none; /* Removes the border */
+        margin-bottom: 10px; /* Adds space after the input */
+        width: 100%; /* Full width of the parent element */
+        box-sizing: border-box; /* Include padding and border in element's total width and height */
+    }
+
+    .account-info .button-group {
+        display: flex; /* Aligns the button and the link in a row */
+        gap: 10px; /* Adds space between the button and the link */
+    }
+
+    .account-info a,
+    .account-info button {
+        background: #e30613; /* Red background color */
+        color: #ffffff; /* White text color */
+        padding: 10px 20px; /* Adjust button padding as needed */
+        text-decoration: none;
+        border-radius: 5px; /* Rounded button corners */
+        transition: background-color 0.3s ease;
+        text-align: center;
+        display: inline-block; /* To make the <a> element behave like a button */
+    }
+
+        .account-info a:hover,
+        .account-info button:hover {
+            background-color: #ba0c10; /* Darker red on hover */
+        }
