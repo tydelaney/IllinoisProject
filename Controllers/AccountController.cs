@@ -38,12 +38,16 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
             if (ModelState.IsValid)
             {
                 var domain = vm.Email.Split('@').Last();
                 if (domain.ToLower() != "illinois.edu")
                 {
-                    ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
+                    //ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
                     return View(vm);
                 }
 
@@ -70,7 +74,7 @@ namespace IllinoisProject.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            return View("AllAccount");
+            return View("~/Views/BlogPost/AllBlogPost.cshtml");
         }
 
         public IActionResult Login() => View(new AccountLoginViewModel());
