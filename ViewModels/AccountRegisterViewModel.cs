@@ -41,6 +41,11 @@ namespace IllinoisProject.ViewModels
 
         public override bool IsValid(object value)
         {
+            if (value == null)
+            {
+                return false; // or you could return true here if you want it to be valid when it's null
+            }
+
             string[] strings = value.ToString().Split('@');
             return strings.Length > 1 && strings[1].Equals(AllowedDomain, StringComparison.OrdinalIgnoreCase);
         }
