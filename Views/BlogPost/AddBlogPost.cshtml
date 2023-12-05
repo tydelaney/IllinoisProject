@@ -1,8 +1,11 @@
 ﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
 <link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/NavBar.css" />
+<link rel="stylesheet" href="~/css/AddBlog.css" />
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
+            <!-- Your left-aligned links -->
             @if (User.Identity.IsAuthenticated)
             {
                 <a asp-controller="BlogPost" asp-action="MyBlogPost">My Posts</a>
@@ -14,28 +17,24 @@
                 <a asp-controller="BlogPost" asp-action="AllBlogPost"> All Blogs </a>
             }
         </div>
-        <div class="navbar-right">
-            <div class="navbar-right">
-                <!-- Only shows account stuff if the user is logged in-->
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
-                    <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
-                    <form asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login">Login</a>
-                    <a asp-controller="Account" asp-action="Register">Register</a>
-                }
-            </div>
+        <div class="navbar-right ml-auto">
+            <!-- Only shows account stuff if the user is logged in-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
+                <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login">Login</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
+            }
         </div>
     </div>
 </nav>
-
-
 
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
     <h2>Add a Blog Post</h2>
@@ -43,15 +42,17 @@
     <input asp-for="BlogPost.BlogName" />
     <br />
     <label asp-for="BlogPost.BlogDescription">Description</label>
-    <input asp-for="BlogPost.BlogDescription" rows="8" cols="50" />
+    <textarea asp-for="BlogPost.BlogDescription" rows="8" cols="50"></textarea>
     <br />
-    <input type="hidden" asp-for="AccountBlogPost.PermissionType" value="Edit"/>
-    <!-- <input type="date" asp-for="BlogPost.PostDate" />
-    <br /> -->
-    <label asp-for="BlogPost.Draft">Draft or Publish</label> <br />
-    <input type="radio" asp-for="BlogPost.Draft" value="true" /> <label>Draft</label>
-    <input type="radio" asp-for="BlogPost.Draft" value="false" /> <label>Publish</label>
+    <input type="hidden" asp-for="AccountBlogPost.PermissionType" value="Edit" />
+    <br />
+    <label asp-for="BlogPost.Draft">Draft or Publish?</label>
+    <div class="radio-group">
+        <input type="radio" asp-for="BlogPost.Draft" value="true" />
+        <label>Draft</label>
+        <input type="radio" asp-for="BlogPost.Draft" value="false" />
+        <label>Publish</label>
+    </div>
     <br />
     <button type="submit">Add the Blog</button>
 </form>
-

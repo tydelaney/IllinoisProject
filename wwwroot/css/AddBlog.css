@@ -1,0 +1,59 @@
+﻿/* AddBlog.css */
+/* Styles for Add Blog Post form */
+form {
+    margin-top: 20px;
+    max-width: 600px; /* Adjust the maximum width as needed */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    color: #e30613; /* ISU Red text color */
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    color: #e30613; /* ISU Red text color for labels */
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="radio"],
+textarea {
+    width: 100%;
+    max-width: 100%; /* Allow the elements to be responsive within the parent container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e30613; /* ISU Red border color */
+    border-radius: 5px;
+}
+
+/* Use flexbox to align radio buttons on the same line */
+.radio-group {
+    display: flex;
+    align-items: flex-end;
+}
+
+    /* Adjust the margin between radio buttons */
+    .radio-group input[type="radio"] {
+        margin-right: 5px; /* Adjust the margin as needed */
+    }
+
+button[type="submit"] {
+    background-color: #e30613; /* ISU Red background color for buttons */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ba0c10; /* Darker red on hover */
+}

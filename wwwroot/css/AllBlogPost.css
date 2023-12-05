@@ -1,0 +1,98 @@
+﻿/* BlogList.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    background-color: #e30613; /* Red background color for navbar */
+    color: #fff; /* White text color for navbar */
+    padding: 10px;
+    text-align: right;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    .navbar a:hover {
+        background-color: #ba0c10; /* Darker red on hover */
+    }
+
+input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #e30613; /* Red border color for the search input */
+    border-radius: 5px;
+}
+
+h3 {
+    color: #e30613; /* Red text color for headings */
+}
+
+.blog-posts-container {
+    overflow-y: auto; /* Enable vertical scrolling for the container */
+    max-height: 400px; /* Adjust the maximum height as needed */
+    margin: 20px 0;
+}
+
+.blog-post-card {
+    background-color: #f9f9f9;
+    border: 1px solid #e30613; /* Red border color for cards */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* Adjust spacing between blog posts */
+}
+
+    .blog-post-card h4 {
+        margin-top: 0;
+        color: #e30613; /* Red text color for headings inside cards */
+    }
+
+.post-date {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.blog-description {
+    margin: 10px 0;
+    color: #333;
+}
+
+.blog-post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+}
+
+    .blog-post-actions a {
+        color: #e30613; /* Red text color for action links */
+        text-decoration: none;
+    }
+
+        .blog-post-actions a:hover {
+            text-decoration: underline;
+        }

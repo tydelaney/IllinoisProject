@@ -72,7 +72,6 @@ namespace IllinoisProject.Controllers
         //}
         [Authorize]
         [HttpPost]
-       
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
             // Retrieve the current user's ID
@@ -92,6 +91,7 @@ namespace IllinoisProject.Controllers
                 // Current user not found, handle accordingly (e.g., show an error message)
                 return NotFound();
             }
+
             // Set the BlogPost's Account property to the current user
             vm.Account = currentUser;
 
@@ -113,12 +113,22 @@ namespace IllinoisProject.Controllers
             currentUser.AccountBlogPosts.Add(vm.AccountBlogPost);
 
             // Add the BlogPost to the database
-            //db.Add(vm.BlogPost);
             db.Add(vm.AccountBlogPost);
+
             // Save changes to the database
             await db.SaveChangesAsync();
 
-            return RedirectToAction("MyBlogPost","BlogPost");
+            // Check if the blog post is a draft
+            if (vm.BlogPost.Draft)
+            {
+                // If it's a draft, redirect to AllDraft
+                return RedirectToAction("AllDraft");
+            }
+            else
+            {
+                // If it's not a draft, redirect to MyBlogPost
+                return RedirectToAction("MyBlogPost");
+            }
         }
 
 
