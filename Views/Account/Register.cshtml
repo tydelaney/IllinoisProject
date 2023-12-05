@@ -1,6 +1,8 @@
 ﻿@model IllinoisProject.ViewModels.AccountRegisterViewModel
-<link rel="stylesheet" href="~/css/Register.css" />
 <link rel="stylesheet" href="~/css/NavBar.css" />
+<link rel="stylesheet" href="~/css/Register.css" />
+
+
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
@@ -43,29 +45,27 @@
 <div asp-validation-summary ="All"> </div>
 <br />
 	<label asp-for="Name">Your Name</label>
-	<input asp-for="Name" /> <br />
+	<input asp-for="Name" /> 
 <label asp-for="Email">	</label>
 <input asp-for ="Email" />
-	<span asp-validation-for="Email"></span>
-	<br />
+	
 	<label asp-for="UserName">	</label>
 	<input asp-for="UserName" />
-	<span asp-validation-for="Email"></span>
-	<br />
+
 <label asp-for="Password">	</label>
 <input asp-for="Password" />
 <span asp-validation-for="Password"></span>
-<br />
 	<label asp-for="ConfirmPassword">	</label>
 	<input asp-for="ConfirmPassword" />
 	<span asp-validation-for="ConfirmPassword"></span>
 	<br />
 	<button type="submit">Register</button>
 
-	<p>
-		<a asp-controller="Account" asp-action="Login">
-			No, back to login
-		</a>
-	</p>
+    <p>
+        <button type="button" onclick="window.location.href='@Url.Action("Login", "Account")'">
+            No, back to login
+        </button>
+    </p>
+
 
 </form>

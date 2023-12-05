@@ -1,2 +1,74 @@
-﻿body {
+﻿/* Register.css */
+
+form {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+h2 {
+    color: #e30613;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    color: #e30613;
+    margin-top: 10px;
+    text-align: left;
+}
+
+    /* Adjustments for labels next to the text boxes */
+    label[for="Name"],
+    label[for="Email"],
+    label[for="UserName"],
+    label[for="Password"],
+    label[for="ConfirmPassword"] {
+        text-align: left;
+    }
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e30613;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #e30613;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ba0c10;
+}
+
+.back-to-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .back-to-login button {
+        background: none;
+        border: none;
+        color: #e30613;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+        .back-to-login button:hover {
+            text-decoration: none;
+        }
