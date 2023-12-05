@@ -13,29 +13,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.navbar {
-    background-color: #e30613; /* ISU Red background color */
-    color: #fff; /* White text color */
-    padding: 10px;
-    text-align: right;
-}
-
-.navbar-links {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-    transition: background-color 0.3s ease;
-}
-
-    .navbar a:hover {
-        background-color: #ba0c10; /* Darker red on hover */
-    }
 
 h3 {
     color: #e30613; /* ISU Red text color */

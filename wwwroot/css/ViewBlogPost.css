@@ -1,0 +1,90 @@
+﻿/* BlogPost.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #e30613;
+}
+
+.post-date,
+.author-name {
+    color: #666;
+}
+
+.blog-description {
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+h2 {
+    color: #e30613;
+    margin-top: 30px;
+}
+
+.comments-section {
+    margin-top: 15px;
+}
+
+.comment {
+    border: 1px solid #e30613;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+    .comment p {
+        margin: 0;
+    }
+
+.comment-info {
+    color: #666;
+}
+
+.comment:last-child {
+    margin-bottom: 0; /* Remove margin from the last comment */
+}
+
+/* Form to add a new comment */
+form {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #e30613;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    background-color: #e30613;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    input[type="submit"]:hover {
+        background-color: #ba0c10;
+    }

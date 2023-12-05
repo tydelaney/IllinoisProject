@@ -1,0 +1,68 @@
+﻿/* AllAccount.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    color: #e30613; /* Red text color for headings */
+}
+
+.blog-posts-container {
+    overflow-y: auto; /* Enable vertical scrolling for the container */
+  
+    margin: 20px 0;
+}
+
+.blog-post-card {
+    background-color: #f9f9f9;
+    border: 1px solid #e30613; /* Red border color for cards */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* Adjust spacing between blog posts */
+    max-width: 600px; /* Limit the maximum width of the blog post card */
+}
+
+    .blog-post-card h4 {
+        margin-top: 0;
+        color: #e30613; /* Red text color for headings inside cards */
+    }
+
+.post-date {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.blog-description {
+    margin: 10px 0;
+    color: #333;
+}
+
+/* MyPosts.css */
+.blog-post-actions {
+    display: flex;
+    justify-content: left; /* Center the links horizontally */
+    align-items: center;
+    padding-top: 10px;
+}
+
+    .blog-post-actions a {
+        color: #e30613;
+        text-decoration: none;
+        margin: 0 5px; /* Add margin on both sides to create space between links */
+    }
+
+        .blog-post-actions a:hover {
+            text-decoration: underline;
+        }

@@ -1,7 +1,6 @@
-﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
-<link rel="stylesheet" href="~/css/site.css" />
+﻿ @model IllinoisProject.ViewModels.AccountBlogPostViewModel
 <link rel="stylesheet" href="~/css/NavBar.css" />
-<!-- Add the profile icon code here -->
+<link rel="stylesheet" href="~/css/EditBlogPost.css" />
 <nav class="navbar">
     <div class="navbar-links">
         <div class="navbar-left">
@@ -41,22 +40,20 @@
 </nav>
 
 
-<h3>Edit the Blog</h3>
+<div class="container">
+    <h3>Edit the Blog</h3>
 
-<form asp-controller="BlogPost" asp-action="EditBlogPost" method="post">
-    <input type="hidden" asp-for="BlogPost.Id" />
-    
-    <label asp-for="BlogPost.BlogName">Blog Name</label>
-    <input asp-for="BlogPost.BlogName" />
-    <br />
-    <label asp-for="BlogPost.BlogDescription">Blog Description</label>
-    <input asp-for="BlogPost.BlogDescription" />
-    <br />
-  
+    <div class="form-container">
+        <form asp-controller="BlogPost" asp-action="EditBlogPost" method="post">
+            <input type="hidden" asp-for="BlogPost.Id" />
 
-    <button type="submit">Update the blog</button>
-</form>
-<p>
-    <a asp-controller="BlogPost" asp-action="AllBlogPost">Back to All Blog Posts</a>
-</p>
+            <label asp-for="BlogPost.BlogName">Blog Name</label>
+            <input asp-for="BlogPost.BlogName" />
 
+            <label asp-for="BlogPost.BlogDescription">Blog Description</label>
+            <textarea asp-for="BlogPost.BlogDescription" rows="8"></textarea>
+
+            <button type="submit">Update the blog</button>
+        </form>
+    </div>
+</div>

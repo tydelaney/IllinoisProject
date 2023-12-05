@@ -1,6 +1,6 @@
-﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
-<link rel="stylesheet" href="~/css/site.css" />
- <link rel="stylesheet" href="~/css/AllAccount.css" />
+@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
+
+<link rel="stylesheet" href="~/css/MyPosts.css" />
 <link rel="stylesheet" href="~/css/NavBar.css" />
 
 <nav class="navbar">
@@ -40,37 +40,27 @@
     </div>
 </nav>
 
-
 <h3>My Published Blogs</h3>
-@{
-    if (Model.Count() < 1)
+
+<div class="blog-posts-container">
+    @if (Model.Count() < 1)
     {
         <p>No Blogs yet.</p>
     }
     else
     {
-        <table border="1">
-            <tr>
-                <th>Date Posted</th>
-                <th>Blog name</th>
-                <th>Blog Description</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            @{
-                foreach (var blogPost in Model)
-                {
-                    <tr>
-                        <td>@blogPost.BlogPost.PostDate</td>
-                        <td>@blogPost.BlogPost.BlogName</td>
-                        <td>@blogPost.BlogPost.BlogDescription</td>
-
-                        <td><a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a></td>
-
-                        <td><a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a></td>
-                    </tr>
-                }
-            }
-        </table>
+        @foreach (var blogPost in Model)
+        {
+            <div class="blog-post-card">
+                <h4>@blogPost.BlogPost.BlogName</h4>
+                <p class="post-date">Posted on: @blogPost.BlogPost.PostDate</p>
+                <p class="blog-description">@blogPost.BlogPost.BlogDescription</p>
+                <div class="blog-post-actions">
+       
+                    <a asp-action="EditBlogPost" asp-route-id="@blogPost.BlogPostId">Edit</a>
+                    <a asp-action="DeleteBlogPost" asp-route-id="@blogPost.BlogPostId">Delete</a>
+                </div>
+            </div>
+        }
     }
-}
+</div>
