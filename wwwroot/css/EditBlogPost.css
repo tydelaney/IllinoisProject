@@ -1,0 +1,71 @@
+﻿/* EditBlogPost.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    color: #e30613; /* Red text color for headings */
+    text-align: center; /* Center the text */
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #e30613;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center the form content */
+}
+
+label {
+    display: block;
+    color: #e30613;
+    margin-top: 10px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e30613;
+    border-radius: 5px;
+}
+
+.radio-group {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+    .radio-group input[type="radio"] {
+        margin-right: 5px;
+    }
+
+button[type="submit"] {
+    background-color: #e30613;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add margin to the top of the button */
+}
+
+button:hover {
+    background-color: #ba0c10;
+}

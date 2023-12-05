@@ -1,4 +1,4 @@
-﻿/* BlogList.css */
+﻿/* AllAccount.css */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #fff;
@@ -14,24 +14,13 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
-
-input[type="text"] {
-    width: 100%;
-    max-width: 300px;
-    padding: 8px;
-    margin-top: 10px;
-    border: 1px solid #e30613; /* Red border color for the search input */
-    border-radius: 5px;
-}
-
 h3 {
     color: #e30613; /* Red text color for headings */
 }
 
 .blog-posts-container {
     overflow-y: auto; /* Enable vertical scrolling for the container */
-
+  
     margin: 20px 0;
 }
 
@@ -60,16 +49,18 @@ h3 {
     color: #333;
 }
 
+/* MyPosts.css */
 .blog-post-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: left; /* Center the links horizontally */
     align-items: center;
     padding-top: 10px;
 }
 
     .blog-post-actions a {
-        color: #e30613; /* Red text color for action links */
+        color: #e30613;
         text-decoration: none;
+        margin: 0 5px; /* Add margin on both sides to create space between links */
     }
 
         .blog-post-actions a:hover {
