@@ -186,7 +186,7 @@ namespace IllinoisProject.Controllers
 
             return View(viewModel);
         }
-
+        [HttpPost]
         public async Task<IActionResult> DeleteBlogPost(string id, AccountBlogPostViewModel vm)
         {
             var blogPost = await db.BlogPosts.FindAsync(id);
@@ -199,15 +199,8 @@ namespace IllinoisProject.Controllers
             var relatedAccountBlogPosts = await db.AccountBlogPosts
                 .Where(ab => ab.BlogPostId == id)
                 .ToListAsync();
-
-            if (relatedAccountBlogPosts.Any())
-            {
-                // There are still AccountBlogPosts referencing this BlogPost.
-                // Decide what to do in this case.
-                // For example, return an error message to the user.
-                return BadRequest("This blog post is still being used and cannot be deleted.");
-            }
-
+            //new
+           
             db.Remove(blogPost);
 
             await db.SaveChangesAsync();
