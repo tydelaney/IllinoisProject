@@ -1,5 +1,6 @@
 ﻿using IllinoisProject.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace IllinoisProject.ViewModels
 {

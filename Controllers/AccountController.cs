@@ -38,6 +38,7 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterViewModel vm)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View(vm);
@@ -50,14 +51,19 @@ namespace IllinoisProject.Controllers
                     //ModelState.AddModelError("Email", "Only illinois.edu emails are allowed.");
                     return View(vm);
                 }
-
+                 
                 var user = await userManager.FindByEmailAsync(vm.Email);
                 if (user != null)
                 {
                     ModelState.AddModelError("Email","This email address is already in use");
                     return View(vm);
                 }
-
+                var userByUsername = await userManager.FindByNameAsync(vm.UserName);
+                if (userByUsername != null)
+                {
+                    ModelState.AddModelError("UserName", "This username is already in use");
+                    return View(vm);
+                }
                 var newUser = new Account()
                 {
                     UserName = vm.UserName, Email = vm.Email, Name = vm.Name 

@@ -48,7 +48,7 @@
 
         
         <div class="form-group">
-            <img id="previewImage" src="~/images/@Model.Picture.Url" alt="Profile Picture" />
+            <img id="previewImage" src="~/images/@(Model.Picture?.Url ?? "defaultprofilepic.jpg")" alt="Profile Picture" />
         </div>
         <!-- Add an input field for updating the profile picture -->
         <div class="form-group">

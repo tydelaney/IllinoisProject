@@ -51,7 +51,6 @@ namespace IllinoisProject.Controllers
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
         public async Task<IActionResult> AddBlogPost()
         {
-
             var accountDisplay = await db.Users.Select(x => new { Id = x.UserName, Value = x.UserName }).ToListAsync();
             var vm = new AccountBlogPostViewModel
             {
@@ -74,6 +73,10 @@ namespace IllinoisProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
             // Retrieve the current user's ID
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

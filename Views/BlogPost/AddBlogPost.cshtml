@@ -40,12 +40,15 @@
 </nav>
 
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
+    
     <h2>Add a Blog Post</h2>
-    <label asp-for="BlogPost.BlogName">Blog Title</label>
+    <label asp-for="BlogPost.BlogName">Blog Name</label>
     <input asp-for="BlogPost.BlogName" />
+    <span asp-validation-for="BlogPost.BlogName"></span>
     <br />
     <label asp-for="BlogPost.BlogDescription">Description</label>
     <textarea asp-for="BlogPost.BlogDescription" rows="8" cols="50"></textarea>
+    <span asp-validation-for="BlogPost.BlogDescription"></span>
     <br />
     <input type="hidden" asp-for="AccountBlogPost.PermissionType" value="Edit" />
     <br />
@@ -55,7 +58,9 @@
         <label>Draft</label>
         <input type="radio" asp-for="BlogPost.Draft" value="false" />
         <label>Publish</label>
+        <span asp-validation-for="BlogPost.Draft"></span>
     </div>
+
     <br />
     <button type="submit">Add the Blog</button>
 </form>
