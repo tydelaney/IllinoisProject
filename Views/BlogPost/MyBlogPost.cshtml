@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<IllinoisProject.Models.AccountBlogPost>
 <link rel="stylesheet" href="~/css/site.css" />
  <link rel="stylesheet" href="~/css/AllAccount.css" />
+<link rel="stylesheet" href="~/css/NavBar.css" />
 
 <nav class="navbar">
     <div class="navbar-links">
@@ -21,11 +22,13 @@
                 <!-- Only shows account stuff if the user is logged in-->
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
-                    <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
-                    <form asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
+                    <div class="account-actions">
+                        <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
+                        <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            <button class="logout-button" type="submit">Logout</button>
+                        </form>
+                    </div>
                 }
                 else
                 {

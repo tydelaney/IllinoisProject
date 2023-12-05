@@ -80,4 +80,11 @@ form[asp-controller="Account"][asp-action="Logout"] {
     display: inline-block;
     margin: 0;
     padding: 0;
+    vertical-align: middle; /* Add this line to align the form vertically with the other elements */
+}
+.account-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
 }

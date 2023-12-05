@@ -1,49 +1,4 @@
 ﻿/*Site.css*/
-.navbar {
-    background-color: #f0f0f0; /* Light grey background color */
-    color: #333; /* Text color */
-    padding: 10px;
-    text-align: right;
-}
-
-.navbar-links {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Align items to the start and end */
-}
-
-.navbar-left a {
-    display: inline-block;
-    margin-right: 10px;
-    color: #808080; /* Grey text color */
-    text-decoration: none;
-    transition: color 0s; /* Instantaneous transition for color change */
-}
-
-    .navbar-left a:hover {
-        color: #000; /* Black text color on hover */
-        text-decoration: underline; /* Underline on hover */
-    }
-
-.navbar-right a {
-    display: inline-block;
-    margin-left: 10px;
-    color: #808080; /* Grey text color */
-    text-decoration: none;
-    transition: color 0s; /* Instantaneous transition for color change */
-}
-
-    .navbar-right a:hover {
-        color: #000; /* Black text color on hover */
-        text-decoration: underline; /* Underline on hover */
-    }
-
-.profile-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-}
-
 .blog-post-container {
     margin: auto;
     max-width: 800px;

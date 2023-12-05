@@ -1,6 +1,7 @@
 ﻿@model IllinoisProject.Models.Account
 <link rel="stylesheet" href="~/css/AllAccount.css" />
 <link rel="stylesheet" href="~/css/edit.css" />
+<link rel="stylesheet" href="~/css/NavBar.css" />
 
 <!-- Add the profile icon code here -->
 <nav class="navbar">
@@ -23,11 +24,13 @@
                 <!-- Only shows account stuff if the user is logged in-->
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
-                    <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
-                    <form asp-controller="Account" asp-action="Logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
+                    <div class="account-actions">
+                        <a asp-controller="Account" asp-action="AllAccount">View All Accounts</a>
+                        <a asp-controller="Account" asp-action="MyAccount">MyAccount</a>
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            <button class="logout-button" type="submit">Logout</button>
+                        </form>
+                    </div>
                 }
                 else
                 {
