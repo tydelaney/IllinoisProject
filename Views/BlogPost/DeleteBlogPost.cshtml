@@ -60,7 +60,6 @@
 
     <button type="submit">Yes, Delete</button>
 </form>
-
 <p>
-    <a asp-controller="BlogPost" asp-action="AllBlogPost">No, Back to List</a>
+    <button onclick="window.location.href='@Url.Action("MyBlogPost", "BlogPost")'">No, Back to List</button>
 </p>
