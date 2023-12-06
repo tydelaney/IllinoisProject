@@ -66,7 +66,7 @@ namespace IllinoisProject.Controllers
                 Id = Guid.NewGuid().ToString(),
                 BlogName = vm.BlogName,
                 BlogDescription = vm.BlogDescription,
-                PostDate = DateTime.UtcNow,
+                PostDate = DateTime.Now,
                 Draft = vm.Draft,
             };
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
