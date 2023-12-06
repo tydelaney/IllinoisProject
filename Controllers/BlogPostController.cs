@@ -67,6 +67,7 @@ namespace IllinoisProject.Controllers
                 BlogName = vm.BlogName,
                 BlogDescription = vm.BlogDescription,
                 PostDate = DateTime.UtcNow,
+                Draft = vm.Draft,
             };
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
