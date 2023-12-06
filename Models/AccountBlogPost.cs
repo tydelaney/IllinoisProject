@@ -7,6 +7,6 @@
         public string BlogPostId { get; set; }
         public Account Account { get; set; }
         public BlogPost BlogPost { get; set; }
-        public string PermissionType { get; set; }
+        public string? PermissionType { get; set; }
     }
 }

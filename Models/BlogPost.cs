@@ -22,6 +22,5 @@ namespace IllinoisProject.Models
         {
             Comments = new List<Comment>();
         }
-
     }
 }

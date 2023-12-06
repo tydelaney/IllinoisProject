@@ -15,7 +15,7 @@ namespace IllinoisProject.Controllers
         private UserManager<Account> userManager;
         private SignInManager<Account> signInManager;
         private RoleManager<IdentityRole> roleManager;
-
+        
         public BlogPostController(UserManager<Account> userManager, SignInManager<Account> signInManager, RoleManager<IdentityRole> roleManager, AccountDbContext db)
         {
             this.userManager = userManager;
@@ -49,35 +49,25 @@ namespace IllinoisProject.Controllers
             return View(accountBlogPosts);
         }
         //START OF ADD BLOG POST--------------------------------------------------------------------------------------
-        public async Task<IActionResult> AddBlogPost()
-        {
-            var accountDisplay = await db.Users.Select(x => new { Id = x.UserName, Value = x.UserName }).ToListAsync();
-            var vm = new AccountBlogPostViewModel
-            {
-                AccountList = new SelectList(accountDisplay, "Id", "Value")
-            };
-            return View(vm);
-        }
-        //Passing the PostBlog and Account class together with data through the viewModel
-        //[HttpPost]
-        //public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
-        //{
-        //    var account = await db.Accounts.FirstOrDefaultAsync(i => i.UserName == vm.Account.UserName);
-        //    vm.BlogPost.Account = account;
-        //    account.BlogPosts.Add(vm.BlogPost); // Add the BlogPost to the collection
-        //    db.Add(vm.BlogPost);
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("AllBlogPost");
-        //}
-        [Authorize]
+        public IActionResult AddBlogPost() => View(new AddBlogPostViewModel());
+
         [HttpPost]
-        public async Task<IActionResult> AddBlogPost(AccountBlogPostViewModel vm)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddBlogPost(AddBlogPostViewModel vm)
         {
-            if (!ModelState.IsValid)
+
+            if (!ModelState.IsValid) return View(vm);
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null) return Challenge();
+
+            var post = new BlogPost
             {
-                return View(vm);
-            }
-            // Retrieve the current user's ID
+                Id = Guid.NewGuid().ToString(),
+                BlogName = vm.BlogName,
+                BlogDescription = vm.BlogDescription,
+                PostDate = DateTime.UtcNow,
+            };
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (currentUserId == null)
@@ -96,33 +86,33 @@ namespace IllinoisProject.Controllers
             }
 
             // Set the BlogPost's Account property to the current user
-            vm.Account = currentUser;
+            //vm.AccountId = currentUserId;
 
             // Set the PostDate property to the current date and time
-            vm.BlogPost.PostDate = DateTime.Now;
-            vm.BlogPost.Id = Guid.NewGuid().ToString();
+            //vm.PostDate = DateTime.Now;
+           // vm.BlogPostId = Guid.NewGuid().ToString();
 
-            vm.AccountBlogPost = new AccountBlogPost
+            var accountBlogPost = new AccountBlogPost
             {
                 AccountBlogPostId = Guid.NewGuid().ToString(),
                 Account = currentUser,
-                BlogPost = vm.BlogPost,
+                BlogPost = post,
                 AccountId = currentUser.Id,
-                BlogPostId = vm.BlogPost.Id,
-                PermissionType = vm.AccountBlogPost.PermissionType
+                BlogPostId =  post.Id,
+                //PermissionType = vm.PermissionType
             };
 
             // Add the BlogPost to the current user's collection
-            currentUser.AccountBlogPosts.Add(vm.AccountBlogPost);
+            currentUser.AccountBlogPosts.Add(accountBlogPost);
 
             // Add the BlogPost to the database
-            db.Add(vm.AccountBlogPost);
+            db.Add(post);
 
             // Save changes to the database
             await db.SaveChangesAsync();
 
             // Check if the blog post is a draft
-            if (vm.BlogPost.Draft)
+            if (vm.Draft)
             {
                 // If it's a draft, redirect to AllDraft
                 return RedirectToAction("AllDraft");

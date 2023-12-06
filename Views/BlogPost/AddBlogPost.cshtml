@@ -1,4 +1,4 @@
-﻿@model IllinoisProject.ViewModels.AccountBlogPostViewModel
+﻿@model IllinoisProject.ViewModels.AddBlogPostViewModel
 <link rel="stylesheet" href="~/css/NavBar.css" />
 <link rel="stylesheet" href="~/css/AddBlog.css" />
 <nav class="navbar">
@@ -40,25 +40,25 @@
 </nav>
 
 <form asp-controller="BlogPost" asp-action="AddBlogPost" method="post">
-    
+    <div asp-validation-summary="All"></div>
     <h2>Add a Blog Post</h2>
-    <label asp-for="BlogPost.BlogName">Blog Name</label>
-    <input asp-for="BlogPost.BlogName" />
-    <span asp-validation-for="BlogPost.BlogName"></span>
+    <label asp-for="BlogName">Blog Name</label>
+    <input asp-for="BlogName" />
+    <span asp-validation-for="BlogName"></span>
     <br />
-    <label asp-for="BlogPost.BlogDescription">Description</label>
-    <textarea asp-for="BlogPost.BlogDescription" rows="8" cols="50"></textarea>
-    <span asp-validation-for="BlogPost.BlogDescription"></span>
+    <label asp-for="BlogDescription">Description</label>
+    <textarea asp-for="BlogDescription" rows="8" cols="50"></textarea>
+    <span asp-validation-for="BlogDescription"></span>
     <br />
-    <input type="hidden" asp-for="AccountBlogPost.PermissionType" value="Edit" />
-    <br />
-    <label asp-for="BlogPost.Draft">Draft or Publish?</label>
+    
+    
+    <label asp-for="Draft">Draft or Publish?</label>
     <div class="radio-group">
-        <input type="radio" asp-for="BlogPost.Draft" value="true" />
+        <input type="radio" asp-for="Draft" value="true" />
         <label>Draft</label>
-        <input type="radio" asp-for="BlogPost.Draft" value="false" />
+        <input type="radio" asp-for="Draft" value="false" />
         <label>Publish</label>
-        <span asp-validation-for="BlogPost.Draft"></span>
+        <span asp-validation-for="Draft"></span>
     </div>
 
     <br />
