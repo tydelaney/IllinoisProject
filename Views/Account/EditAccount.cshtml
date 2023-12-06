@@ -53,18 +53,19 @@
         <!-- Add an input field for updating the profile picture -->
         <div class="form-group">
             <label asp-for="Name">Account Name</label>
-            <input asp-for="Name" class="form-control" />
+            <input asp-for="Name" class="form-control" required />
         </div>
 
         <div class="form-group">
             <label asp-for="UserName">Username</label>
-            <input asp-for="UserName" class="form-control" />
+            <input asp-for="UserName" class="form-control" required />
         </div>
 
         <div class="form-group">
             <label asp-for="Email">Email</label>
-            <input asp-for="Email" class="form-control" />
+            <input asp-for="Email" class="form-control" required pattern=".+@@illinois\.edu$" title="Please use your @@illinois.edu email." />
         </div>
+
         <div class="form-group">
             <!-- Display the selected file name (optional) -->
             <p id="selectedFileName"></p>

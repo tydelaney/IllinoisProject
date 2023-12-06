@@ -197,7 +197,7 @@ namespace IllinoisProject.Controllers
             {
                 return NotFound();
             }
-
+           
             user.Name = model.Name;
             user.UserName = model.UserName;
             user.Email = model.Email;
